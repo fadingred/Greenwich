@@ -1,0 +1,42 @@
+// 
+// Copyright (c) 2011 FadingRed LLC
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+// documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+// Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+
+GCC_ENABLE_OBJC_EXCEPTIONS = YES
+GCC_C_LANGUAGE_STANDARD = gnu99
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+GCC_WARN_SHADOW = YES
+GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES
+GCC_WARN_ABOUT_RETURN_TYPE = YES
+GCC_WARN_MISSING_PARENTHESES = YES
+GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES
+GCC_WARN_ABOUT_MISSING_NEWLINE = YES
+GCC_WARN_SIGN_COMPARE = YES
+GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES
+GCC_WARN_UNUSED_FUNCTION = YES
+GCC_WARN_UNUSED_LABEL = YES
+GCC_WARN_UNUSED_VALUE = YES
+GCC_WARN_UNUSED_VARIABLE = YES
+GCC_WARN_UNDECLARED_SELECTOR = YES
+GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES
+RUN_CLANG_STATIC_ANALYZER = YES
+OTHER_CFLAGS = -fblocks
+ALWAYS_SEARCH_USER_PATHS = NO
+HEADER_SEARCH_PATHS = $(inherited) $(SRCROOT)/External/Availability
+COPY_PHASE_STRIP = NO
+PREBINDING = NO
+
+GREENWICH_LOCALIZATION_SYMBOL = FRLocalizedString

@@ -1,0 +1,551 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8B0DCF0B14702CDE00DF8AC3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B0DCF0514702CDE00DF8AC3 /* Localizable.strings */; };
+		8B0DCF0C14702CDE00DF8AC3 /* Localization.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B0DCF0714702CDE00DF8AC3 /* Localization.strings */; };
+		8B0DCF0D14702CDE00DF8AC3 /* LocalizationPicker.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B0DCF0914702CDE00DF8AC3 /* LocalizationPicker.strings */; };
+		8B33C236146F3CDB007C2196 /* FRFileManagerArchivingAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B33C234146F3CDB007C2196 /* FRFileManagerArchivingAdditions.h */; };
+		8B33C237146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B33C235146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m */; };
+		8B33C23A146F3CF4007C2196 /* archiving.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B33C238146F3CF4007C2196 /* archiving.c */; };
+		8B33C23B146F3CF4007C2196 /* archiving.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B33C239146F3CF4007C2196 /* archiving.h */; };
+		8B33C26C146F5B37007C2196 /* Greenwich.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B33C26B146F5B36007C2196 /* Greenwich.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8B33C276146F5E6E007C2196 /* Localization.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B33C275146F5E6E007C2196 /* Localization.xib */; };
+		8B33C278146F5E73007C2196 /* LocalizationPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B33C277146F5E73007C2196 /* LocalizationPicker.xib */; };
+		8B33C28C147025E5007C2196 /* FRLocalizationBundleAdditions__.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B33C28B147025E4007C2196 /* FRLocalizationBundleAdditions__.h */; };
+		8B634D93146F1C9A00BF5058 /* FRBundleAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B634D8A146F1C9A00BF5058 /* FRBundleAdditions.h */; };
+		8B634D94146F1C9A00BF5058 /* FRBundleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B634D8B146F1C9A00BF5058 /* FRBundleAdditions.m */; };
+		8B634DC0146F2E0500BF5058 /* FRRuntimeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B634DBE146F2E0500BF5058 /* FRRuntimeAdditions.h */; };
+		8B634DC1146F2E0500BF5058 /* FRRuntimeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B634DBF146F2E0500BF5058 /* FRRuntimeAdditions.m */; };
+		8BAD1E74146F11CB00E16433 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAD1E73146F11CB00E16433 /* Cocoa.framework */; };
+		8BAD1EA0146F148400E16433 /* FRLocalizationBundleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E92146F148400E16433 /* FRLocalizationBundleAdditions.m */; };
+		8BAD1EA1146F148500E16433 /* FRLocalizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E93146F148400E16433 /* FRLocalizationManager.m */; };
+		8BAD1EA2146F148500E16433 /* FRLocalizationPickerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E94146F148400E16433 /* FRLocalizationPickerWindowController.m */; };
+		8BAD1EA3146F148500E16433 /* FRLocalizationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E95146F148400E16433 /* FRLocalizationWindowController.m */; };
+		8BAD1EA4146F148500E16433 /* FRNibAutomaticLocalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E96146F148400E16433 /* FRNibAutomaticLocalization.m */; };
+		8BAD1EA5146F148500E16433 /* FRTranslationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E97146F148400E16433 /* FRTranslationInfo.m */; };
+		8BAD1EA6146F148500E16433 /* FRUntranslatedCountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E98146F148400E16433 /* FRUntranslatedCountCell.m */; };
+		8BAD1EA7146F148500E16433 /* FRLocalizationBundleAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E99146F148400E16433 /* FRLocalizationBundleAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8BAD1EA8146F148500E16433 /* FRLocalizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E9A146F148400E16433 /* FRLocalizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8BAD1EA9146F148500E16433 /* FRLocalizationPickerWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E9B146F148400E16433 /* FRLocalizationPickerWindowController.h */; };
+		8BAD1EAA146F148500E16433 /* FRLocalizationWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E9C146F148400E16433 /* FRLocalizationWindowController.h */; };
+		8BAD1EAB146F148500E16433 /* FRNibAutomaticLocalization.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E9D146F148400E16433 /* FRNibAutomaticLocalization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8BAD1EAC146F148500E16433 /* FRTranslationInfo__.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E9E146F148400E16433 /* FRTranslationInfo__.h */; };
+		8BAD1EAD146F148500E16433 /* FRUntranslatedCountCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E9F146F148400E16433 /* FRUntranslatedCountCell.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8B0DCF0614702CDE00DF8AC3 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8B0DCF0814702CDE00DF8AC3 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localization.strings; sourceTree = "<group>"; };
+		8B0DCF0A14702CDE00DF8AC3 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/LocalizationPicker.strings; sourceTree = "<group>"; };
+		8B0DCF0E14702DB400DF8AC3 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = Resources/de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8B0DCF0F14702DB400DF8AC3 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = Resources/de.lproj/Localization.strings; sourceTree = "<group>"; };
+		8B0DCF1014702DB400DF8AC3 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = Resources/de.lproj/LocalizationPicker.strings; sourceTree = "<group>"; };
+		8B0DCF1114702DBE00DF8AC3 /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8B0DCF1214702DBE00DF8AC3 /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localization.strings; sourceTree = "<group>"; };
+		8B0DCF1314702DBE00DF8AC3 /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/LocalizationPicker.strings; sourceTree = "<group>"; };
+		8B0DCF1714702DC500DF8AC3 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8B0DCF1814702DC500DF8AC3 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/Localization.strings; sourceTree = "<group>"; };
+		8B0DCF1914702DC500DF8AC3 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/LocalizationPicker.strings; sourceTree = "<group>"; };
+		8B0DCF1D14702DCC00DF8AC3 /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = Resources/it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8B0DCF1E14702DCC00DF8AC3 /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = Resources/it.lproj/Localization.strings; sourceTree = "<group>"; };
+		8B0DCF1F14702DCC00DF8AC3 /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = Resources/it.lproj/LocalizationPicker.strings; sourceTree = "<group>"; };
+		8B0DCF2314702DD300DF8AC3 /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = Resources/ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8B0DCF2414702DD300DF8AC3 /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = Resources/ja.lproj/Localization.strings; sourceTree = "<group>"; };
+		8B0DCF2514702DD300DF8AC3 /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = Resources/ja.lproj/LocalizationPicker.strings; sourceTree = "<group>"; };
+		8B0DCF2914702DDA00DF8AC3 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = Resources/nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8B0DCF2A14702DDA00DF8AC3 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = Resources/nl.lproj/Localization.strings; sourceTree = "<group>"; };
+		8B0DCF2B14702DDA00DF8AC3 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = Resources/nl.lproj/LocalizationPicker.strings; sourceTree = "<group>"; };
+		8B0DCF2F14702DE000DF8AC3 /* no */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = no; path = Resources/no.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8B0DCF3014702DE000DF8AC3 /* no */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = no; path = Resources/no.lproj/Localization.strings; sourceTree = "<group>"; };
+		8B0DCF3114702DE000DF8AC3 /* no */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = no; path = Resources/no.lproj/LocalizationPicker.strings; sourceTree = "<group>"; };
+		8B0DCF3514702DE600DF8AC3 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = Resources/pt.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8B0DCF3614702DE600DF8AC3 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = Resources/pt.lproj/Localization.strings; sourceTree = "<group>"; };
+		8B0DCF3714702DE600DF8AC3 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = Resources/pt.lproj/LocalizationPicker.strings; sourceTree = "<group>"; };
+		8B33C234146F3CDB007C2196 /* FRFileManagerArchivingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRFileManagerArchivingAdditions.h; path = External/FRFileManagerArchivingAdditions.h; sourceTree = "<group>"; };
+		8B33C235146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRFileManagerArchivingAdditions.m; path = External/FRFileManagerArchivingAdditions.m; sourceTree = "<group>"; };
+		8B33C238146F3CF4007C2196 /* archiving.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = archiving.c; path = External/archiving.c; sourceTree = "<group>"; };
+		8B33C239146F3CF4007C2196 /* archiving.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = archiving.h; path = External/archiving.h; sourceTree = "<group>"; };
+		8B33C26B146F5B36007C2196 /* Greenwich.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Greenwich.h; path = Source/Greenwich.h; sourceTree = "<group>"; };
+		8B33C275146F5E6E007C2196 /* Localization.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Localization.xib; path = Resources/Localization.xib; sourceTree = "<group>"; };
+		8B33C277146F5E73007C2196 /* LocalizationPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LocalizationPicker.xib; path = Resources/LocalizationPicker.xib; sourceTree = "<group>"; };
+		8B33C28B147025E4007C2196 /* FRLocalizationBundleAdditions__.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRLocalizationBundleAdditions__.h; path = Source/FRLocalizationBundleAdditions__.h; sourceTree = "<group>"; };
+		8B634D8A146F1C9A00BF5058 /* FRBundleAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRBundleAdditions.h; path = External/FRBundleAdditions.h; sourceTree = "<group>"; };
+		8B634D8B146F1C9A00BF5058 /* FRBundleAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRBundleAdditions.m; path = External/FRBundleAdditions.m; sourceTree = "<group>"; };
+		8B634DBE146F2E0500BF5058 /* FRRuntimeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRRuntimeAdditions.h; path = External/FRRuntimeAdditions.h; sourceTree = "<group>"; };
+		8B634DBF146F2E0500BF5058 /* FRRuntimeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRRuntimeAdditions.m; path = External/FRRuntimeAdditions.m; sourceTree = "<group>"; };
+		8BAD1E70146F11CB00E16433 /* Greenwich.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Greenwich.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BAD1E73146F11CB00E16433 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		8BAD1E92146F148400E16433 /* FRLocalizationBundleAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRLocalizationBundleAdditions.m; path = Source/FRLocalizationBundleAdditions.m; sourceTree = "<group>"; };
+		8BAD1E93146F148400E16433 /* FRLocalizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRLocalizationManager.m; path = Source/FRLocalizationManager.m; sourceTree = "<group>"; };
+		8BAD1E94146F148400E16433 /* FRLocalizationPickerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRLocalizationPickerWindowController.m; path = Source/FRLocalizationPickerWindowController.m; sourceTree = "<group>"; };
+		8BAD1E95146F148400E16433 /* FRLocalizationWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRLocalizationWindowController.m; path = Source/FRLocalizationWindowController.m; sourceTree = "<group>"; };
+		8BAD1E96146F148400E16433 /* FRNibAutomaticLocalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRNibAutomaticLocalization.m; path = Source/FRNibAutomaticLocalization.m; sourceTree = "<group>"; };
+		8BAD1E97146F148400E16433 /* FRTranslationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRTranslationInfo.m; path = Source/FRTranslationInfo.m; sourceTree = "<group>"; };
+		8BAD1E98146F148400E16433 /* FRUntranslatedCountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRUntranslatedCountCell.m; path = Source/FRUntranslatedCountCell.m; sourceTree = "<group>"; };
+		8BAD1E99146F148400E16433 /* FRLocalizationBundleAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRLocalizationBundleAdditions.h; path = Source/FRLocalizationBundleAdditions.h; sourceTree = "<group>"; };
+		8BAD1E9A146F148400E16433 /* FRLocalizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRLocalizationManager.h; path = Source/FRLocalizationManager.h; sourceTree = "<group>"; };
+		8BAD1E9B146F148400E16433 /* FRLocalizationPickerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRLocalizationPickerWindowController.h; path = Source/FRLocalizationPickerWindowController.h; sourceTree = "<group>"; };
+		8BAD1E9C146F148400E16433 /* FRLocalizationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRLocalizationWindowController.h; path = Source/FRLocalizationWindowController.h; sourceTree = "<group>"; };
+		8BAD1E9D146F148400E16433 /* FRNibAutomaticLocalization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRNibAutomaticLocalization.h; path = Source/FRNibAutomaticLocalization.h; sourceTree = "<group>"; };
+		8BAD1E9E146F148400E16433 /* FRTranslationInfo__.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRTranslationInfo__.h; path = Source/FRTranslationInfo__.h; sourceTree = "<group>"; };
+		8BAD1E9F146F148400E16433 /* FRUntranslatedCountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRUntranslatedCountCell.h; path = Source/FRUntranslatedCountCell.h; sourceTree = "<group>"; };
+		8BAD1EB0146F150100E16433 /* Localization.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Localization.plist; path = Info/Localization.plist; sourceTree = "<group>"; };
+		8BAD1EB1146F158E00E16433 /* Project.debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Project.debug.xcconfig; path = ../Configurations/Shared/Project.debug.xcconfig; sourceTree = "<group>"; };
+		8BAD1EB2146F158E00E16433 /* Project.release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Project.release.xcconfig; path = ../Configurations/Shared/Project.release.xcconfig; sourceTree = "<group>"; };
+		8BAD1EB3146F159C00E16433 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Application.xcconfig; path = ../Configurations/Mac/Application.xcconfig; sourceTree = "<group>"; };
+		8BAD1EB4146F159C00E16433 /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Framework.xcconfig; path = ../Configurations/Mac/Framework.xcconfig; sourceTree = "<group>"; };
+		8BAD1EB9146F168F00E16433 /* Greenwich.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Greenwich.pch; path = Source/Greenwich.pch; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8BAD1E6C146F11CB00E16433 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BAD1E74146F11CB00E16433 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8B0DCF0414702CBD00DF8AC3 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				8B0DCF0514702CDE00DF8AC3 /* Localizable.strings */,
+				8B0DCF0714702CDE00DF8AC3 /* Localization.strings */,
+				8B0DCF0914702CDE00DF8AC3 /* LocalizationPicker.strings */,
+			);
+			name = Strings;
+			sourceTree = "<group>";
+		};
+		8B33C231146F37D3007C2196 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				8B33C275146F5E6E007C2196 /* Localization.xib */,
+				8BAD1E9C146F148400E16433 /* FRLocalizationWindowController.h */,
+				8BAD1E95146F148400E16433 /* FRLocalizationWindowController.m */,
+				8B33C277146F5E73007C2196 /* LocalizationPicker.xib */,
+				8BAD1E9B146F148400E16433 /* FRLocalizationPickerWindowController.h */,
+				8BAD1E94146F148400E16433 /* FRLocalizationPickerWindowController.m */,
+				8BAD1E9E146F148400E16433 /* FRTranslationInfo__.h */,
+				8BAD1E97146F148400E16433 /* FRTranslationInfo.m */,
+				8BAD1E9F146F148400E16433 /* FRUntranslatedCountCell.h */,
+				8BAD1E98146F148400E16433 /* FRUntranslatedCountCell.m */,
+			);
+			name = Interface;
+			sourceTree = "<group>";
+		};
+		8B33C26E146F5CF8007C2196 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		8B634D89146F1C8900BF5058 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				8B634DBE146F2E0500BF5058 /* FRRuntimeAdditions.h */,
+				8B634DBF146F2E0500BF5058 /* FRRuntimeAdditions.m */,
+				8B634D8A146F1C9A00BF5058 /* FRBundleAdditions.h */,
+				8B634D8B146F1C9A00BF5058 /* FRBundleAdditions.m */,
+				8B33C234146F3CDB007C2196 /* FRFileManagerArchivingAdditions.h */,
+				8B33C235146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m */,
+				8B33C239146F3CF4007C2196 /* archiving.h */,
+				8B33C238146F3CF4007C2196 /* archiving.c */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
+		8BAD1E52146F114700E16433 = {
+			isa = PBXGroup;
+			children = (
+				8BAD1EB9146F168F00E16433 /* Greenwich.pch */,
+				8B33C26B146F5B36007C2196 /* Greenwich.h */,
+				8BADE86A146F17F40094AE93 /* Mac */,
+				8B33C26E146F5CF8007C2196 /* iOS */,
+				8B634D89146F1C8900BF5058 /* External */,
+				8BAD1EAE146F14DF00E16433 /* Resources */,
+				8BAD1E72146F11CB00E16433 /* Frameworks */,
+				8BAD1E71146F11CB00E16433 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8BAD1E71146F11CB00E16433 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8BAD1E70146F11CB00E16433 /* Greenwich.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8BAD1E72146F11CB00E16433 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8BAD1E73146F11CB00E16433 /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8BAD1EAE146F14DF00E16433 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8BAD1EAF146F14F000E16433 /* Info */,
+				8BAD1EB5146F15D300E16433 /* Configurations */,
+				8B0DCF0414702CBD00DF8AC3 /* Strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		8BAD1EAF146F14F000E16433 /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				8BAD1EB0146F150100E16433 /* Localization.plist */,
+			);
+			name = Info;
+			sourceTree = "<group>";
+		};
+		8BAD1EB5146F15D300E16433 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				8BAD1EB6146F15D900E16433 /* Shared */,
+				8BAD1EB7146F15DF00E16433 /* Mac */,
+			);
+			name = Configurations;
+			sourceTree = "<group>";
+		};
+		8BAD1EB6146F15D900E16433 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				8BAD1EB1146F158E00E16433 /* Project.debug.xcconfig */,
+				8BAD1EB2146F158E00E16433 /* Project.release.xcconfig */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
+		8BAD1EB7146F15DF00E16433 /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				8BAD1EB3146F159C00E16433 /* Application.xcconfig */,
+				8BAD1EB4146F159C00E16433 /* Framework.xcconfig */,
+			);
+			name = Mac;
+			sourceTree = "<group>";
+		};
+		8BADE86A146F17F40094AE93 /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				8BAD1E9D146F148400E16433 /* FRNibAutomaticLocalization.h */,
+				8BAD1E96146F148400E16433 /* FRNibAutomaticLocalization.m */,
+				8BAD1E99146F148400E16433 /* FRLocalizationBundleAdditions.h */,
+				8B33C28B147025E4007C2196 /* FRLocalizationBundleAdditions__.h */,
+				8BAD1E92146F148400E16433 /* FRLocalizationBundleAdditions.m */,
+				8BAD1E9A146F148400E16433 /* FRLocalizationManager.h */,
+				8BAD1E93146F148400E16433 /* FRLocalizationManager.m */,
+				8B33C231146F37D3007C2196 /* Interface */,
+			);
+			name = Mac;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8BAD1E6D146F11CB00E16433 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B33C26C146F5B37007C2196 /* Greenwich.h in Headers */,
+				8BAD1EA7146F148500E16433 /* FRLocalizationBundleAdditions.h in Headers */,
+				8BAD1EA8146F148500E16433 /* FRLocalizationManager.h in Headers */,
+				8BAD1EAB146F148500E16433 /* FRNibAutomaticLocalization.h in Headers */,
+				8BAD1EA9146F148500E16433 /* FRLocalizationPickerWindowController.h in Headers */,
+				8BAD1EAA146F148500E16433 /* FRLocalizationWindowController.h in Headers */,
+				8BAD1EAC146F148500E16433 /* FRTranslationInfo__.h in Headers */,
+				8BAD1EAD146F148500E16433 /* FRUntranslatedCountCell.h in Headers */,
+				8B634D93146F1C9A00BF5058 /* FRBundleAdditions.h in Headers */,
+				8B634DC0146F2E0500BF5058 /* FRRuntimeAdditions.h in Headers */,
+				8B33C236146F3CDB007C2196 /* FRFileManagerArchivingAdditions.h in Headers */,
+				8B33C23B146F3CF4007C2196 /* archiving.h in Headers */,
+				8B33C28C147025E5007C2196 /* FRLocalizationBundleAdditions__.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8BAD1E6F146F11CB00E16433 /* Greenwich */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BAD1E85146F11CC00E16433 /* Build configuration list for PBXNativeTarget "Greenwich" */;
+			buildPhases = (
+				8BAD1E6B146F11CB00E16433 /* Sources */,
+				8BAD1E6C146F11CB00E16433 /* Frameworks */,
+				8BAD1E6D146F11CB00E16433 /* Headers */,
+				8B0DCF0114702A4100DF8AC3 /* Update Localizations */,
+				8BAD1E6E146F11CB00E16433 /* Resources */,
+				8B0DCF0314702A4300DF8AC3 /* Verify Localizations */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Greenwich;
+			productName = Greenwich;
+			productReference = 8BAD1E70146F11CB00E16433 /* Greenwich.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8BAD1E54146F114700E16433 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 8BAD1E57146F114700E16433 /* Build configuration list for PBXProject "Greenwich" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				de,
+				es,
+				fr,
+				it,
+				ja,
+				nl,
+				no,
+				pt,
+			);
+			mainGroup = 8BAD1E52146F114700E16433;
+			productRefGroup = 8BAD1E71146F11CB00E16433 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8BAD1E6F146F11CB00E16433 /* Greenwich */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8BAD1E6E146F11CB00E16433 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B33C276146F5E6E007C2196 /* Localization.xib in Resources */,
+				8B33C278146F5E73007C2196 /* LocalizationPicker.xib in Resources */,
+				8B0DCF0B14702CDE00DF8AC3 /* Localizable.strings in Resources */,
+				8B0DCF0C14702CDE00DF8AC3 /* Localization.strings in Resources */,
+				8B0DCF0D14702CDE00DF8AC3 /* LocalizationPicker.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8B0DCF0114702A4100DF8AC3 /* Update Localizations */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Update Localizations";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "localization create";
+			showEnvVarsInLog = 0;
+		};
+		8B0DCF0314702A4300DF8AC3 /* Verify Localizations */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify Localizations";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "localization verify";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8BAD1E6B146F11CB00E16433 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BAD1EA0146F148400E16433 /* FRLocalizationBundleAdditions.m in Sources */,
+				8BAD1EA1146F148500E16433 /* FRLocalizationManager.m in Sources */,
+				8BAD1EA2146F148500E16433 /* FRLocalizationPickerWindowController.m in Sources */,
+				8BAD1EA3146F148500E16433 /* FRLocalizationWindowController.m in Sources */,
+				8BAD1EA4146F148500E16433 /* FRNibAutomaticLocalization.m in Sources */,
+				8BAD1EA5146F148500E16433 /* FRTranslationInfo.m in Sources */,
+				8BAD1EA6146F148500E16433 /* FRUntranslatedCountCell.m in Sources */,
+				8B634D94146F1C9A00BF5058 /* FRBundleAdditions.m in Sources */,
+				8B634DC1146F2E0500BF5058 /* FRRuntimeAdditions.m in Sources */,
+				8B33C237146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m in Sources */,
+				8B33C23A146F3CF4007C2196 /* archiving.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8B0DCF0514702CDE00DF8AC3 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B0DCF0614702CDE00DF8AC3 /* en */,
+				8B0DCF0E14702DB400DF8AC3 /* de */,
+				8B0DCF1114702DBE00DF8AC3 /* es */,
+				8B0DCF1714702DC500DF8AC3 /* fr */,
+				8B0DCF1D14702DCC00DF8AC3 /* it */,
+				8B0DCF2314702DD300DF8AC3 /* ja */,
+				8B0DCF2914702DDA00DF8AC3 /* nl */,
+				8B0DCF2F14702DE000DF8AC3 /* no */,
+				8B0DCF3514702DE600DF8AC3 /* pt */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		8B0DCF0714702CDE00DF8AC3 /* Localization.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B0DCF0814702CDE00DF8AC3 /* en */,
+				8B0DCF0F14702DB400DF8AC3 /* de */,
+				8B0DCF1214702DBE00DF8AC3 /* es */,
+				8B0DCF1814702DC500DF8AC3 /* fr */,
+				8B0DCF1E14702DCC00DF8AC3 /* it */,
+				8B0DCF2414702DD300DF8AC3 /* ja */,
+				8B0DCF2A14702DDA00DF8AC3 /* nl */,
+				8B0DCF3014702DE000DF8AC3 /* no */,
+				8B0DCF3614702DE600DF8AC3 /* pt */,
+			);
+			name = Localization.strings;
+			sourceTree = "<group>";
+		};
+		8B0DCF0914702CDE00DF8AC3 /* LocalizationPicker.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B0DCF0A14702CDE00DF8AC3 /* en */,
+				8B0DCF1014702DB400DF8AC3 /* de */,
+				8B0DCF1314702DBE00DF8AC3 /* es */,
+				8B0DCF1914702DC500DF8AC3 /* fr */,
+				8B0DCF1F14702DCC00DF8AC3 /* it */,
+				8B0DCF2514702DD300DF8AC3 /* ja */,
+				8B0DCF2B14702DDA00DF8AC3 /* nl */,
+				8B0DCF3114702DE000DF8AC3 /* no */,
+				8B0DCF3714702DE600DF8AC3 /* pt */,
+			);
+			name = LocalizationPicker.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8BAD1E59146F114700E16433 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BAD1EB1146F158E00E16433 /* Project.debug.xcconfig */;
+			buildSettings = {
+				FR_FRAMEWORKS_DIR = "$(PROJECT_DIR)/..";
+				PATH = "$(SRCROOT)/Scripts:$(PATH)";
+				SYMROOT = ../build;
+			};
+			name = Debug;
+		};
+		8BAD1E5A146F114700E16433 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BAD1EB2146F158E00E16433 /* Project.release.xcconfig */;
+			buildSettings = {
+				FR_FRAMEWORKS_DIR = "$(PROJECT_DIR)/..";
+				PATH = "$(SRCROOT)/Scripts:$(PATH)";
+				SYMROOT = ../build;
+			};
+			name = Release;
+		};
+		8BAD1E83146F11CC00E16433 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BAD1EB4146F159C00E16433 /* Framework.xcconfig */;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = Source/Greenwich.pch;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					External/libarchive,
+				);
+				INFOPLIST_FILE = Info/Localization.plist;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"$(GREENWICH_OTHER_CFLAGS)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"$(GREENWICH_OTHER_LDFLAGS)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8BAD1E84146F11CC00E16433 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BAD1EB4146F159C00E16433 /* Framework.xcconfig */;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = Source/Greenwich.pch;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					External/libarchive,
+				);
+				INFOPLIST_FILE = Info/Localization.plist;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"$(GREENWICH_OTHER_CFLAGS)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"$(GREENWICH_OTHER_LDFLAGS)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8BAD1E57146F114700E16433 /* Build configuration list for PBXProject "Greenwich" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BAD1E59146F114700E16433 /* Debug */,
+				8BAD1E5A146F114700E16433 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8BAD1E85146F11CC00E16433 /* Build configuration list for PBXNativeTarget "Greenwich" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BAD1E83146F11CC00E16433 /* Debug */,
+				8BAD1E84146F11CC00E16433 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8BAD1E54146F114700E16433 /* Project object */;
+}

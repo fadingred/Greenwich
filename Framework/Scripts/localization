@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# setup the environment
+ABSPATH=$(cd ${0%/*} && echo $PWD/${0##*/})
+export SCRIPTDIR=`dirname "${ABSPATH}"`
+export PYTHONPATH="$SCRIPTDIR/lib:$PYTHONPATH"
+export PATH="/usr/local/share/python:/usr/local/bin:/usr/local/sbin:$PATH"
+
+# execute the command
+COMMAND=$1
+shift
+"${SCRIPTDIR}/actions/${COMMAND}" "$@"
+exit $?

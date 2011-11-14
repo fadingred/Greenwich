@@ -1,0 +1,396 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8BBFCBBC14705019006CFFDE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BBFCBBB14705019006CFFDE /* Cocoa.framework */; };
+		8BBFCBD91470516A006CFFDE /* Greenwich.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BBFCBB114705003006CFFDE /* Greenwich.framework */; };
+		8BBFCBDB1470517C006CFFDE /* Greenwich.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8BBFCBB114705003006CFFDE /* Greenwich.framework */; };
+		8BBFCBE014705338006CFFDE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBFCBDC14705338006CFFDE /* AppDelegate.m */; };
+		8BBFCBE114705338006CFFDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBFCBDD14705338006CFFDE /* main.m */; };
+		8BBFCBEB147054DB006CFFDE /* MainMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8BBFCBE9147054DB006CFFDE /* MainMenu.strings */; };
+		8BBFCBEF1470567C006CFFDE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8BBFCBED1470567C006CFFDE /* Localizable.strings */; };
+		8BBFCBF2147056ED006CFFDE /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BBFCBF1147056ED006CFFDE /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8BBFCBB014705003006CFFDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BBFCBA914705003006CFFDE /* Greenwich.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8BAD1E70146F11CB00E16433;
+			remoteInfo = Greenwich;
+		};
+		8BBFCBD614705055006CFFDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BBFCBA914705003006CFFDE /* Greenwich.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8BAD1E6F146F11CB00E16433;
+			remoteInfo = Greenwich;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8BBFCBDA14705173006CFFDE /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8BBFCBDB1470517C006CFFDE /* Greenwich.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8BBFCBA914705003006CFFDE /* Greenwich.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Greenwich.xcodeproj; path = ../Framework/Greenwich.xcodeproj; sourceTree = "<group>"; };
+		8BBFCBB714705019006CFFDE /* GreenwichExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GreenwichExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BBFCBBB14705019006CFFDE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		8BBFCBDC14705338006CFFDE /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8BBFCBDD14705338006CFFDE /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8BBFCBDF14705338006CFFDE /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8BBFCBE214705350006CFFDE /* Example.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Example.pch; sourceTree = "<group>"; };
+		8BBFCBE31470536F006CFFDE /* Example.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Example.plist; sourceTree = "<group>"; };
+		8BBFCBEA147054DB006CFFDE /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8BBFCBEC14705511006CFFDE /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8BBFCBEE1470567C006CFFDE /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8BBFCBF014705684006CFFDE /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8BBFCBF1147056ED006CFFDE /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8BBFCBB414705019006CFFDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BBFCBD91470516A006CFFDE /* Greenwich.framework in Frameworks */,
+				8BBFCBBC14705019006CFFDE /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8BBFCB9D14704FF4006CFFDE = {
+			isa = PBXGroup;
+			children = (
+				8BBFCBE214705350006CFFDE /* Example.pch */,
+				8BBFCBDF14705338006CFFDE /* AppDelegate.h */,
+				8BBFCBDC14705338006CFFDE /* AppDelegate.m */,
+				8BBFCBE414705373006CFFDE /* Other Sources */,
+				8BBFCBE514705375006CFFDE /* Resources */,
+				8BBFCBBA14705019006CFFDE /* Frameworks */,
+				8BBFCBB814705019006CFFDE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8BBFCBAA14705003006CFFDE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8BBFCBB114705003006CFFDE /* Greenwich.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8BBFCBB814705019006CFFDE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8BBFCBB714705019006CFFDE /* GreenwichExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8BBFCBBA14705019006CFFDE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8BBFCBA914705003006CFFDE /* Greenwich.xcodeproj */,
+				8BBFCBBB14705019006CFFDE /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8BBFCBE414705373006CFFDE /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8BBFCBDD14705338006CFFDE /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		8BBFCBE514705375006CFFDE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8BBFCBE31470536F006CFFDE /* Example.plist */,
+				8BBFCBF1147056ED006CFFDE /* MainMenu.xib */,
+				8BBFCBE8147054D1006CFFDE /* Strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		8BBFCBE8147054D1006CFFDE /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				8BBFCBED1470567C006CFFDE /* Localizable.strings */,
+				8BBFCBE9147054DB006CFFDE /* MainMenu.strings */,
+			);
+			name = Strings;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8BBFCBB614705019006CFFDE /* GreenwichExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BBFCBD314705019006CFFDE /* Build configuration list for PBXNativeTarget "GreenwichExample" */;
+			buildPhases = (
+				8BBFCBB314705019006CFFDE /* Sources */,
+				8BBFCBB414705019006CFFDE /* Frameworks */,
+				8BBFCBE614705485006CFFDE /* Update Localizations */,
+				8BBFCBB514705019006CFFDE /* Resources */,
+				8BBFCBE714705487006CFFDE /* Verify Localizations */,
+				8BBFCBDA14705173006CFFDE /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8BBFCBD714705055006CFFDE /* PBXTargetDependency */,
+			);
+			name = GreenwichExample;
+			productName = GreenwichExample;
+			productReference = 8BBFCBB714705019006CFFDE /* GreenwichExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8BBFCB9F14704FF4006CFFDE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 8BBFCBA214704FF4006CFFDE /* Build configuration list for PBXProject "Example" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				de,
+			);
+			mainGroup = 8BBFCB9D14704FF4006CFFDE;
+			productRefGroup = 8BBFCBB814705019006CFFDE /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8BBFCBAA14705003006CFFDE /* Products */;
+					ProjectRef = 8BBFCBA914705003006CFFDE /* Greenwich.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				8BBFCBB614705019006CFFDE /* GreenwichExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		8BBFCBB114705003006CFFDE /* Greenwich.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Greenwich.framework;
+			remoteRef = 8BBFCBB014705003006CFFDE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8BBFCBB514705019006CFFDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BBFCBEB147054DB006CFFDE /* MainMenu.strings in Resources */,
+				8BBFCBEF1470567C006CFFDE /* Localizable.strings in Resources */,
+				8BBFCBF2147056ED006CFFDE /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8BBFCBE614705485006CFFDE /* Update Localizations */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Update Localizations";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "localization create -s. -r.";
+			showEnvVarsInLog = 0;
+		};
+		8BBFCBE714705487006CFFDE /* Verify Localizations */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify Localizations";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "localization verify -s. -r.";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8BBFCBB314705019006CFFDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BBFCBE014705338006CFFDE /* AppDelegate.m in Sources */,
+				8BBFCBE114705338006CFFDE /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8BBFCBD714705055006CFFDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Greenwich;
+			targetProxy = 8BBFCBD614705055006CFFDE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8BBFCBE9147054DB006CFFDE /* MainMenu.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8BBFCBEA147054DB006CFFDE /* en */,
+				8BBFCBEC14705511006CFFDE /* de */,
+			);
+			name = MainMenu.strings;
+			sourceTree = "<group>";
+		};
+		8BBFCBED1470567C006CFFDE /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8BBFCBEE1470567C006CFFDE /* en */,
+				8BBFCBF014705684006CFFDE /* de */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8BBFCBA414704FF4006CFFDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GREENWICH_LOCALIZATION_SYMBOL = MyLocalizedString;
+				PATH = "$(SRCROOT)/../Framework/Scripts:$(PATH)";
+				SYMROOT = ../build;
+			};
+			name = Debug;
+		};
+		8BBFCBA514704FF4006CFFDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GREENWICH_LOCALIZATION_SYMBOL = MyLocalizedString;
+				PATH = "$(SRCROOT)/../Framework/Scripts:$(PATH)";
+				SYMROOT = ../build;
+			};
+			name = Release;
+		};
+		8BBFCBD414705019006CFFDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Example.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Example.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8BBFCBD514705019006CFFDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Example.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Example.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8BBFCBA214704FF4006CFFDE /* Build configuration list for PBXProject "Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BBFCBA414704FF4006CFFDE /* Debug */,
+				8BBFCBA514704FF4006CFFDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8BBFCBD314705019006CFFDE /* Build configuration list for PBXNativeTarget "GreenwichExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BBFCBD414705019006CFFDE /* Debug */,
+				8BBFCBD514705019006CFFDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8BBFCB9F14704FF4006CFFDE /* Project object */;
+}
