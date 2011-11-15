@@ -25,6 +25,13 @@
 #import "FRBundleAdditions.h"
 #import "FRFileManagerArchivingAdditions.h"
 
+#define COMMENT [NSColor colorWithCalibratedWhite:0.70 alpha:1]
+#define TRANSLATION [NSColor colorWithCalibratedRed:0.75 green:0.72 blue:0.65 alpha:1.00]
+#define TRANSLATION_COMPLETE [NSColor colorWithCalibratedRed:0.00 green:0.29 blue:0.55 alpha:1.00]
+#define TRANSLATION_INCOMPLETE [NSColor colorWithCalibratedRed:0.69 green:0.19 blue:0.27 alpha:1.00]
+#define UNKNOWN [NSColor colorWithCalibratedWhite:1.00 alpha:1]
+#define UNKNOWN_BACKGROUND [NSColor colorWithCalibratedRed:0.72 green:0.12 blue:0.20 alpha:1.00]
+
 static NSString * gSystemLanguage = nil;
 static NSString * const kPathKey = @"path"; 
 static NSString * const kDisplayNameKey = @"displayName"; 
@@ -36,13 +43,15 @@ static void * const FRStringsFileDidChangeContext = @"FRStringsFileDidChangeCont
 static void * const FRSelectedLanguageDidChangeContext = @"FRSelectedLanguageDidChangeContext";
 static const NSTimeInterval kSaveTimeout = 0.5;
 static const NSSize kTextContainerInset = { .width = 15, .height = 10 };
-
 NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 
 @interface FRLocalizationWindowController ()
 - (void)loadStringsFiles;
 - (void)loadTextView;
 - (void)persistSelectedLanguage;
+- (void)processEditing:(NSNotification *)notification;
+- (void)colorTextInRnage:(NSRange)range ofString:(NSMutableAttributedString *)string;
+- (void)addAttributesForLineInRange:(NSRange)range ofString:(NSMutableAttributedString *)string;
 @end
 
 @implementation FRLocalizationWindowController
@@ -138,8 +147,13 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 
 - (void)awakeFromNib {
 	[[self window] center];
+	
 	[textView setFont:[NSFont fontWithName:@"Menlo" size:12]];
 	[textView setTextContainerInset:kTextContainerInset];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processEditing:)
+												 name:NSTextStorageDidProcessEditingNotification
+											   object:[textView textStorage]];
+	
 	[tableView sizeLastColumnToFit];
 	[tableView setSortDescriptors:
 	 [NSArray arrayWithObject:
@@ -419,6 +433,125 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 	saveTimer = [[NSTimer scheduledTimerWithTimeInterval:kSaveTimeout
 												  target:self selector:@selector(saveSelectedStringsFile)
 												userInfo:nil repeats:NO] retain];
+}
+
+- (void)processEditing:(NSNotification *)notification {
+	// TODO: this doesn't need to process the whole document
+	NSTextStorage *contents = [textView textStorage];
+	[self colorTextInRnage:NSMakeRange(0, [contents length]) ofString:contents];
+}
+
+- (void)colorTextInRnage:(NSRange)range ofString:(NSMutableAttributedString *)attributedString {
+	NSString *string = [attributedString string];
+	NSRange subrange = NSMakeRange(range.location, 0);
+	
+	while (subrange.location + subrange.length < range.location + range.length) {
+		char character = [string characterAtIndex:subrange.location + subrange.length];
+		subrange.length++;
+		
+		if (character == '\n') {
+			[self addAttributesForLineInRange:subrange ofString:attributedString];
+			subrange.location += subrange.length;
+			subrange.length = 0;
+		}
+	}
+}
+
+- (void)addAttributesForLineInRange:(NSRange)range ofString:(NSMutableAttributedString *)attributedString {
+	NSAssert(range.length >= 1, @"Expected range to have a length");
+	NSString *string = [attributedString string];
+	BOOL colored = FALSE;
+
+	// remove background color
+	[attributedString removeAttribute:NSBackgroundColorAttributeName range:range];
+
+	if ([string characterAtIndex:range.location + range.length - 1] == '\n') {
+		range.length--;
+	}
+	
+	if (range.length) {
+		if (range.length >= 4) { // check for comment. needs at least: /**/
+			char startSlash = [string characterAtIndex:range.location + 0];
+			char startStar = [string characterAtIndex:range.location + 1];
+			char endSlash = [string characterAtIndex:range.location + range.length - 1];
+			char endStar = [string characterAtIndex:range.location + range.length - 2];
+			if (startSlash == '/' && startStar == '*' && endSlash == '/' && endStar == '*') {
+				NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+											COMMENT, NSForegroundColorAttributeName, nil];
+				[attributedString addAttributes:attributes range:range];
+				colored = TRUE;
+			}
+		}
+		
+		if (range.length >= 8) { // check for string. needs at least: "" = "";
+			char startQuote = [string characterAtIndex:range.location + 0];
+			char endSemicolon = [string characterAtIndex:range.location + range.length - 1];
+			char endQuote = [string characterAtIndex:range.location + range.length - 2];
+			if (startQuote == '"' && endQuote == '"' && endSemicolon == ';') {
+				
+				NSString *equalityCheck = @"\" = \"";
+				NSRange equalityRange = [string rangeOfString:equalityCheck options:0 range:range];
+				if (equalityRange.location != NSNotFound) {
+					equalityRange.location += 1;
+					equalityRange.length -= 2;
+
+					NSRange rangeNoSemicolon = range;
+					NSRange lhs = range;
+					NSRange rhs = range;
+					rangeNoSemicolon.length -= 1;
+					lhs.length = equalityRange.location - rangeNoSemicolon.location;
+					rhs.location = equalityRange.location + equalityRange.length;
+					rhs.length =
+						(rangeNoSemicolon.location + rangeNoSemicolon.length) -
+						(equalityRange.location + equalityRange.length);
+					
+					NSString *rhsString = [string substringWithRange:rhs];
+					BOOL translated = [string compare:rhsString options:0 range:lhs] != NSOrderedSame;
+					if (!translated) {
+						// go back through the previous line and look for a ==
+						NSUInteger thisLineStart = range.location;
+						NSRange previousLine = NSMakeRange(NSNotFound, 0);
+						if (thisLineStart > 0) {
+							previousLine = [string rangeOfString:@"\n" options:NSBackwardsSearch
+														   range:NSMakeRange(0, thisLineStart-1)];
+						}
+						if (previousLine.location != NSNotFound) {
+							NSUInteger previousLineStart = previousLine.location + previousLine.length;
+							NSRange search = NSMakeRange(previousLineStart, thisLineStart - previousLineStart);
+							translated = [string rangeOfString:@"==" options:0 range:search].location != NSNotFound;
+						}
+						
+					}
+
+					NSColor *lhsColor = TRANSLATION_COMPLETE;
+					NSColor *rhsColor = TRANSLATION_COMPLETE;
+					
+					if (!translated) {
+						rhsColor = TRANSLATION_INCOMPLETE;
+					}
+
+					NSDictionary *attributes = nil;
+					attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+								  TRANSLATION, NSForegroundColorAttributeName, nil];
+					[attributedString addAttributes:attributes range:range];
+					attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+								  rhsColor, NSForegroundColorAttributeName, nil];
+					[attributedString addAttributes:attributes range:rhs];
+					attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+								  lhsColor, NSForegroundColorAttributeName, nil];
+					[attributedString addAttributes:attributes range:lhs];
+					colored = TRUE;
+				}
+			}
+		}
+	}
+	
+	if (!colored) {
+		NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+									UNKNOWN, NSForegroundColorAttributeName,
+									UNKNOWN_BACKGROUND, NSBackgroundColorAttributeName, nil];
+		[attributedString addAttributes:attributes range:range];
+	}
 }
 
 @end
