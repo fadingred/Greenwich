@@ -50,8 +50,9 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 - (void)loadTextView;
 - (void)persistSelectedLanguage;
 - (void)processEditing:(NSNotification *)notification;
-- (void)colorTextInRnage:(NSRange)range ofString:(NSMutableAttributedString *)string;
-- (void)addAttributesForLineInRange:(NSRange)range ofString:(NSMutableAttributedString *)string;
+- (void)colorTextInRange:(NSRange)range ofString:(NSMutableAttributedString *)string;
+- (void)addAttributesForLineInRange:(NSRange)range ofString:(NSMutableAttributedString *)string
+						andContinue:(BOOL *)shouldContinue;
 @end
 
 @implementation FRLocalizationWindowController
@@ -436,29 +437,50 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 }
 
 - (void)processEditing:(NSNotification *)notification {
-	// TODO: this doesn't need to process the whole document
 	NSTextStorage *contents = [textView textStorage];
-	[self colorTextInRnage:NSMakeRange(0, [contents length]) ofString:contents];
+	[self colorTextInRange:[contents editedRange] ofString:contents];
 }
 
-- (void)colorTextInRnage:(NSRange)range ofString:(NSMutableAttributedString *)attributedString {
+- (void)colorTextInRange:(NSRange)range ofString:(NSMutableAttributedString *)attributedString {
 	NSString *string = [attributedString string];
+	NSUInteger stringLength = [string length];
 	NSRange subrange = NSMakeRange(range.location, 0);
 	
-	while (subrange.location + subrange.length < range.location + range.length) {
+	// find the start of the string
+	while (subrange.location > 0) {
+		char character = [string characterAtIndex:subrange.location-1];
+		if (character == '\n') { break; }
+		else {
+			subrange.location--;
+			subrange.length++;
+		}
+	}
+		
+	// find the ends of strings and add attributes. stop once we've gotten past the end of the requested range and
+	// the add attributes method doesn't request continuing to the next line.
+	while (subrange.location + subrange.length < stringLength) {
+		BOOL shouldContinue = FALSE;
 		char character = [string characterAtIndex:subrange.location + subrange.length];
 		subrange.length++;
 		
 		if (character == '\n') {
-			[self addAttributesForLineInRange:subrange ofString:attributedString];
+			[self addAttributesForLineInRange:subrange ofString:attributedString andContinue:&shouldContinue];
 			subrange.location += subrange.length;
 			subrange.length = 0;
+			shouldContinue = shouldContinue || subrange.location + subrange.length < range.location + range.length;
+			if (shouldContinue == FALSE) {
+				break;
+			}
 		}
 	}
 }
 
-- (void)addAttributesForLineInRange:(NSRange)range ofString:(NSMutableAttributedString *)attributedString {
+- (void)addAttributesForLineInRange:(NSRange)range ofString:(NSMutableAttributedString *)attributedString
+						andContinue:(BOOL *)shouldContinue {
+	
 	NSAssert(range.length >= 1, @"Expected range to have a length");
+	NSParameterAssert(shouldContinue);
+	
 	NSString *string = [attributedString string];
 	BOOL colored = FALSE;
 
@@ -480,6 +502,7 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 											COMMENT, NSForegroundColorAttributeName, nil];
 				[attributedString addAttributes:attributes range:range];
 				colored = TRUE;
+				*shouldContinue = TRUE;
 			}
 		}
 		
