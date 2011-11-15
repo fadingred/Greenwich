@@ -380,7 +380,7 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 				   didEndSelector:@selector(saveDidEnd:returnCode:contextInfo:)
 					  contextInfo:[completion copy]];
 #else
-	[panel setDirectoryURL:[NSURL URLWithString:[@"~/Desktop" stringByExpandingTildeInPath]]];
+	[panel setDirectoryURL:[NSURL fileURLWithPath:[@"~/Desktop" stringByExpandingTildeInPath]]];
 	[panel setNameFieldStringValue:@"translation"];
 	[panel beginSheetModalForWindow:[self window]
 				  completionHandler:completion];
