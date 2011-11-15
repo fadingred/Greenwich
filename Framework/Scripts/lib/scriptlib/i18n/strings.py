@@ -80,7 +80,7 @@ class Strings(object):
     """
     lines = []
     index = self.index()
-    for key in sorted(index.keys()):
+    for key in sorted(index.keys(), key=unicode.lower):
       value = index[key]
       lines += [
         '/* No comment provided by engineer. */\n',
@@ -100,7 +100,7 @@ class Strings(object):
     other_index = strings.index()
     translation = self.translation()
     lines = []
-    for key in sorted(other_index.keys()):
+    for key in sorted(other_index.keys(), key=unicode.lower):
       try: value = translation.index[key]
       except KeyError: value = other_index[key]
       try: translation_comments = translation.index[key].comments
