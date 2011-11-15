@@ -81,6 +81,7 @@ static NSString *(FRLocalizedString)(id self, SEL _cmd, NSString *key, NSString 
 		NSString *resourcesPath = [originalBundle resourcePath];
 		NSArray *paths = [manager subpathsOfDirectoryAtPath:resourcesPath error:NULL];
 		for (NSString *path in paths) {
+			if (translateBundle == nil) { break; }
 			NSString *directoryPath = [path stringByDeletingLastPathComponent];
 			NSString *directoryName = [[directoryPath lastPathComponent] stringByDeletingPathExtension];
 			NSString *fileExtension = [path pathExtension];
@@ -102,6 +103,44 @@ static NSString *(FRLocalizedString)(id self, SEL _cmd, NSString *key, NSString 
 						}
 					}
 					else { translateBundle = nil; }
+				}
+			}
+		}
+		
+		// check to see if any files need to be created from the default language version
+		for (NSString *path in paths) {
+			if (translateBundle == nil) { break; }
+			NSString *fileComponent = [path lastPathComponent];
+			NSString *directoryPath = [path stringByDeletingLastPathComponent];
+			NSString *directoryComponent = [directoryPath lastPathComponent];
+			NSString *basePath = [directoryPath stringByDeletingLastPathComponent];
+			NSString *directoryExtension = [directoryComponent pathExtension];
+			NSString *directoryName = [directoryComponent stringByDeletingPathExtension];
+			NSString *fileExtension = [path pathExtension];
+			if ([directoryName isEqualToString:GREENWICH_DEFAULT_LANGUAGE] &&
+				[fileExtension isEqualToString:@"strings"]) {
+				
+				NSString *originalPath = [resourcesPath stringByAppendingPathComponent:path];
+				for (NSString *language in languages) {
+					NSString *languageDirectoryName = [language stringByAppendingPathExtension:directoryExtension];
+					NSString *languageDirectoryPath = [basePath stringByAppendingPathComponent:languageDirectoryName];
+					NSString *languagePath = [languageDirectoryPath stringByAppendingPathComponent:fileComponent];
+					NSString *translateDirectory =
+						[translateBundlePath stringByAppendingPathComponent:languageDirectoryPath];
+					NSString *translatePath = [translateBundlePath stringByAppendingPathComponent:languagePath];
+					if (![manager fileExistsAtPath:translatePath]) {
+						if ([manager createDirectoryAtPath:translateDirectory withIntermediateDirectories:YES
+												attributes:nil error:error]) {
+							if (![manager copyItemAtPath:originalPath toPath:translatePath error:error]) {
+								translateBundle = nil;
+								break;
+							}
+						}
+						else {
+							translateBundle = nil;
+							break;
+						}
+					}
 				}
 			}
 		}

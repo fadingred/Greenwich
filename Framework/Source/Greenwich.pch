@@ -28,6 +28,10 @@
 #endif
 #endif
 
+#ifndef GREENWICH_DEFAULT_LANGUAGE
+#define GREENWICH_DEFAULT_LANGUAGE @"en"
+#endif
+
 #define FRLog NSLog
 #define FRLocalizedString(key, comment) (((NSString *(^)(void))^{ \
 	NSBundle *__bundle = nil; \

@@ -16,7 +16,6 @@
 // 
 
 @interface FRLocalizationManager : NSObject {
-	NSMutableDictionary *windowControllers;
 }
 
 + (id)defaultLocalizationManager;

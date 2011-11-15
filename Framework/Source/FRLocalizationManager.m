@@ -17,7 +17,6 @@
 
 #import "FRLocalizationManager.h"
 #import "FRLocalizationWindowController.h"
-#import "FRLocalizationPickerWindowController.h"
 
 @implementation FRLocalizationManager
 
@@ -33,13 +32,7 @@
 	return defaultLocalizationManager;
 }
 
-- (id)init {
-	if ((self = [super init])) {
-		windowControllers = [[NSMutableDictionary alloc] init];
-	}
-	return self;
-}
-	
+
 #pragma mark -
 #pragma mark actions
 // ----------------------------------------------------------------------------------------------------
@@ -47,18 +40,11 @@
 // ----------------------------------------------------------------------------------------------------
 
 - (IBAction)displayLocalizationFiles:(id)sender {
-	FRLocalizationPickerWindowController *picker = [[[FRLocalizationPickerWindowController alloc] init] autorelease];
-	NSInteger result = [NSApp runModalForWindow:[picker window]];
-	if (result == NSAlertDefaultReturn) {
-		NSString *lang = [picker selectedLanguage];
-		
-		FRLocalizationWindowController *controller = [windowControllers objectForKey:lang];
-		if (!controller) {
-			controller = [[[FRLocalizationWindowController alloc] initWithLanguage:lang] autorelease];
-			[windowControllers setObject:controller forKey:lang];
-		}
-		[controller showWindow:nil];
+	static FRLocalizationWindowController *controller = nil;
+	if (!controller) {
+		controller = [[FRLocalizationWindowController alloc] init];
 	}
+	[controller showWindow:nil];
 }	
 
 @end

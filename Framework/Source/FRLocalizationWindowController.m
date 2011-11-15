@@ -25,23 +25,43 @@
 #import "FRBundleAdditions.h"
 #import "FRFileManagerArchivingAdditions.h"
 
+static NSString * gSystemLanguage = nil;
 static NSString * const kPathKey = @"path"; 
 static NSString * const kDisplayNameKey = @"displayName"; 
 static NSString * const kFileNameKey = @"fileName"; 
 static NSString * const kBundleKey = @"bundleName"; 
+static NSString * const FRLocalizationTypePreferenceKey = @"FRLocalizationType";
 static void * const FRStringsFileCollectionDidChangeContext = @"FRStringsFileCollectionDidChangeContext";
 static void * const FRStringsFileDidChangeContext = @"FRStringsFileDidChangeContext";
+static void * const FRSelectedLanguageDidChangeContext = @"FRSelectedLanguageDidChangeContext";
 static const NSTimeInterval kSaveTimeout = 0.5;
 static const NSSize kTextContainerInset = { .width = 15, .height = 10 };
 
 NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 
-@interface FRLocalizationWindowController (Private)
+@interface FRLocalizationWindowController ()
 - (void)loadStringsFiles;
-- (NSInteger)untranslatedCountForStringsFile:(NSString *)appStringsFile;
+- (void)loadTextView;
+- (void)persistSelectedLanguage;
 @end
 
 @implementation FRLocalizationWindowController
+
++ (void)initialize {
+	if (self == [FRLocalizationWindowController class]) {
+		NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
+		gSystemLanguage = ([languages count]) ? [languages objectAtIndex:0] : GREENWICH_DEFAULT_LANGUAGE;
+		[[NSUserDefaults standardUserDefaults] registerDefaults:
+		 [NSDictionary dictionaryWithObjectsAndKeys:gSystemLanguage, FRLocalizationTypePreferenceKey, nil]];
+	}
+}
+
+
+#pragma mark -
+#pragma mark class helper methods
+// ----------------------------------------------------------------------------------------------------
+// class helper methods
+// ----------------------------------------------------------------------------------------------------
 
 + (NSArray *)localizableBundles {
 	static NSMutableArray *bundles = nil;
@@ -87,21 +107,37 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 	return translatedBundles;
 }
 
-- (id)init {
-	[self doesNotRecognizeSelector:_cmd];
-	return nil;
-}
 
-- (id)initWithLanguage:(NSString *)aLanguage {
+#pragma mark -
+#pragma mark init/dealloc
+// ----------------------------------------------------------------------------------------------------
+// init/dealloc
+// ----------------------------------------------------------------------------------------------------
+
+- (id)init {
 	if ((self = [super initWithWindowNibName:@"Localization"])) {
-		language = aLanguage;
+		// placeholder
 	}
 	return self;
 }
 
+- (void)dealloc {
+	[stringsFiles setContent:nil];
+	[stringsFiles removeObserver:self forKeyPath:@"arrangedObjects"];
+	[saveTimer invalidate];
+	[saveTimer release];
+	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark loading
+// ----------------------------------------------------------------------------------------------------
+// loading
+// ----------------------------------------------------------------------------------------------------
+
 - (void)awakeFromNib {
 	[[self window] center];
-	[self loadStringsFiles];
 	[textView setFont:[NSFont fontWithName:@"Menlo" size:12]];
 	[textView setTextContainerInset:kTextContainerInset];
 	[tableView sizeLastColumnToFit];
@@ -115,20 +151,45 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 		NSKeyValueObservingOptionInitial;
 	[stringsFiles addObserver:self forKeyPath:@"arrangedObjects"
 					  options:options context:FRStringsFileCollectionDidChangeContext];
+	
+	NSArray *lprojPaths = [[NSBundle mainBundle] pathsForResourcesOfType:@"lproj" inDirectory:nil];
+	NSString *defaultLanguage = [[NSUserDefaults standardUserDefaults] objectForKey:FRLocalizationTypePreferenceKey];
+	
+	for (NSString *path in lprojPaths) {
+		NSString *language = [[path lastPathComponent] stringByDeletingPathExtension];
+		if (![language isEqualToString:GREENWICH_DEFAULT_LANGUAGE]) {
+			[languages addObject:language];
+		}
+	}
+	if (![[languages arrangedObjects] containsObject:defaultLanguage]) {
+		[languages addObject:defaultLanguage];
+	}
+	if (![[languages arrangedObjects] containsObject:gSystemLanguage]) {
+		[languages addObject:gSystemLanguage];
+	}
+
+	[languages rearrangeObjects];
+	[languages setSelectedObjects:
+	 [NSArray arrayWithObjects:defaultLanguage, nil]];
+	[languages addObserver:self forKeyPath:@"selectedObjects"
+				   options:NSKeyValueObservingOptionInitial context:FRSelectedLanguageDidChangeContext];
 }
 
-- (void)dealloc {
-	[stringsFiles setContent:nil];
-	[stringsFiles removeObserver:self forKeyPath:@"arrangedObjects"];
-	[saveTimer invalidate];
-	[saveTimer release];
-	[super dealloc];
-}
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+#pragma mark -
+#pragma mark observations
+// ----------------------------------------------------------------------------------------------------
+// observations
+// ----------------------------------------------------------------------------------------------------
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+						change:(NSDictionary *)change context:(void *)context {
+	
 	if (context == FRStringsFileCollectionDidChangeContext) {
 		id removed = [change objectForKey:NSKeyValueChangeOldKey];
 		id added = [change objectForKey:NSKeyValueChangeNewKey];
+		if (removed == [NSNull null]) { removed = nil; }
+		if (added == [NSNull null]) { added = nil; }
 		[removed removeObserver:self
 		   fromObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [removed count])]
 					 forKeyPath:@"untranslatedCount"];
@@ -141,10 +202,21 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 	else if (context == FRStringsFileDidChangeContext) {
 		[tableView setNeedsDisplay];
 	}
+	else if (context == FRSelectedLanguageDidChangeContext) {
+		[self loadStringsFiles];
+		[self persistSelectedLanguage];
+	}
 	else {
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}
 }
+
+
+#pragma mark -
+#pragma mark helpers
+// ----------------------------------------------------------------------------------------------------
+// helpers
+// ----------------------------------------------------------------------------------------------------
 
 - (void)saveSelectedStringsFile {
 	FRTranslationInfo *info = [[stringsFiles selectedObjects] lastObject];
@@ -158,6 +230,7 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 }
 
 - (void)loadStringsFiles {
+	NSString *language = [[languages selectedObjects] lastObject];
 	NSArray *translateBundles = [[self class] translateBundlesForLanguage:language];
 	NSMutableArray *content = [NSMutableArray array];
 	
@@ -182,7 +255,33 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 	}
 	
 	[stringsFiles setContent:content];
+	[self loadTextView];
 }
+
+- (void)loadTextView {
+	FRTranslationInfo *info = [[stringsFiles selectedObjects] lastObject];
+	NSString *path = info.path;
+	NSError *error = nil;
+	NSString *contents = [NSString stringWithContentsOfFile:path encoding:NSUTF16StringEncoding error:&error];
+	if (!contents) {
+		[[self window] presentError:error];
+		contents = @"";
+	}
+	[textView setString:contents];
+}
+
+- (void)persistSelectedLanguage {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *language = [[languages selectedObjects] lastObject];
+	[defaults setObject:language forKey:FRLocalizationTypePreferenceKey];
+}
+
+
+#pragma mark -
+#pragma mark actions
+// ----------------------------------------------------------------------------------------------------
+// actions
+// ----------------------------------------------------------------------------------------------------
 
 - (void)saveDidEnd:(NSSavePanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	void (^completion)(NSInteger) = contextInfo;
@@ -280,9 +379,9 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 // tableView delegate
 // ----------------------------------------------------------------------------------------------------
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)row {
 	if ([[aTableColumn identifier] isEqualToString:@"index"]) {
-		return [NSString stringWithFormat:@"%i", rowIndex + 1];
+		return [NSString stringWithFormat:@"%i", row + 1];
 	} else {
 		return nil;
 	}
@@ -304,16 +403,9 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-	FRTranslationInfo *info = [[stringsFiles selectedObjects] lastObject];
-	NSString *path = info.path;
-	NSError *error = nil;
-	NSString *contents = [NSString stringWithContentsOfFile:path encoding:NSUTF16StringEncoding error:&error];
-	if (!contents) {
-		[[self window] presentError:error];
-		contents = @"";
-	}
-	[textView setString:contents];
+	[self loadTextView];
 }
+
 
 #pragma mark -
 #pragma mark text delegate

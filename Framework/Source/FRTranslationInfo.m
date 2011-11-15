@@ -27,6 +27,10 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 
 @implementation FRTranslationInfo
 
++ (NSSet *)keyPathsForValuesAffectingDisplayInfo {
+	return [NSSet setWithObjects:@"displayName", @"untranslatedCount", nil];
+}
+
 + (id)infoWithLanguage:(NSString *)language path:(NSString *)path {
 	return [[[self alloc] initWithLanguage:language path:path] autorelease];
 }
@@ -48,6 +52,7 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 		fileName = [[path lastPathComponent] copy];
 		displayName = [[fileName stringByDeletingPathExtension] copy];
 		bundleName = [[[NSBundle bundleWithIdentifier:bundleIdentifier loaded:NULL] name] copy];
+		displayInfo = [[NSMutableDictionary alloc] init];
 		
 		if (!bundleName) {
 			NSString *directory = [aPath stringByDeletingLastPathComponent];
@@ -95,6 +100,14 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 @synthesize bundleName;
 
 - (void)dealloc {
+	[language release];
+	[path release];
+	[translationPath release];
+	[fileName release];
+	[displayName release];
+	[bundleName release];
+	[displayInfo release];
+
 	if (stream) { FSEventStreamStop(stream); }
 	if (stream) { FSEventStreamInvalidate(stream); }
 	if (stream) { FSEventStreamRelease(stream); }
@@ -147,6 +160,12 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 	}
 	
 	return untranslatedCount;
+}
+
+- (NSDictionary *)displayInfo {
+	[displayInfo setObject:[NSNumber numberWithUnsignedInteger:self.untranslatedCount] forKey:@"untranslatedCount"];
+	[displayInfo setObject:[self displayName] ? [self displayName] : [NSNull null] forKey:@"displayName"];
+	return displayInfo;
 }
 
 - (void)updateForFileContentsChange {

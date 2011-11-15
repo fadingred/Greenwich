@@ -25,6 +25,7 @@
 	NSString *fileName;
 	NSString *displayName;
 	NSString *bundleName;
+	NSMutableDictionary *displayInfo;
 }
 
 + (id)infoWithLanguage:(NSString *)language path:(NSString *)path;
@@ -34,7 +35,8 @@
 @property (readonly) NSString *fileName;
 @property (readonly) NSString *displayName;
 @property (readonly) NSString *bundleName;
+@property (readonly) NSUInteger untranslatedCount;
 
-- (NSUInteger)untranslatedCount;
+@property (readonly) NSDictionary *displayInfo;
 
 @end

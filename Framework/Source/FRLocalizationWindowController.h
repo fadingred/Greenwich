@@ -16,15 +16,13 @@
 // 
 
 @interface FRLocalizationWindowController : NSWindowController {
-	NSString *language;
 	NSTimer *saveTimer;
 
 	IBOutlet NSArrayController *stringsFiles;
+	IBOutlet NSArrayController *languages;
 	IBOutlet NSTableView *tableView;
 	IBOutlet NSTextView *textView;
 }
-
-- (id)initWithLanguage:(NSString *)language;
 
 - (IBAction)packageStringsFiles:(id)sender;
 
