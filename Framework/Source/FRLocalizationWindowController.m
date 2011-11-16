@@ -355,7 +355,7 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 			// package the folder into a .tbz for emailing
 			NSString *archiveDestination = [[panel URL] path];
 			[fileManager removeItemAtPath:archiveDestination error:NULL];
-#ifdef REDCORE_LEOPARD_BASE
+#if REDFOUNDATION_LEOPARD_BASE
 			BOOL result = [fileManager compressFileAtPath:temp to:archiveDestination error:&error];
 #else
 			BOOL result = [fileManager compressItemAtPath:temp to:archiveDestination error:&error];
@@ -372,7 +372,7 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 
     // the desktop is available through expanding ~ whether using sandboxing or not.
     // with sandboxing, it's available through the application's container.
-#if REDCORE_LEOPARD_BASE
+#if REDFOUNDATION_LEOPARD_BASE
 	[panel beginSheetForDirectory:[@"~/Desktop" stringByExpandingTildeInPath]
 							 file:@"translation"
 				   modalForWindow:[self window]

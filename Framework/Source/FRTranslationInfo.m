@@ -164,7 +164,7 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 
 - (NSDictionary *)displayInfo {
 	[displayInfo setObject:[NSNumber numberWithUnsignedInteger:self.untranslatedCount] forKey:@"untranslatedCount"];
-	[displayInfo setObject:[self displayName] ? [self displayName] : [NSNull null] forKey:@"displayName"];
+	[displayInfo setObject:[self displayName] ? (id)[self displayName] : (id)[NSNull null] forKey:@"displayName"];
 	return displayInfo;
 }
 
