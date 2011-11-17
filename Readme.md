@@ -4,10 +4,10 @@ Greenwich is a framework for easily allowing users to translate Cocoa applicatio
 
 ## Overview
 
-[![Translator](https://github.com/fadingred/Greenwich/raw/master/Documentation/translator.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/translator.png)
-
 Greenwich allows users to translate your Cocoa applications quickly and conveniently using a
-simple interface that is packaged directly within the application.
+simple interface that is packaged directly within the application:
+
+![Translator](https://github.com/fadingred/Greenwich/raw/master/Documentation/translator.png)
 
 As a translator works through the strings in your application, she can simply relaunch the
 application at any time to see the changes directly in the app. This significantly improves
@@ -36,13 +36,6 @@ in a shared location so multiple projects can use the same installation.
 Once the scripts are copied, you need to configure your Xcode project to use the scripts.
 This is as simple as adding a few _Run Script_ build phases. In your Xcode project:
 
-<div class="small">
-
-[![Add Run Script](https://github.com/fadingred/Greenwich/raw/master/Documentation/runscript.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/runscript.png)
-[![Define Run Script](https://github.com/fadingred/Greenwich/raw/master/Documentation/definescript.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/definescript.png)
-
-</div>
-  
   1. Click on your project in the project navigator
   1. Select on your target in the targets section
   1. Switch to the _Build Phases_ tab
@@ -50,6 +43,8 @@ This is as simple as adding a few _Run Script_ build phases. In your Xcode proje
   1. Choose _Add Run Script_
   1. Move this build phase **above** the _Copy Bundle Resources_ build phase
   1. Update the script to `./Scripts/localization create -s. -r.`
+
+[![Add Run Script](file:///Users/wbyoung/Code/Greenwich/Documentation/runscript_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/runscript.png) [![Define Run Script](file:///Users/wbyoung/Code/Greenwich/Documentation/definescript_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/definescript.png)
 
 This is sufficient for Greenwich to generate strings files for you, but you can add one more piece to the puzzle.
 This step is optional, but recommended. Simply add another _Run Script_ but do the following for this script:
@@ -65,10 +60,8 @@ Greenwich will only extract strings from unlocalized xib files. If you leave you
 lproj directories, they will not be handled by Greenwich. Simply move your master out of the lproj
 directory if you want Greenwich to handle it. You won't need all those extra xibs any more, phew!
 
-<span class="note">
 For an example of setting up the scripts using the `PATH` environment variable, check out
 the example application included with the source code.
-</span>
 
 ### Link & Copy Framework
 
@@ -96,20 +89,3 @@ your Xcode configuration with that symbol, and Greenwich will handle it from the
 Greenwich is currently compatible with Cocoa applications running on Mac OS X 10.6+. We intend
 to bring the framework to iOS applications, and if you're interested in helping, please let us
 know!
-
-
-<style>
-img {
-    float: right;
-    clear: both;
-    margin-left: 20px;
-    max-height: 300px;
-}
-.small img {
-    max-height: 200px;
-}
-.note {
-    font-size: 90%;
-    color: #888;
-}
-</style>
