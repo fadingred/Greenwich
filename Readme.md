@@ -65,8 +65,25 @@ the example application included with the source code.
 
 ### Link & Copy Framework
 
-Linking and copying the framework is similar to other Mac OS X frameworks.
-Documentation for this procedure will be added shortly.
+Linking and copying the framework is similar to other Mac OS X frameworks. The distribution
+includes the framework which you should copy to a location where your project can access it. Again,
+it is generally advisable to copy the framework into your project directory. Once in place, there
+are just a few steps to getting it added into your project:
+
+  1. Activate the project navigator in Xcode
+  1. Drag `Greenwhich.framework` into the _Frameworks_ group
+  1. Xcode will display a dialog for adding files
+  1. Make sure your application target is checked, then click _Finish_
+  1. Click on your project in the project navigator
+  1. Select on your target in the targets section
+  1. Switch to the _Build Phases_ tab
+  1. Click _Add Build Phase_
+  1. Choose _Add Copy Files_
+  1. Change the _Destination_ to _Frameworks_
+  1. Click the plus button and select `Greenwich.framework`
+  1. Click _Add_
+
+[![Drag Framework](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkdrag_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkdrag.png) [![Copy Framework](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkcopy_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkcopy.png) [![Framework added](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkadded_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkadded.png)
 
 
 ## Usage
@@ -89,3 +106,8 @@ your Xcode configuration with that symbol, and Greenwich will handle it from the
 Greenwich is currently compatible with Cocoa applications running on Mac OS X 10.6+. We intend
 to bring the framework to iOS applications, and if you're interested in helping, please let us
 know!
+
+
+## License
+
+Greenwich is distributed under the [MIT License](http://www.opensource.org/licenses/mit-license.php). Enjoy!
