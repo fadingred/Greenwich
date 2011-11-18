@@ -177,7 +177,7 @@ CGEventRef flagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef even
 	if ([[delegate class] isSubclassOfClass:[FRHelpMenuNotifyingDelegate class]]) {
 		delegate = ((FRHelpMenuNotifyingDelegate *)delegate)->delegate;
 	}
-	FRHelpMenuNotifyingDelegate *object = [self alloc];
+	FRHelpMenuNotifyingDelegate *object = [[self alloc] autorelease];
 	object->delegate = delegate;
 	return object;
 }
