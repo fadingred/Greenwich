@@ -20,7 +20,10 @@
 
 + (id)defaultLocalizationManager;
 
-
-- (IBAction)displayLocalizationFiles:(id)sender;
+/*!
+ \brief		Display the translator interface
+ \details	Shows the main translator interface.
+ */
+- (IBAction)showTranslatorWindow:(id)sender;
 
 @end

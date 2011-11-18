@@ -43,7 +43,7 @@
 }
 
 - (IBAction)translateApplication:(id)sender {
-	[[FRLocalizationManager defaultLocalizationManager] displayLocalizationFiles:nil];
+	[[FRLocalizationManager defaultLocalizationManager] showTranslatorWindow:nil];
 }
 
 @end

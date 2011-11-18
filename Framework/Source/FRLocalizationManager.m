@@ -39,7 +39,7 @@
 // actions
 // ----------------------------------------------------------------------------------------------------
 
-- (IBAction)displayLocalizationFiles:(id)sender {
+- (IBAction)showTranslatorWindow:(id)sender {
 	static FRLocalizationWindowController *controller = nil;
 	if (!controller) {
 		controller = [[FRLocalizationWindowController alloc] init];
