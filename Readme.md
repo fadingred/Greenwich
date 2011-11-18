@@ -37,7 +37,7 @@ Once the scripts are copied, you need to configure your Xcode project to use the
 This is as simple as adding a few _Run Script_ build phases. In your Xcode project:
 
   1. Click on your project in the project navigator
-  1. Select on your target in the targets section
+  1. Select your target in the targets section
   1. Switch to the _Build Settings_ tab
   1. Set _Runpath Search Paths_ to `@executable_path/../Frameworks`
   1. Switch to the _Build Phases_ tab
@@ -56,9 +56,13 @@ This step is optional, but recommended. Simply add another _Run Script_ but do t
   1. Move this build phase **below** the _Copy Bundle Resources_ build phase
   1. Update the script to `./Scripts/localization verify -s. -r.`
 
-Note that these scripts do take a couple of options to allow you to specify where different files are located.
+Note that these scripts may need to be altered slightly depending on your configuration. The path
+to the script should relative to your project's `.xcodeproj` file. If you put the scripts folder in a
+folder called `External`, you would need to change the beginning of the script
+to `./External/Scripts/localization`. The scripts also
+take a couple of options to allow you to specify where different files are located.
 If your source files and xib files are located in the same directory as your
-project (your `.xcodeproj` file), then the options provided
+project's `.xcodeproj` file, then the options provided
 in the example above will be correct. If they're in a different location, though, you'll have to alter the
 arguments that are passed to the script. For most uses, you will only need to specify `-s`, the path to your
 source files, and `-r`, the path to your resources. Relative paths are acceptable.
