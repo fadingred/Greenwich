@@ -47,7 +47,7 @@
 	NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:title action:@selector(showTranslatorWindow:)
 											keyEquivalent:@""] autorelease];
 	[item setTarget:self];
-	[[FRExtraHelpController defaultController] addItem:item];
+	[[FRExtraHelpController defaultController] insertItem:item atIndex:0];
 	[[FRExtraHelpController defaultController] install];
 }
 
