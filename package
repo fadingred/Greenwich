@@ -10,7 +10,7 @@ class Packager < Object
 			%w(-configuration Release) +
 			%w(-project Framework/Greenwich.xcodeproj)
 		output = File.open "greenwich.build", :mode => "w"
-		result = IO.popen command + [:err=>[:child, :out]] do |io|
+		IO.popen command + [:err=>[:child, :out]] do |io|
 			begin
 				while line = io.readline
 					output.write line
@@ -20,7 +20,8 @@ class Packager < Object
 				# finished reading
 			end
 		end
-		raise Exception.new("Build failed") if result != 0
+		raise Exception.new("Build failed") if $?.exitstatus != 0
+		puts "Packaging complete."
 	end
 	
 	def build
