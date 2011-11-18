@@ -35,6 +35,9 @@
 		8B634D94146F1C9A00BF5058 /* FRBundleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B634D8B146F1C9A00BF5058 /* FRBundleAdditions.m */; };
 		8B634DC0146F2E0500BF5058 /* FRRuntimeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B634DBE146F2E0500BF5058 /* FRRuntimeAdditions.h */; };
 		8B634DC1146F2E0500BF5058 /* FRRuntimeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B634DBF146F2E0500BF5058 /* FRRuntimeAdditions.m */; };
+		8B7356CC14769394000468EF /* FRExtraHelpController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7356CA14769394000468EF /* FRExtraHelpController.m */; };
+		8B7356CD14769394000468EF /* FRExtraHelpController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7356CB14769394000468EF /* FRExtraHelpController.h */; };
+		8B73575214769AAD000468EF /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B73574E14769A96000468EF /* Carbon.framework */; };
 		8BAD1E74146F11CB00E16433 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAD1E73146F11CB00E16433 /* Cocoa.framework */; };
 		8BAD1EA0146F148400E16433 /* FRLocalizationBundleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E92146F148400E16433 /* FRLocalizationBundleAdditions.m */; };
 		8BAD1EA1146F148500E16433 /* FRLocalizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E93146F148400E16433 /* FRLocalizationManager.m */; };
@@ -90,6 +93,9 @@
 		8B634D8B146F1C9A00BF5058 /* FRBundleAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRBundleAdditions.m; path = External/FRBundleAdditions.m; sourceTree = "<group>"; };
 		8B634DBE146F2E0500BF5058 /* FRRuntimeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRRuntimeAdditions.h; path = External/FRRuntimeAdditions.h; sourceTree = "<group>"; };
 		8B634DBF146F2E0500BF5058 /* FRRuntimeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRRuntimeAdditions.m; path = External/FRRuntimeAdditions.m; sourceTree = "<group>"; };
+		8B7356CA14769394000468EF /* FRExtraHelpController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRExtraHelpController.m; path = External/FRExtraHelpController.m; sourceTree = "<group>"; };
+		8B7356CB14769394000468EF /* FRExtraHelpController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRExtraHelpController.h; path = External/FRExtraHelpController.h; sourceTree = "<group>"; };
+		8B73574E14769A96000468EF /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		8BAD1E70146F11CB00E16433 /* Greenwich.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Greenwich.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BAD1E73146F11CB00E16433 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8BAD1E92146F148400E16433 /* FRLocalizationBundleAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRLocalizationBundleAdditions.m; path = Source/FRLocalizationBundleAdditions.m; sourceTree = "<group>"; };
@@ -118,6 +124,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BAD1E74146F11CB00E16433 /* Cocoa.framework in Frameworks */,
+				8B73575214769AAD000468EF /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +164,8 @@
 		8B634D89146F1C8900BF5058 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				8B7356CB14769394000468EF /* FRExtraHelpController.h */,
+				8B7356CA14769394000468EF /* FRExtraHelpController.m */,
 				8B634DBE146F2E0500BF5058 /* FRRuntimeAdditions.h */,
 				8B634DBF146F2E0500BF5058 /* FRRuntimeAdditions.m */,
 				8B634D8A146F1C9A00BF5058 /* FRBundleAdditions.h */,
@@ -195,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				8BAD1E73146F11CB00E16433 /* Cocoa.framework */,
+				8B73574E14769A96000468EF /* Carbon.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -247,13 +257,13 @@
 		8BADE86A146F17F40094AE93 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
+				8BAD1E9A146F148400E16433 /* FRLocalizationManager.h */,
+				8BAD1E93146F148400E16433 /* FRLocalizationManager.m */,
 				8BAD1E9D146F148400E16433 /* FRNibAutomaticLocalization.h */,
 				8BAD1E96146F148400E16433 /* FRNibAutomaticLocalization.m */,
 				8BAD1E99146F148400E16433 /* FRLocalizationBundleAdditions.h */,
 				8B33C28B147025E4007C2196 /* FRLocalizationBundleAdditions__.h */,
 				8BAD1E92146F148400E16433 /* FRLocalizationBundleAdditions.m */,
-				8BAD1E9A146F148400E16433 /* FRLocalizationManager.h */,
-				8BAD1E93146F148400E16433 /* FRLocalizationManager.m */,
 				8B33C231146F37D3007C2196 /* Interface */,
 			);
 			name = Mac;
@@ -278,6 +288,7 @@
 				8B33C236146F3CDB007C2196 /* FRFileManagerArchivingAdditions.h in Headers */,
 				8B33C23B146F3CF4007C2196 /* archiving.h in Headers */,
 				8B33C28C147025E5007C2196 /* FRLocalizationBundleAdditions__.h in Headers */,
+				8B7356CD14769394000468EF /* FRExtraHelpController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +425,7 @@
 				8B634DC1146F2E0500BF5058 /* FRRuntimeAdditions.m in Sources */,
 				8B33C237146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m in Sources */,
 				8B33C23A146F3CF4007C2196 /* archiving.c in Sources */,
+				8B7356CC14769394000468EF /* FRExtraHelpController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

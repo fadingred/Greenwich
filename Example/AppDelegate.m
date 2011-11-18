@@ -25,6 +25,10 @@
 @synthesize codeTextField = _codeTextField;
 @synthesize designTextField = _designTextField;
 
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+	[[FRLocalizationManager defaultLocalizationManager] installExtraHelpMenu];
+}
+
 - (void)awakeFromNib {
 	[self.codeTextField setStringValue:MyLocalizedString(@"Code string", nil)];
 }

@@ -15,8 +15,44 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-#import <Cocoa/Cocoa.h>
+/*!
+ \brief		Extra help menu
+ \details	This should be used as the help menu delegate. It will show items
+			only when the option key is pressed.
+ */
+@interface FRExtraHelpController : NSObject {
+	NSMenu *openMenu;
+	NSMenuItem *separator;
+	NSMutableArray *items;
+	CFMachPortRef eventTap;
+	CFRunLoopSourceRef runLoopSource;
+}
 
-#import <Greenwich/FRLocalizationManager.h>
-#import <Greenwich/FRNibAutomaticLocalization.h>
-#import <Greenwich/FRLocalizationBundleAdditions.h>
++ (id)defaultController;
+
+/*!
+ \brief		Installs the extra help items
+ \details	Sets up the extra help controller to work with the last
+			item in the main menu (which it assumes is the help menu).
+ */
+- (void)install;
+
+/*!
+ \brief		Add an item
+ \details	Add an extra help item
+ */
+- (void)addItem:(NSMenuItem *)item;
+
+/*!
+ \brief		Insert an item
+ \details	Insert an extra help item
+ */
+- (void)insertItem:(NSMenuItem *)newItem atIndex:(NSInteger)index;
+
+/*!
+ \brief		Get the item array
+ \details	All of the extra help items
+ */
+- (NSArray *)itemArray;
+
+@end

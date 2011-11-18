@@ -93,10 +93,10 @@ At this point, you still need to add a little code to your application, but this
 
     #import <Greenwich/Greenwich.h>
     
-    @interface MyController
+    @interface MyAppDelegate
     
-    - (IBAction)translateApplication:(id)sender {
-    	[[FRLocalizationManager defaultLocalizationManager] displayLocalizationFiles:nil];
+    - (void)applicationDidFinishLaunching:(NSNotification *)notification {
+    	[[FRLocalizationManager defaultLocalizationManager] installExtraHelpMenu];
     }
     
     @end

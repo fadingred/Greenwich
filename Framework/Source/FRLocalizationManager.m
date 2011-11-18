@@ -17,6 +17,8 @@
 
 #import "FRLocalizationManager.h"
 #import "FRLocalizationWindowController.h"
+#import "FRExtraHelpController.h"
+#import "FRBundleAdditions.h"
 
 @implementation FRLocalizationManager
 
@@ -32,6 +34,22 @@
 	return defaultLocalizationManager;
 }
 
+
+#pragma mark -
+#pragma mark extra help window
+// ----------------------------------------------------------------------------------------------------
+// extra help window
+// ----------------------------------------------------------------------------------------------------
+
+- (void)installExtraHelpMenu {
+	NSString *appName = [[NSBundle mainBundle] name];
+	NSString *title = [NSString stringWithFormat:FRLocalizedString(@"Translate %@", nil), appName];
+	NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:title action:@selector(showTranslatorWindow:)
+											keyEquivalent:@""] autorelease];
+	[item setTarget:self];
+	[[FRExtraHelpController defaultController] addItem:item];
+	[[FRExtraHelpController defaultController] install];
+}
 
 #pragma mark -
 #pragma mark actions

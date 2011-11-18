@@ -21,6 +21,14 @@
 + (id)defaultLocalizationManager;
 
 /*!
+ \brief		Adds hidden help menu items for translation
+ \details	These menu items can be accessed by holding down the option key
+			while accessing the help menu. This is the preferred way to allow
+			translators to access the translator window.
+ */
+- (void)installExtraHelpMenu;
+
+/*!
  \brief		Display the translator interface
  \details	Shows the main translator interface.
  */
