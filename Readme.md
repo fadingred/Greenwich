@@ -101,7 +101,8 @@ At this point, you still need to add a little code to your application, but this
     
     @end
 
-Just hook this action up, and you're all set... easy peasy.
+When you launch the application, you can bring up the translator by holding down option while
+opening the _Help_ menu... easy peasy.
 
 
 ## Usage
