@@ -38,13 +38,15 @@ This is as simple as adding a few _Run Script_ build phases. In your Xcode proje
 
   1. Click on your project in the project navigator
   1. Select on your target in the targets section
+  1. Switch to the _Build Settings_ tab
+  1. Set _Runpath Search Paths_ to `@executable_path/../Frameworks`
   1. Switch to the _Build Phases_ tab
   1. Click _Add Build Phase_
   1. Choose _Add Run Script_
   1. Move this build phase **above** the _Copy Bundle Resources_ build phase
   1. Update the script to `./Scripts/localization create -s. -r.`
 
-[![Add Run Script](https://github.com/fadingred/Greenwich/raw/master/Documentation/runscript_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/runscript.png) [![Define Run Script](https://github.com/fadingred/Greenwich/raw/master/Documentation/definescript_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/definescript.png)
+[![Set Runpath Search Paths](https://github.com/fadingred/Greenwich/raw/master/Documentation/runpaths_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/runpaths.png) [![Add Run Script](https://github.com/fadingred/Greenwich/raw/master/Documentation/runscript_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/runscript.png) [![Define Run Script](https://github.com/fadingred/Greenwich/raw/master/Documentation/definescript_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/definescript.png)
 
 This is sufficient for Greenwich to generate strings files for you, but you can add one more piece to the puzzle.
 This step is optional, but recommended. Simply add another _Run Script_ but do the following for this script:
