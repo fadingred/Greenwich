@@ -46,7 +46,8 @@ This is as simple as adding a few _Run Script_ build phases. In your Xcode proje
   1. Move this build phase **above** the _Copy Bundle Resources_ build phase
   1. Update the script to `./Scripts/localization create -s. -r.`
 
-[![Set Runpath Search Paths](https://github.com/fadingred/Greenwich/raw/master/Documentation/runpaths_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/runpaths.png) [![Add Run Script](https://github.com/fadingred/Greenwich/raw/master/Documentation/runscript_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/runscript.png) [![Define Run Script](https://github.com/fadingred/Greenwich/raw/master/Documentation/definescript_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/definescript.png)
+[![Set Runpath Search Paths](https://github.com/fadingred/Greenwich/raw/master/Documentation/runpaths_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/runpaths.png)
+[![Add Run Script](https://github.com/fadingred/Greenwich/raw/master/Documentation/runscript_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/runscript.png) [![Define Run Script](https://github.com/fadingred/Greenwich/raw/master/Documentation/definescript_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/definescript.png)
 
 This is sufficient for Greenwich to generate strings files for you, but you can add one more piece to the puzzle.
 This step is optional, but recommended. Simply add another _Run Script_ but do the following for this script:
@@ -82,10 +83,11 @@ are just a few steps to getting it added into your project:
   1. Click _Add Build Phase_
   1. Choose _Add Copy Files_
   1. Change the _Destination_ to _Frameworks_
-  1. Click the plus button and select `Greenwich.framework`
-  1. Click _Add_
+  1. Drag `Greenwich.framework` from the project navigator into the copy files list
 
-[![Drag Framework](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkdrag_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkdrag.png) [![Copy Framework](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkcopy_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkcopy.png) [![Framework added](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkadded_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkadded.png)
+[![Drag Framework](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkdrag_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkdrag.png)
+[![Add Framework](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkadd_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkadd.png)
+[![Copy Framework](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkcopy_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkcopy.png)
 
 ### Code
 
