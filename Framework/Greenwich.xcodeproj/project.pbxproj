@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		8BB93D4F1474CAA90056EC71 /* Package */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 8BB93D521474CAA90056EC71 /* Build configuration list for PBXAggregateTarget "Package" */;
+			buildPhases = (
+				8BB93D561474CACB0056EC71 /* Package */,
+			);
+			dependencies = (
+				8BB93D551474CAC00056EC71 /* PBXTargetDependency */,
+			);
+			name = Package;
+			productName = Package;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		8B0DCF0B14702CDE00DF8AC3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B0DCF0514702CDE00DF8AC3 /* Localizable.strings */; };
 		8B0DCF0C14702CDE00DF8AC3 /* Localization.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B0DCF0714702CDE00DF8AC3 /* Localization.strings */; };
@@ -34,6 +49,16 @@
 		8BAD1EAC146F148500E16433 /* FRTranslationInfo__.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E9E146F148400E16433 /* FRTranslationInfo__.h */; };
 		8BAD1EAD146F148500E16433 /* FRUntranslatedCountCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E9F146F148400E16433 /* FRUntranslatedCountCell.h */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8BB93D541474CAC00056EC71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8BAD1E6F146F11CB00E16433;
+			remoteInfo = Greenwich;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		8B0DCF0614702CDE00DF8AC3 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -308,6 +333,7 @@
 			projectRoot = "";
 			targets = (
 				8BAD1E6F146F11CB00E16433 /* Greenwich */,
+				8BB93D4F1474CAA90056EC71 /* Package */,
 			);
 		};
 /* End PBXProject section */
@@ -356,6 +382,21 @@
 			shellScript = "localization verify";
 			showEnvVarsInLog = 0;
 		};
+		8BB93D561474CACB0056EC71 /* Package */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Package;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "../package build";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -377,6 +418,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8BB93D551474CAC00056EC71 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8BAD1E6F146F11CB00E16433 /* Greenwich */;
+			targetProxy = 8BB93D541474CAC00056EC71 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8B0DCF0514702CDE00DF8AC3 /* Localizable.strings */ = {
@@ -484,6 +533,20 @@
 			};
 			name = Release;
 		};
+		8BB93D501474CAA90056EC71 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8BB93D511474CAA90056EC71 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -501,6 +564,15 @@
 			buildConfigurations = (
 				8BAD1E83146F11CC00E16433 /* Debug */,
 				8BAD1E84146F11CC00E16433 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8BB93D521474CAA90056EC71 /* Build configuration list for PBXAggregateTarget "Package" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BB93D501474CAA90056EC71 /* Debug */,
+				8BB93D511474CAA90056EC71 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -8,3 +8,5 @@ syntax: glob
 
 syntax: regexp
 ^build$
+^greenwich.build$
+^greenwich_(\d+\.)+(dsym\.)?tbz$

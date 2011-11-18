@@ -1,0 +1,76 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+class Packager < Object
+	def run
+		puts "Building project (this may take a while)..."
+		command = %w(xcodebuild) +
+			%w(-target Package) +
+			%w(-configuration Release) +
+			%w(-project Framework/Greenwich.xcodeproj)
+		output = File.open "greenwich.build", :mode => "w"
+		result = IO.popen command + [:err=>[:child, :out]] do |io|
+			begin
+				while line = io.readline
+					output.write line
+					puts line if line =~ /^(Test|warning:)/
+				end
+			rescue EOFError
+				# finished reading
+			end
+		end
+		raise Exception.new("Build failed") if result != 0
+	end
+	
+	def build
+		outdir = File.join ENV["PROJECT_DIR"], '..'
+		version = ENV["GREENWICH_VERSION"]
+		framework = File.join ENV["BUILT_PRODUCTS_DIR"], "Greenwich.framework"
+		scripts = File.join ENV["PROJECT_DIR"], "Scripts"
+		framework_archive = File.join outdir, "greenwich_#{version}.tbz"
+		dsym_archive = File.join outdir, "greenwich_#{version}.dsym.tbz"
+		
+		if ENV["CONFIGURATION"] == "Release"
+			puts "creating packages..."
+			Dir.chdir ENV["BUILT_PRODUCTS_DIR"] do
+				FileUtils.rm_rf "Greenwich"
+				FileUtils.mkdir_p "Greenwich"
+				FileUtils.mv framework, "Greenwich"
+				FileUtils.cp_r scripts, "Greenwich", :preserve => true
+				tbz ["Greenwich"], :output => framework_archive
+				tbz Dir.glob("*.dSYM"), :output => dsym_archive
+			end
+		else
+			puts "need to build as a release!"
+			exit 1
+		end
+	end
+	
+	private
+	
+	def zip(files, options={})
+		output = options[:output]
+		output = File.basename(files[0]) unless output
+		command = %w(zip -ryq) + [output] + files
+		raise Exception.new("Archive failure") unless system *command
+	end
+
+	def tbz(files, options={})
+		output = options[:output]
+		output = File.basename(files[0]) unless output
+		command = %w(tar cjf) + [output] + files
+		raise Exception.new("Archive failure") unless system *command
+	end
+end
+
+if __FILE__ == $PROGRAM_NAME
+	if ARGV.length == 1 && ARGV[0] == "build"
+		Packager.new.build
+	elsif ARGV.length == 0
+		Packager.new.run
+	else
+		$stderr.puts "usage: package [build]"
+		exit 1
+	end
+end

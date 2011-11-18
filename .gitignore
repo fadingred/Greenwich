@@ -2,3 +2,5 @@
 *.pyc
 build
 xcuserdata
+greenwich.build
+greenwich_*.tbz
