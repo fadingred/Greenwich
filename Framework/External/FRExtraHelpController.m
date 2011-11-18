@@ -17,6 +17,7 @@
 
 #ifndef REDLINKED_EXTRAHELPCONTROLLER
 
+#import <objc/runtime.h>
 #import <Carbon/Carbon.h>
 
 #import "FRExtraHelpController.h"
@@ -84,7 +85,12 @@ CGEventRef flagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef even
 - (void)install {
 	NSMenuItem *helpItem = [[[NSApp mainMenu] itemArray] lastObject];
 	NSMenu *helpMenu = [helpItem submenu];
-	[helpMenu setDelegate:[FRHelpMenuNotifyingDelegate delegateWithOriginal:[helpMenu delegate]]];
+	id delegate = [FRHelpMenuNotifyingDelegate delegateWithOriginal:[helpMenu delegate]];
+	[helpMenu setDelegate:delegate];
+
+	// we need to retain the notifying delegate by associating it with the help menu
+	static char kDelegateKey;
+	objc_setAssociatedObject(helpMenu, &kDelegateKey, delegate, OBJC_ASSOCIATION_RETAIN);
 }
 
 
