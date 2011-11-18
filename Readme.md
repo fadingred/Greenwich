@@ -23,8 +23,8 @@ informative build warnings. Enough talk, let's get this thing set up already!
 ## Setup
 
 Greenwich is quick to set up. You'll want to download one of the compiled versions from the
-downloads section of Github. Once you've downloaded Greenwich, there are two main components
-to the setup: the scripts and the framework.
+downloads section of Github. Once you've downloaded Greenwich, there are three parts
+to the setup: scripts, framework, and code.
 
 ### Scripts
 
@@ -65,7 +65,7 @@ directory if you want Greenwich to handle it. You won't need all those extra xib
 For an example of setting up the scripts using the `PATH` environment variable, check out
 the example application included with the source code.
 
-### Link & Copy Framework
+### Framework (Copying & Linking)
 
 Linking and copying the framework is similar to other Mac OS X frameworks. The distribution
 includes the framework which you should copy to a location where your project can access it. Again,
@@ -86,6 +86,22 @@ are just a few steps to getting it added into your project:
   1. Click _Add_
 
 [![Drag Framework](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkdrag_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkdrag.png) [![Copy Framework](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkcopy_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkcopy.png) [![Framework added](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkadded_thumbnail.png)](https://github.com/fadingred/Greenwich/raw/master/Documentation/frameworkadded.png)
+
+### Code
+
+At this point, you still need to add a little code to your application, but this is easy:
+
+    #import <Greenwich/Greenwich.h>
+    
+    @interface MyController
+    
+    - (IBAction)translateApplication:(id)sender {
+    	[[FRLocalizationManager defaultLocalizationManager] displayLocalizationFiles:nil];
+    }
+    
+    @end
+
+Just hook this action up, and you're all set... easy peasy.
 
 
 ## Usage
