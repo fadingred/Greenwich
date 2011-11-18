@@ -63,9 +63,9 @@ to `./External/Scripts/localization`. The scripts also
 take a couple of options to allow you to specify where different files are located.
 If your source files and xib files are located in the same directory as your
 project's `.xcodeproj` file, then the options provided
-in the example above will be correct. If they're in a different location, though, you'll have to alter the
+in the example above are be correct. If they're in different locations, though, you'll have to alter the
 arguments that are passed to the script. For most uses, you will only need to specify `-s`, the path to your
-source files, and `-r`, the path to your resources. Relative paths are acceptable.
+source files, and `-r`, the path to your resources. Paths relative to your project's `.xcodeproj` file are acceptable.
 For example, if your source files are in a folder called
 `Implemenation`, you would need to specify `-s Implementation`, and if your xib files are in a folder called
 `Interface Files`, you need to specify `-r "Interface Files"`.
