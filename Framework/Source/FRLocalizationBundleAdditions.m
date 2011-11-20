@@ -26,28 +26,134 @@
 							  error:(NSError **)error;
 @end
 
+static BOOL FRShouldPseudoLocalize(void);
+static NSString *FRPseudoLocalizedString(NSString *string);
+
 // swizzling
-static NSString *(*SLocalizedString)(id self, SEL _cmd, NSString *key, NSString *value, NSString *table);
-static NSString *(FRLocalizedString)(id self, SEL _cmd, NSString *key, NSString *value, NSString *table);
+static NSString *(*SLocalizedStringLookup)(id self, SEL _cmd, NSString *key, NSString *value, NSString *table);
+static NSString *(FRLocalizedStringLookup)(id self, SEL _cmd, NSString *key, NSString *value, NSString *table);
 
 @implementation NSBundle (FRLocalizationBundleAdditions)
 
 + (void)load {
 	[self swizzle:@selector(localizedStringForKey:value:table:)
-			 with:(IMP)FRLocalizedString store:(IMPPointer)&SLocalizedString];
+			 with:(IMP)FRLocalizedStringLookup store:(IMPPointer)&SLocalizedStringLookup];
 }
 
-static NSString *(FRLocalizedString)(id self, SEL _cmd, NSString *key, NSString *value, NSString *table) {
+
+#pragma mark -
+#pragma mark localization
+// ----------------------------------------------------------------------------------------------------
+// localization
+// ----------------------------------------------------------------------------------------------------
+
+static NSString *FRLocalizedStringLookup(id self, SEL _cmd, NSString *key, NSString *value, NSString *table) {
 	NSBundle *bundle = self;
 	NSString *bundleID = [self bundleIdentifier];
+	BOOL canPseudoLocalize = FALSE;
+	
 	if (bundleID) {
 		NSBundle *translated = [[self class] bundleForTranslationsWithIdentifier:bundleID];
 		if (translated) {
 			bundle = translated;
+			canPseudoLocalize = TRUE;
 		}
 	}
-	return SLocalizedString(bundle, _cmd, key, value, table);
+	
+	NSString *result = SLocalizedStringLookup(bundle, _cmd, key, value, table);
+	if (result && canPseudoLocalize && FRShouldPseudoLocalize()) {
+		result = FRPseudoLocalizedString(result);
+	}
+	return result;
 }
+
+static BOOL FRShouldPseudoLocalize(void) {
+	static BOOL should = FALSE;
+	static BOOL checked = FALSE;
+	static NSString * const kSynchronize = @"FRLocalizationBundleAdditionsSynchronizationSymbol";
+	if (!checked) {
+		@synchronized(kSynchronize) {
+			if (!checked) {
+				NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
+				NSDictionary *environment = [[NSProcessInfo processInfo] environment];
+				checked = TRUE;
+				should =
+					([languages count] && [[languages objectAtIndex:0] isEqualToString:GREENWICH_DEFAULT_LANGUAGE]) &&
+					([environment objectForKey:@"GREENWICH_PSEUDO_LOCALIZE"] != nil);
+			}
+		}
+	}
+	return should;
+}
+
+static NSString *FRPseudoLocalizedString(NSString *string) {
+	NSMutableString *alter = [[string mutableCopy] autorelease];
+	
+	// make the string at least 33% longer to simulate wordier languages
+	NSUInteger desiredLength = [alter length] * 4 / 3;
+	NSArray *words =
+		[NSArray arrayWithObjects:
+		 @"lorem", @"ipsum", @"dolor", @"sit", @"amet", @"consectetur", @"adipiscing", @"elit", @"vestibulum",
+		 @"vulputate", @"pulvinar", @"erat", @"ed", @"venenatis", @"ipsum", @"vel", @"urna", @"porta", @"ac",
+		 @"pellentesque", @"nunc", @"placerat", @"vivamus", @"pretium", @"convallis", @"arcu", @"in", @"ornare",
+		 @"aliquam", @"erat", @"volutpat", @"in", @"viverra", @"sollicitudin", @"nisl", @"malesuada", @"rhoncus",
+		 @"tortor", @"fermentum", @"in", @"nulla", @"vehicula", @"elit", @"vitae", @"mi", @"tristique", @"laoreet",
+		 @"eget", @"eu", @"lacus", @"integer", @"varius", @"enim", @"sed", @"nisi", @"porta", @"ornare", @"sed",
+		 @"aliquet", @"urna", @"et", @"sapien", @"tristique", @"pharetra", @"mauris", @"non", @"ipsum", @"velit",
+		 @"vel", @"consectetur", @"quam", @"vivamus", @"a", @"sem", @"vitae", @"orci", @"pharetra", @"mattis",
+		 @"adipiscing", @"dignissim", @"massa", @"sed", @"vulputate", @"lobortis", @"orci", @"in", @"vehicula",
+		 @"nunc", @"mattis", @"sed", @"mauris", @"molestie", @"purus", @"id", @"leo", @"sollicitudin", @"tincidunt",
+		 @"proin", @"pulvinar", @"tincidunt", @"mattis", @"fusce", @"quis", @"sapien", @"eu", @"nisl", @"porta",
+		 @"lacinia", @"vitae", @"a", @"lacus", @"phasellus", @"congue", @"congue", @"euismod", @"donec", @"euismod",
+		 @"leo", @"non", @"molestie", @"adipiscing", @"nibh", @"ante", @"cursus", @"odio", @"eu", @"gravida", @"dui",
+		 @"libero", @"id", @"eros", @"ut", @"egestas", @"lectus", @"non", @"dolor", @"euismod", @"et", @"malesuada",
+		 @"nunc", @"mollis", @"pellentesque", @"vel", @"mi", @"urna", @"vestibulum", @"eu", @"libero", @"id", @"felis",
+		 @"faucibus", @"gravida", @"etiam", @"sapien", @"quam", @"mollis", @"et", @"pulvinar", @"et", @"auctor",
+		 @"ut", @"augue", @"cras", @"a", @"scelerisque", @"eros", @"proin", @"felis", @"purus", @"ullamcorper", @"eu",
+		 @"pellentesque", @"a", @"luctus", @"vel", @"nunc", @"sed", @"id", @"justo", @"a", @"lorem", @"ultricies",
+		 @"vulputate", @"sed", @"rhoncus", @"bibendum", @"justo", @"vel", @"consequat", @"augue", @"aliquam", @"non",
+		 @"donec", @"sollicitudin", @"mauris", @"et", @"justo", @"ullamcorper", @"tempor", @"fusce", @"molestie",
+		 @"lacus", @"ut", @"bibendum", @"suscipit", @"lorem", @"ipsum", @"interdum", @"nulla", @"et", @"hendrerit",
+		 @"odio", @"arcu", @"vel", @"arcu", @"lorem", @"ipsum", @"dolor", @"sit", @"amet", @"consectetur",
+		 @"adipiscing", @"elit", @"fusce", @"et", @"feugiat", @"ligula", nil];
+	
+	while ([alter length] < desiredLength) {
+		[alter appendFormat:@" %@", [words objectAtIndex:random() % [words count]]];
+	}
+	
+
+	__block NSUInteger choice = 0;
+	void (^doReplacement)(NSString *, NSArray *) = ^(NSString *search, NSArray *replacements) {
+		NSRange searchRange;
+		NSRange matchRange;
+		searchRange = NSMakeRange(0, [alter length]);
+		while ((matchRange = [alter rangeOfString:search options:0 range:searchRange]).location != NSNotFound) {
+			NSString *replacement = [replacements objectAtIndex:choice % [replacements count]];
+			[alter replaceCharactersInRange:matchRange withString:replacement];
+			searchRange.location = matchRange.location + [replacement length];
+			searchRange.length = [alter length] - searchRange.location;
+			choice += 1;
+		}
+	};
+	
+	doReplacement(@"a", [NSArray arrayWithObjects:@"a", @"å", @"a", @"ä", @"a", @"â", @"a", @"à", @"á", @"a", nil]);
+	doReplacement(@"e", [NSArray arrayWithObjects:@"e", @"é", @"e", @"è", @"e", @"e", @"ê", @"e", @"ë", @"e", nil]);
+	doReplacement(@"i", [NSArray arrayWithObjects:@"i", @"î", @"i", @"i", @"i", @"ì", @"i", @"í", @"i", @"i", nil]);
+	doReplacement(@"o", [NSArray arrayWithObjects:@"o", @"ö", @"o", @"ø", @"o", @"ô", @"ò", @"o", @"ó", @"o", nil]);
+	doReplacement(@"u", [NSArray arrayWithObjects:@"u", @"ü", @"u", @"û", @"u", @"ú", @"u", @"u", @"ù", @"u", nil]);
+	doReplacement(@"n", [NSArray arrayWithObjects:@"ñ", @"n", @"n", @"n", @"n", @"n", @"n", @"n", @"n", @"n", nil]);
+	doReplacement(@"ae", [NSArray arrayWithObjects:@"æ", @"ae", @"ae", @"ae", @"ae", @"ae", @"ae", @"ae", @"ae", nil]);
+	doReplacement(@"ss", [NSArray arrayWithObjects:@"ß", @"ss", @"ss", @"ss", @"ss", @"ss", @"ss", @"ss", @"ss", nil]);
+	
+	return alter;
+}
+
+
+#pragma mark -
+#pragma mark translation lookup/creation
+// ----------------------------------------------------------------------------------------------------
+// translation lookup/creation
+// ----------------------------------------------------------------------------------------------------
 
 + (id)bundleForTranslationsWithIdentifier:(NSString *)identifier {
 	return [self bundleForTranslationsWithIdentifier:identifier updatingStringsForLanguages:nil error:NULL];
@@ -148,6 +254,13 @@ static NSString *(FRLocalizedString)(id self, SEL _cmd, NSString *key, NSString 
 	
 	return translateBundle;
 }
+
+
+#pragma mark -
+#pragma mark strings handling
+// ----------------------------------------------------------------------------------------------------
+// strings handling
+// ----------------------------------------------------------------------------------------------------
 
 + (BOOL)_mergeContentsOfStringsFile:(NSString *)mergeFromPath
 			  intoStringsFileAtPath:(NSString *)mergeIntoPath

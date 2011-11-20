@@ -51,6 +51,7 @@
 	[[FRExtraHelpController defaultController] install];
 }
 
+
 #pragma mark -
 #pragma mark actions
 // ----------------------------------------------------------------------------------------------------

@@ -218,20 +218,16 @@ FRDefineLocalization(stringValue, StringValue);
 		
 		// since the bundle isn't the real bundle, we need to keep moving up through the
 		// path to try to find the identifier.
-		NSString *identifier = nil;
 		NSString *directory = [bundle bundlePath];
-		while (!identifier && ([[directory pathComponents] count] > 1)) {
-			identifier = [[NSBundle bundleWithPath:directory] bundleIdentifier];
+		while (([[directory pathComponents] count] > 1)) {
+			NSBundle *check = [NSBundle bundleWithPath:directory];
 			directory = [directory stringByDeletingLastPathComponent];
-		}
-
-		if (identifier && [NSBundle respondsToSelector:@selector(bundleForTranslationsWithIdentifier:)]) {
-			NSBundle *translate = [NSBundle bundleForTranslationsWithIdentifier:identifier];
-			if (translate) {
-				bundle = translate;
+			if ([check bundleIdentifier]) {
+				bundle = check;
+				break;
 			}
 		}
-		
+
 		return [bundle localizedStringForKey:string value:string table:table];
 	} else {
 		return string;
