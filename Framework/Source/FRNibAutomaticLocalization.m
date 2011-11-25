@@ -16,6 +16,7 @@
 // 
 
 #import <objc/runtime.h>
+#import <dlfcn.h>
 
 #import "FRNibAutomaticLocalization.h"
 #import "FRRuntimeAdditions.h"
@@ -126,6 +127,7 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 	if ([object isKindOfClass:[NSArray class]]) {
 		for (id item in object) { [self localizeObject:item]; }
 	} else if (object) {
+		BOOL unhandled = FALSE;
 		static int FRIsLocalizedKey;
 
 		if (![objc_getAssociatedObject(object, &FRIsLocalizedKey) boolValue]) {
@@ -176,6 +178,7 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 							 [object isKindOfClass:[NSBrowser class]]) {
 						// just the cell is enough
 					}
+					else { unhandled = TRUE; }
 					
 					[self localizeObject:[object cell]];
 				}
@@ -195,6 +198,7 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 				else if ([object class] == [NSView class]) {
 					// empty views have nothing to localize
 				}
+				else { unhandled = TRUE; }
 			}
 			else if ([object isKindOfClass:[NSMenu class]]) {
 				[self localizeObject:[object itemArray]];
@@ -263,6 +267,7 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 						 [object isKindOfClass:[NSSliderCell class]]) {
 					// nothing to localize
 				}
+				else { unhandled = TRUE; }
 			}
 			else if ([object isKindOfClass:[NSTabViewItem class]]) {
 				[self localizeLabel:object];
@@ -278,8 +283,37 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 					 (gPopoverClass && [object isKindOfClass:[gPopoverClass class]]) ) {
 				// these objects have nothing to localize
 			}
+			else { unhandled = TRUE; }
 			
 			objc_setAssociatedObject(object, &FRIsLocalizedKey, [NSNumber numberWithBool:TRUE], OBJC_ASSOCIATION_RETAIN);
+			
+			if (unhandled) {
+				BOOL private = [[[object class] description] hasPrefix:@"_"];
+				if (!private) {
+					BOOL (^isDefinedInSystemLibrary)(const char *) = ^BOOL(const char *path) {
+						// check specific paths where we know xib items come from
+						const char *kFoundationPrefix = "/System/Library/Frameworks/Foundation.framework";
+						static int foundationPrefixLength = 0;
+						if (!foundationPrefixLength) { foundationPrefixLength = strlen(kFoundationPrefix); }
+						const char *kAppKitPrefix = "/System/Library/Frameworks/AppKit.framework";
+						static int appKitPrefixLength = 0;
+						if (!appKitPrefixLength) { appKitPrefixLength = strlen(kAppKitPrefix); }
+						return
+							(strncmp(path, kFoundationPrefix, foundationPrefixLength) == 0) ||
+							(strncmp(path, kAppKitPrefix, appKitPrefixLength) == 0);
+					};
+
+					// check the location of method and warn if it is defined and the
+					// definition is not located in the system frameworks
+					Dl_info symbol_info = (Dl_info){};
+					dladdr([object class], &symbol_info);
+					if (isDefinedInSystemLibrary(symbol_info.dli_fname)) {
+						NSLog(@"Greenwich could not localize an instance of type %@. "
+							  @"Please file an enhancement request at: "
+							  @"https://github.com/fadingred/Greenwich", [object class]);
+					}
+				}
+			}
 		}
 	}
 }
