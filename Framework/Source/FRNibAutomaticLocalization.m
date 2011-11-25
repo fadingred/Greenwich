@@ -25,6 +25,9 @@
 static int FRAutomaticLocalizationBundleKey;
 static int FRAutomaticLocalizationTableKey;
 
+static Class gTextFinderClass = nil;
+static Class gPopoverClass = nil;
+
 NSString * const FRContentValuesKey = @"contentValues";
 NSString * const FRValueKey = @"value";
 
@@ -50,6 +53,9 @@ static BOOL (FRLoadNibFile)(id self, SEL _cmd, NSString *fileName, NSDictionary 
 @implementation NSBundle (FRNibAutomaticLocalization)
 
 + (void)load {
+	gTextFinderClass = NSClassFromString(@"NSTextFinder");
+	gPopoverClass = NSClassFromString(@"NSPopover");
+	
 	[self swizzleClassMethod:@selector(loadNibFile:externalNameTable:withZone:)
 						with:(IMP)FRLoadNibFile
 					   store:(IMPPointer)&SLoadNibFile];
@@ -139,40 +145,89 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 						[self localizeObject:[object cell]];
 					}
 				}
+				else if ([object isKindOfClass:[NSBox class]]) {
+					[self localizeTitle:object];
+				}
+				else if ([object isKindOfClass:[NSTabView class]]) {
+					[self localizeObject:[object tabViewItems]];
+				}
 				else if ([object isKindOfClass:[NSControl class]]) {
 					if ([object isKindOfClass:[NSPopUpButton class]]) {
 						if ([object infoForBinding:FRContentValuesKey]) {
 							[self localizeContentValuesBinding:object];
 						}
 					}
+					else if ([object isKindOfClass:[NSMatrix class]]) {
+						for (NSInteger row = 0; row < [object numberOfRows]; row++) {
+							for (NSInteger col = 0; col < [object numberOfColumns]; col++) {
+								[self localizeObject:[object cellAtRow:row column:col]];
+							}
+						}
+					}
+					else if ([object class] == [NSButton class] ||
+							 [object isKindOfClass:[NSScroller class]] ||
+							 [object isKindOfClass:[NSImageView class]] ||
+							 [object isKindOfClass:[NSSlider class]] ||
+							 [object isKindOfClass:[NSStepper class]] ||
+							 [object isKindOfClass:[NSSegmentedControl class]] ||
+							 [object isKindOfClass:[NSLevelIndicator class]] ||
+							 [object isKindOfClass:[NSDatePicker class]] ||
+							 [object isKindOfClass:[NSColorWell class]] ||
+							 [object isKindOfClass:[NSBrowser class]]) {
+						// just the cell is enough
+					}
+					
 					[self localizeObject:[object cell]];
 				}
-			} else if ([object isKindOfClass:[NSMenu class]]) {
+				else if ([object isKindOfClass:[NSTextView class]]) {
+					// don't want to localize this automatically. there's just too much
+					// complexity that could occur during design time.
+				}
+				else if ([object isKindOfClass:[NSClipView class]] ||
+						 [object isKindOfClass:[NSScrollView class]] ||
+						 [object isKindOfClass:[NSSplitView class]] ||
+						 [object isKindOfClass:[NSTableHeaderView class]] ||
+						 [object isKindOfClass:[NSProgressIndicator class]] ||
+						 [object isKindOfClass:[NSCollectionView class]] ||
+						 [object isKindOfClass:[NSOpenGLView class]]) {
+					// these views have nothing to localize
+				}
+				else if ([object class] == [NSView class]) {
+					// empty views have nothing to localize
+				}
+			}
+			else if ([object isKindOfClass:[NSMenu class]]) {
 				[self localizeObject:[object itemArray]];
 				[self localizeTitle:object];
-			} else if ([object isKindOfClass:[NSMenuItem class]]) {
+			}
+			else if ([object isKindOfClass:[NSMenuItem class]]) {
 				[self localizeObject:[object submenu]];
 				[self localizeObject:[object view]];
 				[self localizeTitle:object];
 				[self localizeToolTip:object];
-			} else if ([object isKindOfClass:[NSWindow class]]) {
+			}
+			else if ([object isKindOfClass:[NSWindow class]]) {
 				[self localizeObject:[object contentView]];
 				[self localizeObject:[object toolbar]];
 				[self localizeTitle:object];
-			} else if ([object isKindOfClass:[NSToolbar class]]) {
+			}
+			else if ([object isKindOfClass:[NSToolbar class]]) {
 				[self localizeObject:[object items]];
-			} else if ([object isKindOfClass:[NSToolbarItem class]]) {
+			}
+			else if ([object isKindOfClass:[NSToolbarItem class]]) {
 				[self localizeObject:[object view]];
 				[self localizeToolTip:object];
 				[self localizeLabel:object];
 				[self localizePaletteLabel:object];
-			} else if ([object isKindOfClass:[NSTableColumn class]]) {
+			}
+			else if ([object isKindOfClass:[NSTableColumn class]]) {
 				if ([object infoForBinding:FRValueKey]) {
 					[self localizeColumnValueBinding:object];
 				}
 				[self localizeObject:[object headerCell]];
 				[self localizeObject:[[object dataCell] menu]];
-			} else if ([object isKindOfClass:[NSCell class]] &&
+			}
+			else if ([object isKindOfClass:[NSCell class]] &&
 					   [object infoForBinding:FRValueKey] == nil) {
 				if ([(NSCell *)object type] == NSTextCellType &&
 					[(NSCell *)object isKindOfClass:[NSImageCell class]] == FALSE) {
@@ -180,16 +235,50 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 				}
 				if ([object isKindOfClass:[NSTextFieldCell class]]) {
 					[self localizePlaceholderString:object];
-				} else if ([object isKindOfClass:[NSPopUpButtonCell class]]) {
+				}
+				else if ([object isKindOfClass:[NSPopUpButtonCell class]]) {
 					[self localizeObject:[object menu]];
-				} else if ([object isKindOfClass:[NSButtonCell class]]) {
+				}
+				else if ([object isKindOfClass:[NSFormCell class]]) {
+					[self localizeTitle:object];
+				}
+				else if ([object isKindOfClass:[NSSegmentedCell class]]) {
+					for (NSInteger idx = 0; idx < [object segmentCount]; idx++) {
+						NSString *label = [object labelForSegment:idx];
+						NSString *localized = [self localizedStringFor:label];
+						[object setLabel:localized forSegment:idx];
+					}
+				}
+				else if ([object isKindOfClass:[NSButtonCell class]]) {
 					[self localizeTitle:object];
 					// shouldn't we be able to do this?
 					// what's going on with some of the buttons?
 					// come back to this next time! :)
 					//[self localizeAlternateTitle:object];
 				}
+				else if ([object isKindOfClass:[NSImageCell class]] ||
+						 [object isKindOfClass:[NSDatePickerCell class]] ||
+						 [object isKindOfClass:[NSStepperCell class]] ||
+						 [object isKindOfClass:[NSLevelIndicatorCell class]] ||
+						 [object isKindOfClass:[NSSliderCell class]]) {
+					// nothing to localize
+				}
 			}
+			else if ([object isKindOfClass:[NSTabViewItem class]]) {
+				[self localizeLabel:object];
+			}
+			else if ([object isKindOfClass:[NSApplication class]] ||
+					 [object isKindOfClass:[NSFontManager class]] ||
+					 [object isKindOfClass:[NSDrawer class]] ||
+					 [object isKindOfClass:[NSFormatter class]] ||
+					 [object isKindOfClass:[NSViewController class]] ||
+					 [object isKindOfClass:[NSObjectController class]] ||
+					 [object isKindOfClass:[NSUserDefaultsController class]] ||
+					 (gTextFinderClass && [object isKindOfClass:[gTextFinderClass class]]) ||
+					 (gPopoverClass && [object isKindOfClass:[gPopoverClass class]]) ) {
+				// these objects have nothing to localize
+			}
+			
 			objc_setAssociatedObject(object, &FRIsLocalizedKey, [NSNumber numberWithBool:TRUE], OBJC_ASSOCIATION_RETAIN);
 		}
 	}
