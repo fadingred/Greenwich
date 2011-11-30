@@ -25,15 +25,16 @@ class Packager < Object
 			%w(-target Package) +
 			%w(-configuration Release) +
 			%w(-project Framework/Greenwich.xcodeproj)
-		output = File.open "greenwich.build", :mode => "w"
-		IO.popen command + [:err=>[:child, :out]] do |io|
-			begin
-				while line = io.readline
-					output.write line
-					puts line if line =~ /^(Test|warning:)/
+		File.open "greenwich.build", :mode => "w" do |output|
+			IO.popen command + [:err=>[:child, :out]] do |io|
+				begin
+					while line = io.readline
+						output.write line
+						puts line if line =~ /^(Test|warning:)/
+					end
+				rescue EOFError
+					# finished reading
 				end
-			rescue EOFError
-				# finished reading
 			end
 		end
 		raise Exception.new("Build failed") if $?.exitstatus != 0
