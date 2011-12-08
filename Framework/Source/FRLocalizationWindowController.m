@@ -235,13 +235,14 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 
 - (void)saveSelectedStringsFile {
 	FRTranslationInfo *info = [[stringsFiles selectedObjects] lastObject];
-	NSString *path = info.path;
-	NSError *error = nil;
-	BOOL written = [[textView string] writeToFile:path atomically:YES encoding:NSUTF16StringEncoding error:&error];
-	if (!written) {
-		[[self window] presentError:error];
-	}
-	
+	if (info) {
+		NSString *path = info.path;
+		NSError *error = nil;
+		BOOL written = [[textView string] writeToFile:path atomically:YES encoding:NSUTF16StringEncoding error:&error];
+		if (!written) {
+			[[self window] presentError:error];
+		}
+	}	
 }
 
 - (void)loadStringsFiles {
@@ -274,14 +275,17 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 }
 
 - (void)loadTextView {
+	NSString *contents = @"";
+
 	FRTranslationInfo *info = [[stringsFiles selectedObjects] lastObject];
-	NSString *path = info.path;
-	NSError *error = nil;
-	NSString *contents = [NSString stringWithContentsOfFile:path encoding:NSUTF16StringEncoding error:&error];
-	if (!contents) {
-		[[self window] presentError:error];
-		contents = @"";
+	if (info) {
+		NSString *path = info.path;
+		NSError *error = nil;
+		if (!(contents = [NSString stringWithContentsOfFile:path encoding:NSUTF16StringEncoding error:&error])) {
+			[[self window] presentError:error];
+		}
 	}
+	
 	[textView setString:contents];
 }
 
