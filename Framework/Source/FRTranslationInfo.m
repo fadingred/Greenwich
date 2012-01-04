@@ -1,5 +1,5 @@
 // 
-// Copyright (c) 2011 FadingRed LLC
+// Copyright (c) 2012 FadingRed LLC
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -21,7 +21,7 @@
 static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 					   const FSEventStreamEventFlags[], const FSEventStreamEventId[]);
 
-@interface FRTranslationInfo (Private)
+@interface FRTranslationInfo ()
 - (id)initWithLanguage:(NSString *)aLanguage path:(NSString *)path;
 @end
 

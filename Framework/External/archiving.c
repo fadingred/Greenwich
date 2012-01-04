@@ -1,5 +1,5 @@
 // 
-// Copyright (c) 2011 FadingRed LLC
+// Copyright (c) 2012 FadingRed LLC
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -23,26 +23,24 @@
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
+#include <sys/stat.h>
 #include <archive.h>
 #include <archive_entry.h>
 
 #import "archiving.h"
 
-static int append_path_recursively(const char *pathname, struct archive *a, struct archive *disk);
+static int append_path_recursively(const char *pathname, struct archive *a);
 
 int archive_create_tar_bzip2(const char **pathnames) {
 	int error = 0;
 	
-	struct archive *disk = archive_read_disk_new();
-	archive_read_disk_set_standard_lookup(disk);
-
 	struct archive *a = archive_write_new();
 	archive_write_set_compression_bzip2(a);
 	archive_write_set_format_ustar(a);
 	archive_write_open_file(a, NULL);
 	
 	while (*pathnames) {
-		append_path_recursively(*pathnames, a, disk);
+		append_path_recursively(*pathnames, a);
 		pathnames++;
 	}
 	
@@ -52,14 +50,17 @@ int archive_create_tar_bzip2(const char **pathnames) {
 	return error;
 }
 
-static int append_path_recursively(const char *pathname, struct archive *a, struct archive *disk) {
+static int append_path_recursively(const char *pathname, struct archive *a) {
 	int error = 0;
 	
 	struct archive_entry *entry = archive_entry_new();
 	archive_entry_set_pathname(entry, pathname);
 	struct stat st;
 	stat(pathname, &st);
-	archive_read_disk_entry_from_file(disk, entry, -1, &st);
+	archive_entry_copy_stat(entry, &st);
+	// if we want to add uname/gname, we should do something like:
+	// archive_entry_copy_uname(entry, uname);
+	// archive_entry_copy_gname(entry, gname);
 	archive_write_header(a, entry);
 	int fd = open(pathname, O_RDONLY);
 	ssize_t amt = 0;
@@ -80,7 +81,7 @@ static int append_path_recursively(const char *pathname, struct archive *a, stru
 			
 			char *subpath = NULL;
 			asprintf(&subpath, "%s/%s", pathname, dirent->d_name);
-			error = append_path_recursively(subpath, a, disk);
+			error = append_path_recursively(subpath, a);
 			free(subpath);
 			
 			if (error != 0) { break; }
