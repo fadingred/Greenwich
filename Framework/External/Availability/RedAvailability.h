@@ -3,7 +3,7 @@
 //  RedFoundation
 //
 //  Created by Whitney Young on 5/2/11.
-//  Copyright 2011 FadingRed LLC. All rights reserved.
+//  Copyright 2012 FadingRed LLC. All rights reserved.
 //
 
 #ifdef __APPLE__
