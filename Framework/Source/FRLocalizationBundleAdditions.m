@@ -185,7 +185,10 @@ static NSString *FRPseudoLocalizedString(NSString *string) {
 
 	if (translateBundle && create) {
 		NSString *resourcesPath = [originalBundle resourcePath];
-		NSArray *paths = [manager subpathsOfDirectoryAtPath:resourcesPath error:NULL];
+		// using an enumerator because subpathsOfDirectoryAtPath doesn't traverse the path
+		// if it's a symbolic link (even though it's documented to traverse it)
+		NSEnumerator *enumerator = [manager enumeratorAtPath:resourcesPath];
+		NSArray *paths = [enumerator allObjects];
 		for (NSString *path in paths) {
 			if (translateBundle == nil) { break; }
 			NSString *directoryPath = [path stringByDeletingLastPathComponent];
