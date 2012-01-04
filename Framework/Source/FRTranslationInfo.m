@@ -21,7 +21,7 @@
 static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 					   const FSEventStreamEventFlags[], const FSEventStreamEventId[]);
 
-@interface FRTranslationInfo (Private)
+@interface FRTranslationInfo ()
 - (id)initWithLanguage:(NSString *)aLanguage path:(NSString *)path;
 @end
 
