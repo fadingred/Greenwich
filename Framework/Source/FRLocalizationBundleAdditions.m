@@ -53,8 +53,18 @@ static NSString *FRLocalizedStringLookup(id self, SEL _cmd, NSString *key, NSStr
 	BOOL canPseudoLocalize = FALSE;
 	
 	if (bundleID) {
+		// grab the translated bundle and ensure that it contains an lproj folder for the language the user has set in
+		// their system preferences. if it's not, we want to just fall back to the standard lookup. this allows fluent
+		// second language speakers to translate the app (and relaunch to see their changes with their system
+		// preferences are changed), but allows them to switch back to their native language without greenwhich always
+		// loading what they translated.
 		NSBundle *translated = [[self class] bundleForTranslationsWithIdentifier:bundleID];
-		if (translated) {
+		NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
+		NSString *systemLanguage = ([languages count]) ? [languages objectAtIndex:0] : GREENWICH_DEFAULT_LANGUAGE;
+		NSString *lprojName = [NSString stringWithFormat:@"%@.lproj", systemLanguage];
+		NSString *lprojDirectory = [[translated bundlePath] stringByAppendingPathComponent:lprojName];
+		NSFileManager *manager = [NSFileManager defaultManager];
+		if (translated && [manager fileExistsAtPath:lprojDirectory]) {
 			bundle = translated;
 			canPseudoLocalize = TRUE;
 		}
