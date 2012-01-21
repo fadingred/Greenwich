@@ -365,24 +365,30 @@ FRDefineLocalization(stringValue, StringValue);
 	
 	// translate the placeholder strings
 	NSMutableDictionary *newOptions = [[[cvBinding objectForKey:NSOptionsKey] mutableCopy] autorelease];
-	NSString *multipleValuesPlaceholder = [newOptions valueForKey:NSMultipleValuesPlaceholderBindingOption];
-	NSString *noSelectionPlaceholder = [newOptions valueForKey:NSNoSelectionPlaceholderBindingOption];
-	NSString *notApplicablePlaceholder = [newOptions valueForKey:NSNotApplicablePlaceholderBindingOption];
-	NSString *nullPlaceholder = [newOptions valueForKey:NSNullPlaceholderBindingOption];
+	id multipleValuesPlaceholder = [newOptions valueForKey:NSMultipleValuesPlaceholderBindingOption];
+	id noSelectionPlaceholder = [newOptions valueForKey:NSNoSelectionPlaceholderBindingOption];
+	id notApplicablePlaceholder = [newOptions valueForKey:NSNotApplicablePlaceholderBindingOption];
+	id nullPlaceholder = [newOptions valueForKey:NSNullPlaceholderBindingOption];
 	
-	if (multipleValuesPlaceholder != (id)[NSNull null] && [multipleValuesPlaceholder length]) {
+	BOOL (^localizable)(id) = ^BOOL(id boundValue) {
+		return (boundValue != [NSNull null]) &&
+			[boundValue isKindOfClass:[NSString class]] &&
+			[boundValue length];
+	};
+
+	if (localizable(multipleValuesPlaceholder)) {
 		[newOptions setObject:[self localizedStringFor:multipleValuesPlaceholder]
 					   forKey:NSMultipleValuesPlaceholderBindingOption];
 	}
-	if (noSelectionPlaceholder != (id)[NSNull null] && [noSelectionPlaceholder length]) {
+	if (localizable(noSelectionPlaceholder)) {
 		[newOptions setObject:[self localizedStringFor:noSelectionPlaceholder]
 					   forKey:NSNoSelectionPlaceholderBindingOption];
 	}
-	if (notApplicablePlaceholder != (id)[NSNull null] && [notApplicablePlaceholder length]) {
+	if (localizable(notApplicablePlaceholder)) {
 		[newOptions setObject:[self localizedStringFor:notApplicablePlaceholder]
 					   forKey:NSNotApplicablePlaceholderBindingOption];
 	}
-	if (nullPlaceholder != (id)[NSNull null] && [nullPlaceholder length]) {
+	if (localizable(nullPlaceholder)) {
 		[newOptions setObject:[self localizedStringFor:nullPlaceholder]
 					   forKey:NSNullPlaceholderBindingOption];
 	}
@@ -403,24 +409,30 @@ FRDefineLocalization(stringValue, StringValue);
 	
 	// translate the placeholder strings
 	NSMutableDictionary *newOptions = [[[vBinding objectForKey:NSOptionsKey] mutableCopy] autorelease];
-	NSString *multipleValuesPlaceholder = [newOptions valueForKey:NSMultipleValuesPlaceholderBindingOption];
-	NSString *noSelectionPlaceholder = [newOptions valueForKey:NSNoSelectionPlaceholderBindingOption];
-	NSString *notApplicablePlaceholder = [newOptions valueForKey:NSNotApplicablePlaceholderBindingOption];
-	NSString *nullPlaceholder = [newOptions valueForKey:NSNullPlaceholderBindingOption];
+	id multipleValuesPlaceholder = [newOptions valueForKey:NSMultipleValuesPlaceholderBindingOption];
+	id noSelectionPlaceholder = [newOptions valueForKey:NSNoSelectionPlaceholderBindingOption];
+	id notApplicablePlaceholder = [newOptions valueForKey:NSNotApplicablePlaceholderBindingOption];
+	id nullPlaceholder = [newOptions valueForKey:NSNullPlaceholderBindingOption];
 	
-	if (multipleValuesPlaceholder != (id)[NSNull null] && [multipleValuesPlaceholder length]) {
+	BOOL (^localizable)(id) = ^BOOL(id boundValue) {
+		return (boundValue != [NSNull null]) &&
+			[boundValue isKindOfClass:[NSString class]] &&
+			[boundValue length];
+	};
+	
+	if (localizable(multipleValuesPlaceholder)) {
 		[newOptions setObject:[self localizedStringFor:multipleValuesPlaceholder]
 					   forKey:NSMultipleValuesPlaceholderBindingOption];
 	}
-	if (noSelectionPlaceholder != (id)[NSNull null] && [noSelectionPlaceholder length]) {
+	if (localizable(noSelectionPlaceholder)) {
 		[newOptions setObject:[self localizedStringFor:noSelectionPlaceholder]
 					   forKey:NSNoSelectionPlaceholderBindingOption];
 	}
-	if (notApplicablePlaceholder != (id)[NSNull null] && [notApplicablePlaceholder length]) {
+	if (localizable(notApplicablePlaceholder)) {
 		[newOptions setObject:[self localizedStringFor:notApplicablePlaceholder]
 					   forKey:NSNotApplicablePlaceholderBindingOption];
 	}
-	if (nullPlaceholder != (id)[NSNull null] && [nullPlaceholder length]) {
+	if (localizable(nullPlaceholder)) {
 		[newOptions setObject:[self localizedStringFor:nullPlaceholder]
 					   forKey:NSNullPlaceholderBindingOption];
 	}
