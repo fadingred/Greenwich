@@ -21,7 +21,8 @@ import codecs
 import sys
 import os
 
-class Xib(object):
+
+class InterfaceDocument(object):
   def __init__(self, name, config):
     self.name = clean_name(name)
     self.config = config
@@ -30,7 +31,7 @@ class Xib(object):
   
   def path(self):
     resources = self.config.resources
-    path = os.path.join(resources, '%s.xib' % self.name)
+    path = os.path.join(resources, '%s.%s' % (self.name, self.__class__.EXTENSION))
     return path
   
   def modification_time(self):
@@ -61,8 +62,11 @@ class Xib(object):
     Generate strings file in an expected format and update generation time
     """
     strings.ensure_dir()
-    result = os.system('ibtool --plugin-dir "%s" --generate-strings-file "%s" "%s"' % (
-      self.config.plugindir, strings.path(), self.path()))
+    args = ""
+    if self.config.plugindir:
+      args += ' --plugin-dir "%s"' % self.config.plugindir
+    result = os.system('ibtool%s --generate-strings-file "%s" "%s"' % (
+      args, strings.path(), self.path()))
     if result != 0:
       sys.stderr.write('warning: error generating strings, see prior output for information\n');
     strings.normalize()
@@ -70,3 +74,9 @@ class Xib(object):
     self._ensure_dir_for_file(generation)
     os.system('touch "%s"' % (generation,))
     self._gtime = None
+
+class Xib(InterfaceDocument):
+  EXTENSION = 'xib'
+
+class Storyboard(InterfaceDocument):
+  EXTENSION = 'storyboard'

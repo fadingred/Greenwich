@@ -15,41 +15,7 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-// Availability
-#import <RedAvailability.h>
-
-// System Frameworks
-#ifdef __OBJC__
-#ifdef RED_TARGET_MAC
 #import <Cocoa/Cocoa.h>
-#endif
-#ifdef RED_TARGET_IOS
-#import <UIKit/UIKit.h>
-#endif
-#endif
 
-#ifndef __has_feature
-#define __has_feature(x) 0
-#endif
-
-#if __has_feature(objc_arc)
-#define autorelease(x) (x)
-#else
-#define autorelease(x) ([x autorelease])
-#define __bridge
-#define __bridge_transfer
-#define __unsafe_unretained
-#endif
-
-#ifndef GREENWICH_DEFAULT_LANGUAGE
-#define GREENWICH_DEFAULT_LANGUAGE @"en"
-#endif
-
-#define FRLog NSLog
-#define FRLocalizedString(key, comment) (((NSString *(^)(void))^{ \
-	NSBundle *__bundle = nil; \
-	if (!__bundle) { __bundle = [NSBundle bundleWithIdentifier:@"com.fadingred.Greenwich"]; } \
-	if (!__bundle) { __bundle = [NSBundle bundleWithIdentifier:@"com.fadingred.Greenwich" loaded:NULL]; } \
-	if (!__bundle) { __bundle = [NSBundle bundleForClass:[(id)self class]]; } \
-	return NSLocalizedStringFromTableInBundle(key, nil, __bundle, comment); \
-})())
+#import <Greenwich/FRUIAutomaticLocalization.h>
+#import <Greenwich/FRLocalizationBundleAdditions.h>

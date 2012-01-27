@@ -18,6 +18,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8BAB446614D343A900945E4E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BBFCBA914705003006CFFDE /* Greenwich.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8BD5E23314D1E7C80021848F;
+			remoteInfo = "Greenwich (iOS)";
+		};
 		8BBFCBB014705003006CFFDE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8BBFCBA914705003006CFFDE /* Greenwich.xcodeproj */;
@@ -94,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				8BBFCBB114705003006CFFDE /* Greenwich.framework */,
+				8BAB446714D343A900945E4E /* Greenwich.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -199,6 +207,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		8BAB446714D343A900945E4E /* Greenwich.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = Greenwich.framework;
+			remoteRef = 8BAB446614D343A900945E4E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		8BBFCBB114705003006CFFDE /* Greenwich.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

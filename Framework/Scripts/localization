@@ -17,7 +17,7 @@
 # 
 
 # setup the environment
-ABSPATH=$(cd ${0%/*} && echo $PWD/${0##*/})
+ABSPATH=$(cd "${0%/*}" && echo $PWD/${0##*/})
 export SCRIPTDIR=`dirname "${ABSPATH}"`
 export PYTHONPATH="$SCRIPTDIR/lib:$PYTHONPATH"
 export PATH="/usr/local/share/python:/usr/local/bin:/usr/local/sbin:$PATH"

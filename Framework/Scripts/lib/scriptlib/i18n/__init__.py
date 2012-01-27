@@ -16,4 +16,4 @@
 # 
 
 from strings import Strings
-from xib import Xib
+from document import Xib, Storyboard

@@ -15,41 +15,23 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-// Availability
-#import <RedAvailability.h>
+@interface UINib (FRNibAutomaticLocalization)
 
-// System Frameworks
-#ifdef __OBJC__
-#ifdef RED_TARGET_MAC
-#import <Cocoa/Cocoa.h>
-#endif
-#ifdef RED_TARGET_IOS
-#import <UIKit/UIKit.h>
-#endif
-#endif
+@end
 
-#ifndef __has_feature
-#define __has_feature(x) 0
-#endif
+@interface UIStoryboard (FRStoryboardAutomaticLocalization)
 
-#if __has_feature(objc_arc)
-#define autorelease(x) (x)
-#else
-#define autorelease(x) ([x autorelease])
-#define __bridge
-#define __bridge_transfer
-#define __unsafe_unretained
-#endif
+@end
 
-#ifndef GREENWICH_DEFAULT_LANGUAGE
-#define GREENWICH_DEFAULT_LANGUAGE @"en"
-#endif
+@interface NSObject (FRNibAutomaticLocalization)
 
-#define FRLog NSLog
-#define FRLocalizedString(key, comment) (((NSString *(^)(void))^{ \
-	NSBundle *__bundle = nil; \
-	if (!__bundle) { __bundle = [NSBundle bundleWithIdentifier:@"com.fadingred.Greenwich"]; } \
-	if (!__bundle) { __bundle = [NSBundle bundleWithIdentifier:@"com.fadingred.Greenwich" loaded:NULL]; } \
-	if (!__bundle) { __bundle = [NSBundle bundleForClass:[(id)self class]]; } \
-	return NSLocalizedStringFromTableInBundle(key, nil, __bundle, comment); \
-})())
+/*!
+ \brief		Similar to view did load
+ \details	Classes can implement this to handle setup after localization. This
+			method will be called on all top level objects as well as the nib
+			owner after a nib has been loaded. You must call the super class
+			implementation at some point during your implementation.
+ */
+- (void)awakeFromLocalization;
+
+@end

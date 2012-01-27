@@ -32,7 +32,8 @@ def verify_strings(app_resources, config):
           for stringsname in os.listdir(directory):
             name, ext = os.path.splitext(stringsname)
             nibpath = os.path.join(app_resources, '%s.nib' % name)
-            if ext == '.strings' and (name == 'Localizable' or os.path.exists(nibpath)) and \
+            storyboardpath = os.path.join(app_resources, '%s.storyboardc' % name)
+            if ext == '.strings' and (name == 'Localizable' or os.path.exists(nibpath) or os.path.exists(storyboardpath)) and \
                os.path.exists(os.path.join(app_resources, lang, stringsname)) == False:
               sys.stderr.write('warning: missing %s strings file in built product for %s\n' % (lang, stringsname,))
 

@@ -17,7 +17,7 @@
 # 
 
 from scriptlib.config import OptionParser
-from scriptlib.i18n import Strings, Xib
+from scriptlib.i18n import Strings, Xib, Storyboard
 import sys
 import os
 
@@ -32,21 +32,24 @@ LOCALIZE_SYMBOL = os.environ.get('GREENWICH_LOCALIZATION_SYMBOL', 'NSLocalizedSt
 
 def create_strings(config):
   if os.path.exists(config.resources):
-    for xibname in os.listdir(config.resources):
-      if xibname.endswith('.xib'):
-        xib = Xib(xibname, config)
-        strings = Strings(xibname, config.lang, config)
-        if xib.modification_time() > xib.generation_time():
-          sys.stdout.write('Generating %s strings for %s\n' % (config.lang, xib.name))
-          xib.generate(strings)
+    for docname in os.listdir(config.resources):
+      docclass = None
+      if docname.endswith('.xib'): docclass = Xib
+      elif docname.endswith('.storyboard'): docclass = Storyboard
+      if docclass:
+        doc = docclass(docname, config)
+        strings = Strings(docname, config.lang, config)
+        if doc.modification_time() > doc.generation_time():
+          sys.stdout.write('Generating %s strings for %s\n' % (config.lang, doc.name))
+          doc.generate(strings)
       
         # handle all languages other than the base language of the file
         # by integrating (or creating) the same strings files in that lproj
         # directory
         for langname in os.listdir(config.resources):
           if langname.endswith('.lproj'):
-            lang = Strings(xibname, langname, config)
-            if xib.generation_time() > lang.modification_time() and lang.name != config.lang:
+            lang = Strings(docname, langname, config)
+            if doc.generation_time() > lang.modification_time() and lang.name != config.lang:
               lang.integrate_changes(strings)
 
   # handle localizable.strings file
@@ -78,5 +81,5 @@ def create_strings(config):
 
 if __name__ == '__main__':
   usage = """usage: %%prog [options]
-  Used to update strings files for all xibs and source files in a target."""
+  Used to update strings files for all xibs, storyboards and source files in a target."""
   create_strings(OptionParser(usage=usage).parse_config()[0])

@@ -67,7 +67,7 @@ class Strings(object):
       if base:
         # since we're the base language, strip out the extra argument information
         # on the key and the translation and if they're not equal, then just use
-        # the translation value as the key value (this will be true for xib files)
+        # the translation value as the key value (this will be true for interface files)
         FMTARG = r'%\d\$(@|d|D|i|u|U|hi|hu|qi|qu|x|X|qx|qX|o|O|f|e|E|g|G|s|S|p|L|a|A|F|z|t|j)'
         FMTSUB = r'%\1'
         if re.sub(FMTARG, FMTSUB, value.key) != re.sub(FMTARG, FMTSUB, value.trans):
@@ -122,7 +122,7 @@ class Strings(object):
 class Parser(object):
   LINE = r'^"(.*)" = "(.*)";$'
   COMMENT = r'^/\* (.*) \*/$'
-  XIB = r'^/\* Class = ".*"; .* ObjectID = ".*"; \*/$'
+  INTERFACE = r'^/\* Class = ".*"; .* ObjectID = ".*"; \*/$'
   
   def __init__(self, name, directory, base=False):
     try:
@@ -145,7 +145,7 @@ class Parser(object):
         self.index[key] = Parser.Translation(key, trans, comments, linenumber)
         comments = []
       else:
-        if not re.match(Parser.XIB, line, re.UNICODE):
+        if not re.match(Parser.INTERFACE, line, re.UNICODE):
           match = re.search(Parser.COMMENT, line, re.UNICODE)
           if match: comments.append(match.group(1))
           else: comments = []

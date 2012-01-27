@@ -18,9 +18,10 @@
 import os
 
 def clean_name(name):
-  'Strips off .xib extension from a name if needed'
+  'Strips off .xib/.storyboard extension from a name if needed'
   start, ext = os.path.splitext(name)
   if ext == '.xib': return start
+  elif ext == '.storyboard': return start
   else: return name
 
 def clean_lang(lang):
