@@ -44,7 +44,7 @@ static const CGFloat kInactiveOpacity = 0.6;
 		else { color = UNTRANSLATED_HIGHLIGHT_COLOR; }
 		
 		NSFont *font = [NSFont fontWithName:@"Helvetica-Bold" size:[[self font] pointSize] - UNTRANSLATED_TEXT_SHRINK];
-		NSMutableParagraphStyle *style = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		[style setAlignment:NSCenterTextAlignment];
 		
 		NSString *string = [NSString stringWithFormat:@"%i", untranslated];
@@ -53,8 +53,7 @@ static const CGFloat kInactiveOpacity = 0.6;
 									color, NSForegroundColorAttributeName,
 									style, NSParagraphStyleAttributeName, nil];
 		
-		return [[[NSAttributedString alloc] initWithString:string
-												attributes:attributes] autorelease];
+		return [[NSAttributedString alloc] initWithString:string attributes:attributes];
 	}
 	else { return nil; }
 }

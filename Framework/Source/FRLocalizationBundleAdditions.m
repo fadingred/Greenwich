@@ -97,7 +97,7 @@ static BOOL FRShouldPseudoLocalize(void) {
 }
 
 static NSString *FRPseudoLocalizedString(NSString *string) {
-	NSMutableString *alter = autorelease([string mutableCopy]);
+	NSMutableString *alter = [string mutableCopy];
 	
 	// make the string at least 33% longer to simulate wordier languages
 	NSUInteger desiredLength = [alter length] * 4 / 3;

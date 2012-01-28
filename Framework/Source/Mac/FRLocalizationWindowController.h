@@ -15,14 +15,23 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+@class
+	FRTranslationContainer;
+
 @interface FRLocalizationWindowController : NSWindowController {
 	NSTimer *saveTimer;
+	CGFloat initialLanguagePosition;
 
 	IBOutlet NSArrayController *stringsFiles;
 	IBOutlet NSArrayController *languages;
+	IBOutlet NSArrayController *containers;
 	IBOutlet NSTableView *tableView;
 	IBOutlet NSTextView *textView;
+	IBOutlet NSPopUpButton *containersPopup;
+	IBOutlet NSPopUpButton *languagesPopup;
 }
+
+- (void)addContainer:(FRTranslationContainer *)container;
 
 - (IBAction)packageStringsFiles:(id)sender;
 

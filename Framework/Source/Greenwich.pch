@@ -32,10 +32,7 @@
 #define __has_feature(x) 0
 #endif
 
-#if __has_feature(objc_arc)
-#define autorelease(x) (x)
-#else
-#define autorelease(x) ([x autorelease])
+#if !__has_feature(objc_arc)
 #define __bridge
 #define __bridge_transfer
 #define __unsafe_unretained

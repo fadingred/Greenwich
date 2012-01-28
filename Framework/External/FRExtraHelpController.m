@@ -55,19 +55,18 @@ CGEventRef flagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef even
 
 - (id)init {
 	if ((self = [super init])) {
-		separator = [[NSMenuItem separatorItem] retain];
+		separator = [NSMenuItem separatorItem];
 		items = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
+#if !__OBJC_GC__
 - (void)dealloc {
-	[separator release];
-	[items release];
 	if (eventTap) { CFRelease(eventTap); }
 	if (runLoopSource) { CFRelease(runLoopSource); }
-	[super dealloc];
 }
+#endif
 
 - (void)finalize {
 	if (eventTap) { CFRelease(eventTap); }
@@ -183,7 +182,7 @@ CGEventRef flagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef even
 	if ([[delegate class] isSubclassOfClass:[FRHelpMenuNotifyingDelegate class]]) {
 		delegate = ((FRHelpMenuNotifyingDelegate *)delegate)->delegate;
 	}
-	FRHelpMenuNotifyingDelegate *object = [[self alloc] autorelease];
+	FRHelpMenuNotifyingDelegate *object = [self alloc];
 	object->delegate = delegate;
 	return object;
 }

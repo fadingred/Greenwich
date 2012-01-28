@@ -65,7 +65,7 @@ static BOOL (FRLoadNibFile)(id self, SEL _cmd, NSString *fileName, NSDictionary 
 static BOOL FRLoadNibFile(id self, SEL _cmd, NSString *fileName, NSDictionary *context, NSZone *zone) {
 	// allocate a nib and check if it automatically localizes.
 	// if it does, load the nib with the context table.
-	NSNib *nib = [[[NSNib allocWithZone:zone] initWithContentsOfURL:[NSURL fileURLWithPath:fileName]] autorelease];
+	NSNib *nib = [[NSNib allocWithZone:zone] initWithContentsOfURL:[NSURL fileURLWithPath:fileName]];
 	if ([nib automaticallyLocalizes]) {
 		return [nib instantiateNibWithExternalNameTable:context];
 	} else {
@@ -306,7 +306,7 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 					// check the location of method and warn if it is defined and the
 					// definition is not located in the system frameworks
 					Dl_info symbol_info = (Dl_info){};
-					dladdr([object class], &symbol_info);
+					dladdr((__bridge void *)[object class], &symbol_info);
 					if (isDefinedInSystemLibrary(symbol_info.dli_fname)) {
 						NSLog(@"Greenwich could not localize an instance of type %@. "
 							  @"Please file an enhancement request at: "
@@ -364,11 +364,11 @@ FRDefineLocalization(stringValue, StringValue);
 	id observedObject = [cvBinding objectForKey:NSObservedObjectKey];
 	
 	// translate the placeholder strings
-	NSMutableDictionary *newOptions = [[[cvBinding objectForKey:NSOptionsKey] mutableCopy] autorelease];
-	id multipleValuesPlaceholder = [newOptions valueForKey:NSMultipleValuesPlaceholderBindingOption];
-	id noSelectionPlaceholder = [newOptions valueForKey:NSNoSelectionPlaceholderBindingOption];
-	id notApplicablePlaceholder = [newOptions valueForKey:NSNotApplicablePlaceholderBindingOption];
-	id nullPlaceholder = [newOptions valueForKey:NSNullPlaceholderBindingOption];
+	NSMutableDictionary *newOptions = [[cvBinding objectForKey:NSOptionsKey] mutableCopy];
+	NSString *multipleValuesPlaceholder = [newOptions valueForKey:NSMultipleValuesPlaceholderBindingOption];
+	NSString *noSelectionPlaceholder = [newOptions valueForKey:NSNoSelectionPlaceholderBindingOption];
+	NSString *notApplicablePlaceholder = [newOptions valueForKey:NSNotApplicablePlaceholderBindingOption];
+	NSString *nullPlaceholder = [newOptions valueForKey:NSNullPlaceholderBindingOption];
 	
 	BOOL (^localizable)(id) = ^BOOL(id boundValue) {
 		return (boundValue != [NSNull null]) &&
@@ -408,12 +408,12 @@ FRDefineLocalization(stringValue, StringValue);
 	id observedObject = [vBinding objectForKey:NSObservedObjectKey];
 	
 	// translate the placeholder strings
-	NSMutableDictionary *newOptions = [[[vBinding objectForKey:NSOptionsKey] mutableCopy] autorelease];
-	id multipleValuesPlaceholder = [newOptions valueForKey:NSMultipleValuesPlaceholderBindingOption];
-	id noSelectionPlaceholder = [newOptions valueForKey:NSNoSelectionPlaceholderBindingOption];
-	id notApplicablePlaceholder = [newOptions valueForKey:NSNotApplicablePlaceholderBindingOption];
-	id nullPlaceholder = [newOptions valueForKey:NSNullPlaceholderBindingOption];
-	
+	NSMutableDictionary *newOptions = [[vBinding objectForKey:NSOptionsKey] mutableCopy];
+	NSString *multipleValuesPlaceholder = [newOptions valueForKey:NSMultipleValuesPlaceholderBindingOption];
+	NSString *noSelectionPlaceholder = [newOptions valueForKey:NSNoSelectionPlaceholderBindingOption];
+	NSString *notApplicablePlaceholder = [newOptions valueForKey:NSNotApplicablePlaceholderBindingOption];
+	NSString *nullPlaceholder = [newOptions valueForKey:NSNullPlaceholderBindingOption];
+
 	BOOL (^localizable)(id) = ^BOOL(id boundValue) {
 		return (boundValue != [NSNull null]) &&
 			[boundValue isKindOfClass:[NSString class]] &&
@@ -448,7 +448,7 @@ FRDefineLocalization(stringValue, StringValue);
 static BOOL FRInstantiateNib(id self, SEL _cmd, NSDictionary *externalNameTable) {
 	id nameTable = externalNameTable;
 	if (![externalNameTable objectForKey:NSNibTopLevelObjects]) {
-		nameTable = [[externalNameTable mutableCopy] autorelease];
+		nameTable = [externalNameTable mutableCopy];
 		[(NSMutableDictionary *)nameTable setObject:[NSMutableArray array] forKey:NSNibTopLevelObjects];
 	}
 

@@ -23,6 +23,8 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 
 @interface FRTranslationInfo ()
 - (id)initWithLanguage:(NSString *)aLanguage path:(NSString *)path;
+- (void)createEventStream;
+- (void)destroyEventStream;
 @end
 
 @implementation FRTranslationInfo
@@ -32,7 +34,7 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 }
 
 + (id)infoWithLanguage:(NSString *)language path:(NSString *)path {
-	return [[[self alloc] initWithLanguage:language path:path] autorelease];
+	return [[self alloc] initWithLanguage:language path:path];
 }
 
 - (id)init {
@@ -58,7 +60,12 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 			NSString *directory = [aPath stringByDeletingLastPathComponent];
 			while (!bundleName && ([[directory pathComponents] count] > 1)) {
 				NSString *name = [directory lastPathComponent];
-				if (![name isEqualToString:@"Resources"] &&
+				if ([[name componentsSeparatedByString:@"."] count] >= 3) {
+					// assuming rdns style name, and using the last part
+					// as the actual name of the bundle
+					bundleName = [name pathExtension];
+				}
+				else if (![name isEqualToString:@"Resources"] &&
 					![name isEqualToString:@"Contents"] &&
 					![name isEqualToString:@"Frameworks"] &&
 					![name isEqualToString:@"PlugIns"] &&
@@ -76,22 +83,33 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 		}
 		
 		// setup to watch the path for changes
-		CFAbsoluteTime latency = 1; // latency in seconds
-		CFArrayRef pathsToWatch = (CFArrayRef)[NSArray arrayWithObject:[path stringByDeletingLastPathComponent]];
-		FSEventStreamContext context = {
-			.version = 0,
-			.info = self,
-			.retain = NULL,
-			.release = NULL,
-			.copyDescription = NULL,
-		};
-		stream = FSEventStreamCreate(NULL, filechange, &context, pathsToWatch,
-									 kFSEventStreamEventIdSinceNow, latency,
-									 kFSEventStreamCreateFlagNoDefer);
-		FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
-		FSEventStreamStart(stream);
+		[self createEventStream];
 	}
 	return self;
+}
+
+- (void)createEventStream {
+	CFAbsoluteTime latency = 1; // latency in seconds
+	NSArray *pathsToWatch = [NSArray arrayWithObject:[path stringByDeletingLastPathComponent]];
+	FSEventStreamContext context = {
+		.version = 0,
+		.info = (__bridge void *)self,
+		.retain = NULL,
+		.release = NULL,
+		.copyDescription = NULL,
+	};
+	stream = FSEventStreamCreate(NULL, filechange, &context, (__bridge CFArrayRef)pathsToWatch,
+								 kFSEventStreamEventIdSinceNow, latency,
+								 kFSEventStreamCreateFlagNoDefer);
+	FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+	FSEventStreamStart(stream);
+}
+
+- (void)destroyEventStream {
+	if (stream) { FSEventStreamStop(stream); }
+	if (stream) { FSEventStreamInvalidate(stream); }
+	if (stream) { FSEventStreamRelease(stream); }
+	stream = NULL;
 }
 
 @synthesize path;
@@ -99,25 +117,14 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 @synthesize displayName;
 @synthesize bundleName;
 
+#if !__OBJC_GC__
 - (void)dealloc {
-	[language release];
-	[path release];
-	[translationPath release];
-	[fileName release];
-	[displayName release];
-	[bundleName release];
-	[displayInfo release];
-
-	if (stream) { FSEventStreamStop(stream); }
-	if (stream) { FSEventStreamInvalidate(stream); }
-	if (stream) { FSEventStreamRelease(stream); }
-	[super dealloc];
+	[self destroyEventStream];
 }
+#endif
 
 - (void)finalize {
-	if (stream) { FSEventStreamStop(stream); }
-	if (stream) { FSEventStreamInvalidate(stream); }
-	if (stream) { FSEventStreamRelease(stream); }
+	[self destroyEventStream];
 	[super finalize];
 }
 
@@ -178,7 +185,7 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 
 static void filechange(ConstFSEventStreamRef streamRef, void *clientCallBackInfo, size_t numEvents, void *eventPaths,
 					   const FSEventStreamEventFlags eventFlags[], const FSEventStreamEventId eventIds[]) {
-	FRTranslationInfo *info = clientCallBackInfo;
+	FRTranslationInfo *info = (__bridge id)clientCallBackInfo;
 	[info updateForFileContentsChange];
 	
 }

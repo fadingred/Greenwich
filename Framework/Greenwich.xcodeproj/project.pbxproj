@@ -24,6 +24,14 @@
 /* Begin PBXBuildFile section */
 		8B0DCF0B14702CDE00DF8AC3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B0DCF0514702CDE00DF8AC3 /* Localizable.strings */; };
 		8B0DCF0C14702CDE00DF8AC3 /* Localization.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B0DCF0714702CDE00DF8AC3 /* Localization.strings */; };
+		8B2B99A414D347C400A40CD4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAD1E73146F11CB00E16433 /* Cocoa.framework */; };
+		8B2B99C214D3485C00A40CD4 /* FRTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B99BF14D3485C00A40CD4 /* FRTranslator.m */; };
+		8B2B99C314D3485C00A40CD4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B99C014D3485C00A40CD4 /* main.m */; };
+		8B2B99C614D3491D00A40CD4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B2B99C514D3491D00A40CD4 /* MainMenu.xib */; };
+		8B2B99C714D3493500A40CD4 /* Localization.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B33C275146F5E6E007C2196 /* Localization.xib */; };
+		8B2B99C814D3493500A40CD4 /* FRLocalizationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E95146F148400E16433 /* FRLocalizationWindowController.m */; };
+		8B2B99C914D3493500A40CD4 /* FRTranslationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E97146F148400E16433 /* FRTranslationInfo.m */; };
+		8B2B99CA14D3493500A40CD4 /* FRUntranslatedCountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E98146F148400E16433 /* FRUntranslatedCountCell.m */; };
 		8B33C236146F3CDB007C2196 /* FRFileManagerArchivingAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B33C234146F3CDB007C2196 /* FRFileManagerArchivingAdditions.h */; };
 		8B33C237146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B33C235146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m */; };
 		8B33C23A146F3CF4007C2196 /* archiving.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B33C238146F3CF4007C2196 /* archiving.c */; };
@@ -66,6 +74,14 @@
 		8BD5E34214D1F7620021848F /* FRFileManagerArchivingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B33C235146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m */; };
 		8BD5E34314D1F7620021848F /* archiving.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B33C239146F3CF4007C2196 /* archiving.h */; };
 		8BD5E34414D1F7620021848F /* archiving.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B33C238146F3CF4007C2196 /* archiving.c */; };
+		8BF0440614D35DD9009B9529 /* FRLocalizationBundleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD1E92146F148400E16433 /* FRLocalizationBundleAdditions.m */; };
+		8BF0440714D35DD9009B9529 /* FRRuntimeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B634DBF146F2E0500BF5058 /* FRRuntimeAdditions.m */; };
+		8BF0440814D35DD9009B9529 /* FRBundleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B634D8B146F1C9A00BF5058 /* FRBundleAdditions.m */; };
+		8BF0440914D35DD9009B9529 /* FRFileManagerArchivingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B33C235146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m */; };
+		8BF0440A14D35DD9009B9529 /* archiving.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B33C238146F3CF4007C2196 /* archiving.c */; };
+		8BF0440D14D35F82009B9529 /* FRTranslationContainer__.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BF0440B14D35F82009B9529 /* FRTranslationContainer__.h */; };
+		8BF0440E14D35F82009B9529 /* FRTranslationContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0440C14D35F82009B9529 /* FRTranslationContainer.m */; };
+		8BF0440F14D35F82009B9529 /* FRTranslationContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0440C14D35F82009B9529 /* FRTranslationContainer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +113,15 @@
 		8B0DCF3014702DE000DF8AC3 /* no */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = no; path = Resources/Mac/no.lproj/Localization.strings; sourceTree = "<group>"; };
 		8B0DCF3514702DE600DF8AC3 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = Resources/Mac/pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8B0DCF3614702DE600DF8AC3 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = Resources/Mac/pt.lproj/Localization.strings; sourceTree = "<group>"; };
+		8B2B99A214D347C400A40CD4 /* Greenwich Translator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Greenwich Translator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B2B99A614D347C400A40CD4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		8B2B99A714D347C400A40CD4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		8B2B99A814D347C400A40CD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8B2B99BF14D3485C00A40CD4 /* FRTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRTranslator.m; path = Source/Translator/FRTranslator.m; sourceTree = "<group>"; };
+		8B2B99C014D3485C00A40CD4 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/Translator/main.m; sourceTree = "<group>"; };
+		8B2B99C114D3485C00A40CD4 /* FRTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRTranslator.h; path = Source/Translator/FRTranslator.h; sourceTree = "<group>"; };
+		8B2B99C514D3491D00A40CD4 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = Resources/Translator/MainMenu.xib; sourceTree = "<group>"; };
+		8B2B99CD14D349FC00A40CD4 /* Translator.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Translator.plist; path = Info/Translator.plist; sourceTree = "<group>"; };
 		8B33C234146F3CDB007C2196 /* FRFileManagerArchivingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRFileManagerArchivingAdditions.h; path = External/FRFileManagerArchivingAdditions.h; sourceTree = "<group>"; };
 		8B33C235146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRFileManagerArchivingAdditions.m; path = External/FRFileManagerArchivingAdditions.m; sourceTree = "<group>"; };
 		8B33C238146F3CF4007C2196 /* archiving.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = archiving.c; path = External/archiving.c; sourceTree = "<group>"; };
@@ -132,14 +157,25 @@
 		8BAD1EB3146F159C00E16433 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Application.xcconfig; path = ../Configurations/Mac/Application.xcconfig; sourceTree = "<group>"; };
 		8BAD1EB4146F159C00E16433 /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Framework.xcconfig; path = ../Configurations/Mac/Framework.xcconfig; sourceTree = "<group>"; };
 		8BAD1EB9146F168F00E16433 /* Greenwich.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Greenwich.pch; path = Source/Greenwich.pch; sourceTree = "<group>"; };
+		8BCA747814D34F98004F27D9 /* Translator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Translator.entitlements; path = Info/Translator.entitlements; sourceTree = "<group>"; };
 		8BD5E23314D1E7C80021848F /* Greenwich.framework */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = Greenwich.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BD5E23414D1E7C80021848F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8BD5E24514D1E9EF0021848F /* Library.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Library.xcconfig; path = ../Configurations/iOS/Library.xcconfig; sourceTree = "<group>"; };
 		8BD5E24B14D1EC250021848F /* FRUIAutomaticLocalization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRUIAutomaticLocalization.h; path = Source/iOS/FRUIAutomaticLocalization.h; sourceTree = "<group>"; };
 		8BD5E24C14D1EC250021848F /* FRUIAutomaticLocalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRUIAutomaticLocalization.m; path = Source/iOS/FRUIAutomaticLocalization.m; sourceTree = "<group>"; };
+		8BF0440B14D35F82009B9529 /* FRTranslationContainer__.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRTranslationContainer__.h; path = Source/Mac/FRTranslationContainer__.h; sourceTree = "<group>"; };
+		8BF0440C14D35F82009B9529 /* FRTranslationContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRTranslationContainer.m; path = Source/Mac/FRTranslationContainer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8B2B999F14D347C400A40CD4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B2B99A414D347C400A40CD4 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8BAD1E6C146F11CB00E16433 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -168,12 +204,37 @@
 			name = Strings;
 			sourceTree = "<group>";
 		};
+		8B2B99A514D347C400A40CD4 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8B2B99A614D347C400A40CD4 /* AppKit.framework */,
+				8B2B99A714D347C400A40CD4 /* CoreData.framework */,
+				8B2B99A814D347C400A40CD4 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		8B2B99C414D3486100A40CD4 /* Translator */ = {
+			isa = PBXGroup;
+			children = (
+				8BCA747814D34F98004F27D9 /* Translator.entitlements */,
+				8B2B99CD14D349FC00A40CD4 /* Translator.plist */,
+				8B2B99C114D3485C00A40CD4 /* FRTranslator.h */,
+				8B2B99BF14D3485C00A40CD4 /* FRTranslator.m */,
+				8B2B99C514D3491D00A40CD4 /* MainMenu.xib */,
+				8B2B99C014D3485C00A40CD4 /* main.m */,
+			);
+			name = Translator;
+			sourceTree = "<group>";
+		};
 		8B33C231146F37D3007C2196 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
 				8B33C275146F5E6E007C2196 /* Localization.xib */,
 				8BAD1E9C146F148400E16433 /* FRLocalizationWindowController.h */,
 				8BAD1E95146F148400E16433 /* FRLocalizationWindowController.m */,
+				8BF0440B14D35F82009B9529 /* FRTranslationContainer__.h */,
+				8BF0440C14D35F82009B9529 /* FRTranslationContainer.m */,
 				8BAD1E9E146F148400E16433 /* FRTranslationInfo__.h */,
 				8BAD1E97146F148400E16433 /* FRTranslationInfo.m */,
 				8BAD1E9F146F148400E16433 /* FRUntranslatedCountCell.h */,
@@ -208,6 +269,7 @@
 				8BADE86A146F17F40094AE93 /* Mac */,
 				8B33C26E146F5CF8007C2196 /* iOS */,
 				8BD5E24014D1E8ED0021848F /* Shared */,
+				8B2B99C414D3486100A40CD4 /* Translator */,
 				8BAD1EAE146F14DF00E16433 /* Resources */,
 				8BAD1E72146F11CB00E16433 /* Frameworks */,
 				8BAD1E71146F11CB00E16433 /* Products */,
@@ -219,6 +281,7 @@
 			children = (
 				8BAD1E70146F11CB00E16433 /* Greenwich.framework */,
 				8BD5E23314D1E7C80021848F /* Greenwich.framework */,
+				8B2B99A214D347C400A40CD4 /* Greenwich Translator.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -229,6 +292,7 @@
 				8BAD1E73146F11CB00E16433 /* Cocoa.framework */,
 				8B73574E14769A96000468EF /* Carbon.framework */,
 				8BD5E23414D1E7C80021848F /* Foundation.framework */,
+				8B2B99A514D347C400A40CD4 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -356,6 +420,7 @@
 				8B33C23B146F3CF4007C2196 /* archiving.h in Headers */,
 				8B33C28C147025E5007C2196 /* FRLocalizationBundleAdditions__.h in Headers */,
 				8B7356CD14769394000468EF /* FRExtraHelpController.h in Headers */,
+				8BF0440D14D35F82009B9529 /* FRTranslationContainer__.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +442,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		8B2B99A114D347C400A40CD4 /* Translator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B2B99BD14D347C500A40CD4 /* Build configuration list for PBXNativeTarget "Translator" */;
+			buildPhases = (
+				8B2B999E14D347C400A40CD4 /* Sources */,
+				8B2B999F14D347C400A40CD4 /* Frameworks */,
+				8B2B99A014D347C400A40CD4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Translator;
+			productName = "Greenwich Translator";
+			productReference = 8B2B99A214D347C400A40CD4 /* Greenwich Translator.app */;
+			productType = "com.apple.product-type.application";
+		};
 		8BAD1E6F146F11CB00E16433 /* Greenwich */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8BAD1E85146F11CC00E16433 /* Build configuration list for PBXNativeTarget "Greenwich" */;
@@ -444,12 +526,22 @@
 			targets = (
 				8BAD1E6F146F11CB00E16433 /* Greenwich */,
 				8BD5E23214D1E7C80021848F /* Greenwich (iOS) */,
+				8B2B99A114D347C400A40CD4 /* Translator */,
 				8BB93D4F1474CAA90056EC71 /* Package */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8B2B99A014D347C400A40CD4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B2B99C614D3491D00A40CD4 /* MainMenu.xib in Resources */,
+				8B2B99C714D3493500A40CD4 /* Localization.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8BAD1E6E146F11CB00E16433 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -511,6 +603,24 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8B2B999E14D347C400A40CD4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B2B99C214D3485C00A40CD4 /* FRTranslator.m in Sources */,
+				8B2B99C314D3485C00A40CD4 /* main.m in Sources */,
+				8B2B99C814D3493500A40CD4 /* FRLocalizationWindowController.m in Sources */,
+				8B2B99C914D3493500A40CD4 /* FRTranslationInfo.m in Sources */,
+				8B2B99CA14D3493500A40CD4 /* FRUntranslatedCountCell.m in Sources */,
+				8BF0440614D35DD9009B9529 /* FRLocalizationBundleAdditions.m in Sources */,
+				8BF0440714D35DD9009B9529 /* FRRuntimeAdditions.m in Sources */,
+				8BF0440814D35DD9009B9529 /* FRBundleAdditions.m in Sources */,
+				8BF0440914D35DD9009B9529 /* FRFileManagerArchivingAdditions.m in Sources */,
+				8BF0440A14D35DD9009B9529 /* archiving.c in Sources */,
+				8BF0440F14D35F82009B9529 /* FRTranslationContainer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8BAD1E6B146F11CB00E16433 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -526,6 +636,7 @@
 				8B33C237146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m in Sources */,
 				8B33C23A146F3CF4007C2196 /* archiving.c in Sources */,
 				8B7356CC14769394000468EF /* FRExtraHelpController.m in Sources */,
+				8BF0440E14D35F82009B9529 /* FRTranslationContainer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +699,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8B2B99BB14D347C500A40CD4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BAD1EB3146F159C00E16433 /* Application.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Info/Translator.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				GCC_PREFIX_HEADER = Source/Greenwich.pch;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					External/libarchive,
+				);
+				INFOPLIST_FILE = Info/Translator.plist;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"$(GREENWICH_OTHER_LDFLAGS)",
+				);
+				PRODUCT_NAME = "Greenwich Translator";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		8B2B99BC14D347C500A40CD4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BAD1EB3146F159C00E16433 /* Application.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Info/Translator.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				GCC_PREFIX_HEADER = Source/Greenwich.pch;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					External/libarchive,
+				);
+				INFOPLIST_FILE = Info/Translator.plist;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"$(GREENWICH_OTHER_LDFLAGS)",
+				);
+				PRODUCT_NAME = "Greenwich Translator";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
 		8BAD1E59146F114700E16433 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8BAD1EB1146F158E00E16433 /* Project.debug.xcconfig */;
@@ -703,6 +856,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8B2B99BD14D347C500A40CD4 /* Build configuration list for PBXNativeTarget "Translator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B2B99BB14D347C500A40CD4 /* Debug */,
+				8B2B99BC14D347C500A40CD4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8BAD1E57146F114700E16433 /* Build configuration list for PBXProject "Greenwich" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
