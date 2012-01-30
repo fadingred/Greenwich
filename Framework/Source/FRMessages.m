@@ -15,16 +15,32 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-#import "FRAppDelegate.h"
+#import "FRMessages.h"
 
-@implementation FRAppDelegate
+const struct FRLocalizationResourcesMessage FRLocalizationResourcesMessage = {
+	.messageID = @"FRLocalizationResourcesMessageID",
+	.keys = {
+		.applicationIdentifier = @"applicationIdentifier",
+		.applicationName = @"applicationName",
+		.resources = @"resources",
+		.resource = {
+			.bundleIdentifier = @"bundleIdentifier",
+			.language = @"language",
+			.name = @"name",
+			.data = @"data",
+		},
+	},
+};
 
-@synthesize window = _window;
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	[FRLocalizationManager defaultLocalizationManager];
-	
-    return YES;
-}
-
-@end
+const struct FRLocalizationChangesMessage FRLocalizationChangesMessage = {
+	.messageID = @"FRLocalizationChangesMessageID",
+	.keys = {
+		.resources = @"resources",
+		.resource = {
+			.bundleIdentifier = @"bundleIdentifier",
+			.language = @"language",
+			.name = @"name",
+			.data = @"data",
+		},
+	},
+};

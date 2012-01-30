@@ -24,6 +24,7 @@
 	NSString *translationPath;
 	NSString *fileName;
 	NSString *displayName;
+	NSString *bundleIdentifier;
 	NSString *bundleName;
 	NSMutableDictionary *displayInfo;
 }
@@ -34,7 +35,9 @@
 
 @property (readonly) NSString *fileName;
 @property (readonly) NSString *displayName;
+@property (readonly) NSString *bundleIdentifier;
 @property (readonly) NSString *bundleName;
+@property (readonly) NSString *language;
 @property (readonly) NSUInteger untranslatedCount;
 
 @property (readonly) NSDictionary *displayInfo;

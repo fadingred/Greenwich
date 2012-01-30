@@ -19,6 +19,7 @@
 #import "FRLocalizationBundleAdditions__.h"
 #import "FRBundleAdditions.h"
 #import "FRRuntimeAdditions.h"
+#import "FRStrings.h"
 
 @interface NSBundle (FRLocalizationBundleAdditionsPrivate)
 + (BOOL)_mergeContentsOfStringsFile:(NSString *)mergeFromPath
@@ -165,25 +166,31 @@ static NSString *FRPseudoLocalizedString(NSString *string) {
 // translation lookup/creation
 // ----------------------------------------------------------------------------------------------------
 
-+ (id)bundleForTranslationsWithIdentifier:(NSString *)identifier {
-	return [self bundleForTranslationsWithIdentifier:identifier updatingStringsForLanguages:nil error:NULL];
++ (NSString *)translactionStoragePath {
+	return [[[self mainBundle] applicationSupportDirectory] stringByAppendingPathComponent:@"Translations"];
 }
 
-+ (id)bundleForTranslationsWithIdentifier:(NSString *)identifier
-			  updatingStringsForLanguages:(NSArray *)languages
-									error:(NSError **)error {
++ (id)bundleForTranslationsWithIdentifier:(NSString *)identifier {
+	NSBundle *original = [self bundleWithIdentifier:identifier loaded:NULL];
+	return [original bundleUsingContentsForTranslationsWithIdentifier:identifier
+										  updatingStringsForLanguages:nil
+																error:NULL];
+}
+
+- (id)bundleUsingContentsForTranslationsWithIdentifier:(NSString *)bundleIdentifier
+						   updatingStringsForLanguages:(NSArray *)languages
+												 error:(NSError **)error {
 
 	BOOL create = [languages count];
 	NSFileManager *manager = [NSFileManager defaultManager];
 
-	NSBundle *originalBundle = [self bundleWithIdentifier:identifier loaded:NULL];
+	NSBundle *originalBundle = self;
 	NSBundle *translateBundle = nil;
 	NSString *translateBundlePath = nil;
 	
 	if (originalBundle) {
-		NSString *appSupportPath = [[self mainBundle] applicationSupportDirectory];
-		NSString *translationsPath = [appSupportPath stringByAppendingPathComponent:@"Translations"];
-		translateBundlePath = [translationsPath stringByAppendingPathComponent:[originalBundle bundleIdentifier]];
+		NSString *translationsPath = [[self class] translactionStoragePath];
+		translateBundlePath = [translationsPath stringByAppendingPathComponent:bundleIdentifier];
 		
 		if (create) {
 			[manager createDirectoryAtPath:translateBundlePath withIntermediateDirectories:YES
@@ -209,7 +216,7 @@ static NSString *FRPseudoLocalizedString(NSString *string) {
 				NSString *translatePath = [translateBundlePath stringByAppendingPathComponent:path];
 				
 				if ([manager fileExistsAtPath:translatePath]) {
-					if (![self _mergeContentsOfStringsFile:originalPath // merge in progress translations
+					if (![[self class] _mergeContentsOfStringsFile:originalPath // merge in progress translations
 									 intoStringsFileAtPath:translatePath error:error]) {
 						translateBundle = nil;
 					}
@@ -279,83 +286,80 @@ static NSString *FRPseudoLocalizedString(NSString *string) {
 			  intoStringsFileAtPath:(NSString *)mergeIntoPath
 							  error:(NSError **)error {
 	BOOL success = TRUE;
-	NSString *contentsUntranslated = nil;
-	NSString *contentsTranslated = nil;
+	FRStrings *contentsUntranslated = nil;
+	FRStrings *contentsTranslated = nil;
+	FRStringsFormat format = 0;
 	
 	if (success) {
-		contentsUntranslated = [NSString stringWithContentsOfFile:mergeFromPath
-													 usedEncoding:&(NSStringEncoding){ 0 } error:error];
+		contentsUntranslated = [[FRStrings alloc] initWithContentsOfFile:mergeFromPath usedFormat:&format error:error];
 		if (!contentsUntranslated) { success = FALSE; }
 	}
 	
 	if (success) {
-		contentsTranslated = [NSString stringWithContentsOfFile:mergeIntoPath usedEncoding:&(NSStringEncoding){ 0 } error:error];
+		contentsTranslated = [[FRStrings alloc] initWithContentsOfFile:mergeIntoPath usedFormat:NULL error:error];
 		if (!contentsTranslated) { success = FALSE; }
 	}
 
 	if (success) {
-		NSMutableString *result = [NSMutableString string];
-		
-		NSArray *untranslatedLines = [contentsUntranslated componentsSeparatedByCharactersInSet:
-									  [NSCharacterSet characterSetWithCharactersInString:@"\r\n"]];
-
-		NSArray *translatedLines = [contentsTranslated componentsSeparatedByCharactersInSet:
-									[NSCharacterSet characterSetWithCharactersInString:@"\r\n"]];
-		
-		NSMutableDictionary *translatedKeys = [NSMutableDictionary dictionary];
-		NSMutableArray *previousComments = [NSMutableArray array];
-		static NSString * const kCommentsKey = @"comments";
-		static NSString * const kValueKey = @"value";
-		for (NSString *line in translatedLines) {
-			NSArray *components = [line componentsSeparatedByString:@"\" = \""];
-			if ([components count] == 2) {
-				NSString *leftSide = [NSString stringWithFormat:@"%@\"", [components objectAtIndex:0]];
-				NSString *rightSide = [NSString stringWithFormat:@"\"%@", [components objectAtIndex:1]];
-				NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-									  previousComments, kCommentsKey,
-									  rightSide, kValueKey, nil];
-				[translatedKeys setObject:info forKey:leftSide];
-				previousComments = [NSMutableArray array];
+		for (NSString *string in contentsUntranslated) {
+			NSString *currentTranslation = [contentsTranslated translationForString:string];
+			NSArray *currentComments = [contentsTranslated commentsForString:string];
+			
+			NSArray *combinedComments = [contentsUntranslated commentsForString:string];
+			if (!combinedComments) { combinedComments = [NSArray array]; }
+			if ([currentComments count] > [combinedComments count]) {
+				NSRange range = {};
+				range.location = [combinedComments count];
+				range.length = [currentComments count] - [combinedComments count];
+				combinedComments = [combinedComments arrayByAddingObjectsFromArray:
+									[currentComments subarrayWithRange:range]];
 			}
-			else if ([line hasPrefix:@"/*"] && [line hasSuffix:@"*/"]) {
-				[previousComments addObject:line];
+			
+			if (currentTranslation) {
+				[contentsUntranslated setTranslation:currentTranslation forString:string];
 			}
-			else { previousComments = [NSMutableArray array]; }
+			[contentsUntranslated setComments:combinedComments forString:string];
 		}
 		
-		NSUInteger commentCount = 0;
-		for (NSString *line in untranslatedLines) {
-			NSString *editedLine = nil;
-			NSArray *components = [line componentsSeparatedByString:@"\" = \""];
-			if ([components count] == 2) {
-				NSString *leftSide = [NSString stringWithFormat:@"%@\"", [components objectAtIndex:0]];
-				NSString *rightSide = [NSString stringWithFormat:@"\"%@", [components objectAtIndex:1]];
-				NSString *newRightSide = rightSide;
-				if ([translatedKeys valueForKey:leftSide]) {
-					NSDictionary *info = [translatedKeys valueForKey:leftSide];
-					NSArray *comments = [info objectForKey:kCommentsKey];
-					for (NSUInteger idx = commentCount; idx < [comments count]; idx++) {
-						[result appendFormat:@"%@\n", [comments objectAtIndex:idx]];
-					}
-					newRightSide = [info objectForKey:kValueKey];
-				}
-				editedLine = [NSString stringWithFormat:@"%@ = %@", leftSide, newRightSide];
-				commentCount = 0;
-			}
-			else {
-				if ([line hasPrefix:@"/*"] && [line hasSuffix:@"*/"]) { commentCount++; }
-				else { commentCount = 0; }
-				editedLine = line;
-			}
-			[result appendFormat:@"%@\n", editedLine];
-		}
-		
-		if (![result writeToFile:mergeIntoPath atomically:YES encoding:NSUTF16StringEncoding error:error]) {
+		if (![contentsUntranslated writeToFile:mergeIntoPath format:format error:error]) {
 			success = FALSE;
 		}
 	}
 	
 	return success;
+}
+
+
+#pragma mark -
+#pragma mark convenience
+// ----------------------------------------------------------------------------------------------------
+// convenience
+// ----------------------------------------------------------------------------------------------------
+
+- (NSArray *)containedBundles {
+	NSMutableArray *bundles = [[NSMutableArray alloc] init];
+	NSMutableArray *search = [NSMutableArray arrayWithObject:self];
+		
+	void (^iterate_directory)(NSString *) = ^(NSString *directory) {
+		NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:NULL];
+		for (NSString *path in contents) {
+			NSBundle *bundle = [NSBundle bundleWithPath:[directory stringByAppendingPathComponent:path]];
+			NSString *bundleID = [bundle objectForInfoDictionaryKey:(id)kCFBundleIdentifierKey];
+			if (bundleID) {
+				[search addObject:bundle];
+			}
+		}
+	};
+	
+	while ([search count]) {
+		NSBundle *bundle = [search objectAtIndex:0];
+		[bundles addObject:bundle];
+		iterate_directory([bundle privateFrameworksPath]);
+		iterate_directory([bundle builtInPlugInsPath]);
+		[search removeObjectAtIndex:0];
+	}
+
+	return bundles;
 }
 
 @end

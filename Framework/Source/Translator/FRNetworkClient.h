@@ -15,16 +15,30 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-#import "FRAppDelegate.h"
+#import "FRConnection.h"
 
-@implementation FRAppDelegate
+@protocol
+	FRNetworkClientDelegate;
 
-@synthesize window = _window;
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	[FRLocalizationManager defaultLocalizationManager];
-	
-    return YES;
+@interface FRNetworkClient : NSObject <NSNetServiceBrowserDelegate, NSNetServiceDelegate, FRConnectionDelegate> {
+	NSNetServiceBrowser *browser;
+	NSNetService *service;
+	FRConnection *connection;
 }
+
+@property (assign, nonatomic) id <FRNetworkClientDelegate> delegate;
+@property (readonly, nonatomic) FRConnection *activeConnection;
+
+@end
+
+@protocol FRNetworkClientDelegate <NSObject>
+
+/*!
+ \brief		
+ \details	Message is nil when first connecting.
+ */
+- (void)networkClient:(FRNetworkClient *)client
+	  receivedMessage:(NSDictionary *)message
+	   fromConnection:(FRConnection *)connection;
 
 @end

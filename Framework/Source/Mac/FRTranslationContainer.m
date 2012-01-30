@@ -1,62 +1,26 @@
-//
-//  FRTranslationContainer.m
-//  Greenwich
-//
-//  Created by Whitney Young on 1/27/12.
-//  Copyright (c) 2012 FadingRed. All rights reserved.
-//
+// 
+// Copyright (c) 2012 FadingRed LLC
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+// documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+// Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
 
 #import "FRTranslationContainer__.h"
 #import "FRTranslationInfo__.h"
 
+#import "FRBundleAdditions.h"
 #import "FRLocalizationBundleAdditions.h"
 #import "FRLocalizationBundleAdditions__.h"
-
-@implementation NSBundle (FRTranslationContainerAdditions)
-
-- (NSArray *)localizableBundles {
-	NSMutableArray *bundles = [[NSMutableArray alloc] init];
-	NSMutableArray *search = [NSMutableArray arrayWithObject:[NSBundle mainBundle]];
-		
-	void (^iterate_directory)(NSString *) = ^(NSString *directory) {
-		NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:NULL];
-		for (NSString *path in contents) {
-			NSBundle *bundle = [NSBundle bundleWithPath:[directory stringByAppendingPathComponent:path]];
-			NSString *bundleID = [bundle objectForInfoDictionaryKey:(id)kCFBundleIdentifierKey];
-			if (bundleID) {
-				[search addObject:bundle];
-			}
-		}
-	};
-	
-	while ([search count]) {
-		NSBundle *bundle = [search objectAtIndex:0];
-		[bundles addObject:bundle];
-		iterate_directory([bundle privateFrameworksPath]);
-		iterate_directory([bundle builtInPlugInsPath]);
-		[search removeObjectAtIndex:0];
-	}
-
-	return bundles;
-}
-
-- (NSArray *)translateBundlesForLanguage:(NSString *)language {
-	NSArray *languages = [NSArray arrayWithObjects:language, nil];
-	NSMutableArray *translatedBundles = [NSMutableArray array];
-	
-	for (NSBundle *bundle in [self localizableBundles]) {
-		NSBundle *translatedBundle = [NSBundle bundleForTranslationsWithIdentifier:[bundle bundleIdentifier]
-													   updatingStringsForLanguages:languages error:NULL];
-		if (translatedBundle) {
-			[translatedBundles addObject:translatedBundle];
-		}
-	}
-	
-	return translatedBundles;
-}
-
-
-@end
 
 @implementation FRTranslationContainer
 
@@ -68,25 +32,38 @@
 	return continer;
 }
 
-+ (id)containerForCloudSyncedResources:(NSURL *)aURL {
++ (id)containerForSyncedApplicationResources:(NSURL *)aURL {
 	FRTranslationContainer *continer = [[self alloc] init];
 	continer->resourcesURL = aURL;
 	return continer;
 }
 
 - (NSArray *)translateBundlesForLanguage:(NSString *)language {
+	NSArray *languages = [NSArray arrayWithObjects:language, nil];
 	if (applicationBundle) {
-		return [applicationBundle translateBundlesForLanguage:language];
+		NSMutableArray *result = [NSMutableArray array];
+		for (NSBundle *bundle in [applicationBundle containedBundles]) {
+			NSBundle *translateBundle =
+				[bundle bundleUsingContentsForTranslationsWithIdentifier:[bundle bundleIdentifier]
+											 updatingStringsForLanguages:languages error:NULL];
+			if (translateBundle) {
+				[result addObject:translateBundle];
+			}
+		}
+		return result;
 	}
 	else if (resourcesURL) {
 		NSMutableArray *result = [NSMutableArray array];
 		NSFileManager *manager = [NSFileManager defaultManager];
 		for (NSString *fileName in [manager contentsOfDirectoryAtPath:[resourcesURL path] error:NULL]) {
-			if (![fileName isEqualToString:@"GreenwichInfo.plist"]) {
-				NSBundle *bundle = [NSBundle bundleWithURL:[resourcesURL URLByAppendingPathComponent:fileName]];
-				if (bundle) {
-					[result addObject:bundle];
-				}
+			if ([fileName isEqualToString:@"Greenwich.details"]) { continue; }
+			NSBundle *bundle = [NSBundle bundleWithURL:[resourcesURL URLByAppendingPathComponent:fileName]];
+			NSBundle *translateBundle =
+				[bundle bundleUsingContentsForTranslationsWithIdentifier:[[bundle bundlePath] lastPathComponent]
+											 updatingStringsForLanguages:languages error:NULL];
+
+			if (translateBundle) {
+				[result addObject:translateBundle];
 			}
 		}
 		return result;
@@ -145,6 +122,10 @@
 	}
 	
 	return success ? content : nil;
+}
+
+- (BOOL)isSynced {
+	return (resourcesURL != nil);
 }
 
 @end

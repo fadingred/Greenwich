@@ -8,14 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		8B7BAF1214D2FD5000D7B32A /* Example.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B7BAF1114D2FD5000D7B32A /* Example.storyboard */; };
-		8BAB440014D3016C00945E4E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAB43FF14D3016C00945E4E /* MapKit.framework */; };
-		8BAB440214D3019900945E4E /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAB440114D3019900945E4E /* iAd.framework */; };
-		8BAB440414D301B600945E4E /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAB440314D301B600945E4E /* GLKit.framework */; };
 		8BAB444A14D339E800945E4E /* Example.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B7BAEDB14D2FC1300D7B32A /* Example.strings */; };
 		8BAB445714D33D0500945E4E /* FRMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB445514D33D0500945E4E /* FRMainViewController.m */; };
 		8BD5E14A14D1E4F20021848F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD5E14914D1E4F20021848F /* UIKit.framework */; };
 		8BD5E14C14D1E4F20021848F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD5E14B14D1E4F20021848F /* Foundation.framework */; };
-		8BD5E14E14D1E4F20021848F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD5E14D14D1E4F20021848F /* CoreGraphics.framework */; };
 		8BD5E18314D1E68F0021848F /* FRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5E17814D1E68F0021848F /* FRAppDelegate.m */; };
 		8BD5E18514D1E68F0021848F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5E17A14D1E68F0021848F /* main.m */; };
 		8BD5E29614D1F5F70021848F /* Greenwich.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD5E28514D1F5A80021848F /* Greenwich.framework */; };
@@ -23,6 +19,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8BCA747114D34E1C004F27D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BD5E19514D1E70D0021848F /* Greenwich.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B2B99A214D347C400A40CD4;
+			remoteInfo = Translator;
+		};
 		8BD5E19A14D1E70D0021848F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8BD5E19514D1E70D0021848F /* Greenwich.xcodeproj */;
@@ -50,15 +53,11 @@
 		8B7BAEDC14D2FC1300D7B32A /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Example.strings; sourceTree = "<group>"; };
 		8B7BAEDE14D2FC1900D7B32A /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Example.strings; sourceTree = "<group>"; };
 		8B7BAF1114D2FD5000D7B32A /* Example.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Example.storyboard; sourceTree = "<group>"; };
-		8BAB43FF14D3016C00945E4E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/MapKit.framework; sourceTree = DEVELOPER_DIR; };
-		8BAB440114D3019900945E4E /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/iAd.framework; sourceTree = DEVELOPER_DIR; };
-		8BAB440314D301B600945E4E /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/GLKit.framework; sourceTree = DEVELOPER_DIR; };
 		8BAB445414D33D0500945E4E /* FRMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRMainViewController.h; sourceTree = "<group>"; };
 		8BAB445514D33D0500945E4E /* FRMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRMainViewController.m; sourceTree = "<group>"; };
 		8BD5E14514D1E4F20021848F /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BD5E14914D1E4F20021848F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8BD5E14B14D1E4F20021848F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		8BD5E14D14D1E4F20021848F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8BD5E17714D1E68F0021848F /* Example.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Example.plist; sourceTree = "<group>"; };
 		8BD5E17814D1E68F0021848F /* FRAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRAppDelegate.m; sourceTree = "<group>"; };
 		8BD5E17A14D1E68F0021848F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -75,12 +74,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BAB440414D301B600945E4E /* GLKit.framework in Frameworks */,
-				8BAB440214D3019900945E4E /* iAd.framework in Frameworks */,
-				8BAB440014D3016C00945E4E /* MapKit.framework in Frameworks */,
 				8BD5E14A14D1E4F20021848F /* UIKit.framework in Frameworks */,
 				8BD5E14C14D1E4F20021848F /* Foundation.framework in Frameworks */,
-				8BD5E14E14D1E4F20021848F /* CoreGraphics.framework in Frameworks */,
 				8BD5E29614D1F5F70021848F /* Greenwich.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,10 +113,6 @@
 				8BD5E19514D1E70D0021848F /* Greenwich.xcodeproj */,
 				8BD5E28514D1F5A80021848F /* Greenwich.framework */,
 				8BD5E14914D1E4F20021848F /* UIKit.framework */,
-				8BD5E14D14D1E4F20021848F /* CoreGraphics.framework */,
-				8BAB440314D301B600945E4E /* GLKit.framework */,
-				8BAB440114D3019900945E4E /* iAd.framework */,
-				8BAB43FF14D3016C00945E4E /* MapKit.framework */,
 				8BD5E14B14D1E4F20021848F /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -150,6 +141,7 @@
 			children = (
 				8BD5E19B14D1E70D0021848F /* Greenwich.framework */,
 				8BD5E24A14D1EA0A0021848F /* Greenwich.framework */,
+				8BCA747214D34E1C004F27D9 /* Greenwich Translator.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -211,6 +203,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		8BCA747214D34E1C004F27D9 /* Greenwich Translator.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Greenwich Translator.app";
+			remoteRef = 8BCA747114D34E1C004F27D9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		8BD5E19B14D1E70D0021848F /* Greenwich.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -364,7 +363,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -398,7 +397,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

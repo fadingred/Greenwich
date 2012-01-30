@@ -18,14 +18,21 @@
 @interface NSBundle (FRLocalizationBundleAdditionsInternal)
 
 /*!
- \brief		Get the bundle contining user translations for a given identifier
+ \brief		Get the bundle contining user translations
  \details	This will create and merge strings files for the given langauges. It will create the bundle
 			if any launage is specified, but will not create it if no languages are given. Error will be
 			set when this method returns nil and a real error occurred (not just that the bundle was not
 			created).
  */
-+ (id)bundleForTranslationsWithIdentifier:(NSString *)identifier
-			  updatingStringsForLanguages:(NSArray *)languages
-									error:(NSError **)error;
+- (id)bundleUsingContentsForTranslationsWithIdentifier:(NSString *)bundleIdentifier
+						   updatingStringsForLanguages:(NSArray *)languages
+												 error:(NSError **)error;
+
+/*!
+ \brief		Get all sub-bundles of a bundle
+ \details	Search for all sub bundles of a given bundle. Will return an array containing anything that
+			appears to be a bundle because it has defined a bundle identifier in the proper place.
+ */
+- (NSArray *)containedBundles;
 
 @end

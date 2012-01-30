@@ -25,6 +25,7 @@
 #import "FRTranslationInfo__.h"
 #import "FRBundleAdditions.h"
 #import "FRFileManagerArchivingAdditions.h"
+#import "FRStrings.h"
 
 #define COMMENT [NSColor colorWithCalibratedWhite:0.70 alpha:1]
 #define TRANSLATION [NSColor colorWithCalibratedRed:0.75 green:0.72 blue:0.65 alpha:1.00]
@@ -47,10 +48,15 @@ static const NSTimeInterval kSaveTimeout = 0.5;
 static const NSSize kTextContainerInset = { .width = 15, .height = 10 };
 NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 
+@protocol FRApplicationDelegateOptional <NSObject>
+- (void)sendStringsFilesToDevice:(NSArray *)objects;
+@end
+
 @interface FRLocalizationWindowController ()
 - (void)loadLanguages;
 - (void)loadStringsFiles;
 - (void)loadTextView;
+- (void)updateSendButtonVisibility;
 - (void)updateContainersPopupVisibility;
 - (void)persistSelectedLanguage;
 - (void)processEditing:(NSNotification *)notification;
@@ -163,6 +169,7 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 		[tableView setNeedsDisplay];
 	}
 	else if (context == FRSelectedContainerDidChangeContext) {
+		[self updateSendButtonVisibility];
 		[self loadLanguages];
 	}
 	else if (context == FRSelectedLanguageDidChangeContext) {
@@ -183,13 +190,20 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 
 - (void)saveSelectedStringsFile {
 	FRTranslationInfo *info = [[stringsFiles selectedObjects] lastObject];
-	NSString *path = info.path;
-	NSError *error = nil;
-	BOOL written = [[textView string] writeToFile:path atomically:YES encoding:NSUTF16StringEncoding error:&error];
-	if (!written) {
-		[[self window] presentError:error];
+	if (info) {
+		NSString *path = info.path;
+		NSError *error = nil;
+		BOOL written = FALSE;
+		FRStringsFormat format = FRStringsFormatQuoted;
+		NSData *data = [[textView string] dataUsingEncoding:NSUTF16StringEncoding];
+		FRStrings *strings = [[FRStrings alloc] initWithData:data usedFormat:&format error:&error];
+		if (strings) {
+			written = [strings writeToFile:path format:FRStringsFormatQuoted error:&error];
+		}
+		if (!written) {
+			[[self window] presentError:error];
+		}
 	}
-	
 }
 
 - (void)loadLanguages {
@@ -228,11 +242,23 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 	NSString *contents = nil;
 	FRTranslationInfo *info = [[stringsFiles selectedObjects] lastObject];
 	NSError *error = nil;
-	if ((info) &&
-		(contents = [NSString stringWithContentsOfFile:info.path encoding:NSUTF16StringEncoding error:&error]) == nil) {
-		[[self window] presentError:error];
+	if (info) {
+		NSData *data = [NSData dataWithContentsOfFile:info.path options:0 error:&error];
+		if (data) {
+			FRStringsFormat format = FRStringsFormatQuoted;
+			FRStrings *strings = [[FRStrings alloc] initWithData:data usedFormat:&format error:&error];
+			contents = [strings contentsInFormat:FRStringsFormatQuoted];
+		}
+		if (!contents) {
+			[[self window] presentError:error];
+		}
 	}
 	[textView setString:contents ? contents : @""];
+}
+
+- (void)updateSendButtonVisibility {
+	[sendToDeviceButton setHidden:
+	 ![[[containers selectedObjects] lastObject] isSynced]];
 }
 
 - (void)updateContainersPopupVisibility {
@@ -251,7 +277,9 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 - (void)persistSelectedLanguage {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *language = [[languages selectedObjects] lastObject];
-	[defaults setObject:language forKey:FRLocalizationTypePreferenceKey];
+	if (language) {
+		[defaults setObject:language forKey:FRLocalizationTypePreferenceKey];
+	}
 }
 
 
@@ -351,6 +379,13 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 #endif
 }
 
+- (IBAction)sendToDevice:(id)sender {
+	id delegate = [NSApp delegate];
+	if ([delegate respondsToSelector:@selector(sendStringsFilesToDevice:)]) {
+		[delegate sendStringsFilesToDevice:[stringsFiles arrangedObjects]];
+	}
+
+}
 
 #pragma mark -
 #pragma mark tableView delegate

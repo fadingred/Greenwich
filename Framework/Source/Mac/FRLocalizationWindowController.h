@@ -18,6 +18,7 @@
 @class
 	FRTranslationContainer;
 
+
 @interface FRLocalizationWindowController : NSWindowController {
 	NSTimer *saveTimer;
 	CGFloat initialLanguagePosition;
@@ -29,11 +30,13 @@
 	IBOutlet NSTextView *textView;
 	IBOutlet NSPopUpButton *containersPopup;
 	IBOutlet NSPopUpButton *languagesPopup;
+	IBOutlet NSButton *sendToDeviceButton;
 }
 
 - (void)addContainer:(FRTranslationContainer *)container;
 
 - (IBAction)packageStringsFiles:(id)sender;
+- (IBAction)sendToDevice:(id)sender;
 
 @end
 

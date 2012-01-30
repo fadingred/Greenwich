@@ -1,5 +1,6 @@
 // 
 // Copyright (c) 2012 FadingRed LLC
+// Copyright (c) 2009 Peter Bakhyryev <peter@byteclub.com>, ByteClub LLC
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -15,16 +16,34 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-#import "FRAppDelegate.h"
+#import <Foundation/Foundation.h>
 
-@implementation FRAppDelegate
+@protocol
+	FRConnectionDelegate;
 
-@synthesize window = _window;
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	[FRLocalizationManager defaultLocalizationManager];
-	
-    return YES;
+@interface FRConnection : NSObject {
+	CFReadStreamRef readStream;
+	NSMutableData *readBuffer;
+	BOOL readOpen;
+	CFWriteStreamRef writeStream;
+	NSMutableData *writeBuffer;
+	BOOL writeOpen;
 }
 
+- (id)initWithSocketHandle:(int)socketHandle;
+- (id)initWithHost:(NSString *)host port:(uint16_t)port;
+
+@property (assign, nonatomic) id <FRConnectionDelegate> delegate;
+
+- (BOOL)connect;
+- (void)close;
+
+- (void)sendMessage:(NSDictionary *)message;
+
+@end
+
+@protocol FRConnectionDelegate
+- (void)connectionFailed:(FRConnection *)connection;
+- (void)connectionTerminated:(FRConnection *)connection;
+- (void)connection:(FRConnection *)connection receivedMessage:(NSDictionary *)message;
 @end

@@ -15,16 +15,44 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-#import "FRAppDelegate.h"
+#define safe __unsafe_unretained
 
-@implementation FRAppDelegate
+/*!
+ \brief		Resources message
+ \details	Sent from the iOS server back to the Mac app and includes information on all localizable
+			strings files.
+ */
+extern const struct FRLocalizationResourcesMessage {
+	safe NSString *messageID;
+	struct {
+		safe NSString *applicationIdentifier;
+		safe NSString *applicationName;
+		safe NSString *resources;
+		struct {
+			safe NSString *bundleIdentifier;
+			safe NSString *language;
+			safe NSString *name;
+			safe NSString *data;
+		} resource;
+	} keys;
+} FRLocalizationResourcesMessage;
 
-@synthesize window = _window;
+/*!
+ \brief		Changes message
+ \details	Sent from the Mac client app back to the iOS server indicating the localizations
+			that the user has performed.
+ */
+extern const struct FRLocalizationChangesMessage {
+	safe NSString *messageID;
+	struct {
+		safe NSString *resources;
+		struct {
+			safe NSString *bundleIdentifier;
+			safe NSString *language;
+			safe NSString *name;
+			safe NSString *data;
+		} resource;
+	} keys;
+} FRLocalizationChangesMessage;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	[FRLocalizationManager defaultLocalizationManager];
-	
-    return YES;
-}
-
-@end
+#undef safe

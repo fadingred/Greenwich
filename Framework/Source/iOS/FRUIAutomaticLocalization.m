@@ -81,21 +81,20 @@ static NSArray *(FRInstantiateNib)(id self, SEL _cmd, id owner, NSDictionary *op
 static UINib *FRCreateNib(id self, SEL _cmd, NSString *name, NSBundle *bundle) {
 	UINib *result = SCreateNib(self, _cmd, name, bundle);
 	
-	NSString *localizeName = name;
-	BOOL localize = [bundle pathForResource:localizeName ofType:@"strings"] != nil;
+	BOOL localize = [bundle pathForResource:name ofType:@"strings"] != nil;
 
 	// check to see this is a nib for a storyboard and there's a strings file with the name
 	// of the storyboard. we're making the assumption that loading storyboard files will have
 	// the name formatted as: StoryboardName.storyboardc/resource
 	if (!localize) {
-		NSArray *localizeNameComponents = [localizeName pathComponents];
-		if ([localizeNameComponents count]) {
-			NSString *storyboardComponent = [localizeNameComponents objectAtIndex:0];
+		NSArray *nameComponents = [name pathComponents];
+		if ([nameComponents count]) {
+			NSString *storyboardComponent = [nameComponents objectAtIndex:0];
 			NSString *storyboardName = [storyboardComponent stringByDeletingPathExtension];
 			NSString *storyboardExtension = [storyboardComponent pathExtension];
 			if ([storyboardExtension isEqualToString:@"storyboardc"]) {
-				localizeName = storyboardName;
-				localize = [bundle pathForResource:localizeName ofType:@"strings"] != nil;
+				name = storyboardName;
+				localize = [bundle pathForResource:name ofType:@"strings"] != nil;
 			}
 		}
 	}

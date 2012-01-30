@@ -15,16 +15,13 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-#import "FRAppDelegate.h"
+@class
+	FRNetworkServer;
 
-@implementation FRAppDelegate
-
-@synthesize window = _window;
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	[FRLocalizationManager defaultLocalizationManager];
-	
-    return YES;
+@interface FRLocalizationManager : NSObject {
+	FRNetworkServer *server;
 }
+
++ (id)defaultLocalizationManager;
 
 @end

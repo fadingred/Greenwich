@@ -17,6 +17,7 @@
 
 #import "FRTranslationInfo__.h"
 #import "FRBundleAdditions.h"
+#import "FRStrings.h"
 
 static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 					   const FSEventStreamEventFlags[], const FSEventStreamEventId[]);
@@ -46,13 +47,13 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 	if ((self = [super init])) {
 		NSString *languagePath = [aPath stringByDeletingLastPathComponent];
 		NSString *bundlePath = [languagePath stringByDeletingLastPathComponent];
-		NSString *bundleIdentifier = [bundlePath lastPathComponent];
 
 		// set all the properties
 		path = [aPath copy];
 		language = [aLanguage copy];
 		fileName = [[path lastPathComponent] copy];
 		displayName = [[fileName stringByDeletingPathExtension] copy];
+		bundleIdentifier = [[bundlePath lastPathComponent] copy];
 		bundleName = [[[NSBundle bundleWithIdentifier:bundleIdentifier loaded:NULL] name] copy];
 		displayInfo = [[NSMutableDictionary alloc] init];
 		
@@ -116,6 +117,8 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 @synthesize fileName;
 @synthesize displayName;
 @synthesize bundleName;
+@synthesize bundleIdentifier;
+@synthesize language;
 
 #if !__OBJC_GC__
 - (void)dealloc {
@@ -134,35 +137,22 @@ static void filechange(ConstFSEventStreamRef, void *, size_t, void *,
 		
 		// calculate
 		NSError *error = nil;
-		BOOL hasError = FALSE;
-		NSStringEncoding encoding;
-		NSString *contents = [NSString stringWithContentsOfFile:self.path
-												   usedEncoding:&encoding
-														  error:&error];
-		if (!contents) { hasError = TRUE; }
-		
-		if (!hasError) {
-			NSArray *lines = [contents componentsSeparatedByCharactersInSet:
-							  [NSCharacterSet characterSetWithCharactersInString:@"\r\n"]];;
-			NSString *previousLine = nil;
-			for (NSString *line in lines) {
-				NSArray *components = [line componentsSeparatedByString:@"\" = \""];
-				if ([components count] == 2) {
-					NSCharacterSet *trim = [NSCharacterSet characterSetWithCharactersInString:@"\";"];
-					NSString *leftSide = [[components objectAtIndex:0] stringByTrimmingCharactersInSet:trim];
-					NSString *rightSide = [[components objectAtIndex:1] stringByTrimmingCharactersInSet:trim];
-					if (([leftSide isEqualToString:rightSide]) &&
-						(previousLine == nil || [previousLine rangeOfString:@"=="].location == NSNotFound)) {
-						untranslatedCount++;
-					}
+		FRStrings *contents = [[FRStrings alloc] initWithContentsOfFile:self.path
+															 usedFormat:&(FRStringsFormat){0}
+																  error:&error];
+		if (contents) {
+			for (NSString *string in contents) {
+				NSString *translation = [contents translationForString:string];
+				NSArray *comments = [contents commentsForString:string];
+				NSString *lastComment = [comments lastObject];
+				BOOL untranslated = [string isEqualToString:translation];
+				BOOL equalComment = lastComment ? [lastComment rangeOfString:@"=="].location != NSNotFound : NO;
+				if (untranslated && !equalComment) {
+					untranslatedCount++;
 				}
-				previousLine = line;
 			}
 		}
-		
-		if (hasError) {
-			NSLog(@"Error getting untranslated count: %@", error);
-		}
+		else { NSLog(@"Error getting untranslated count: %@", error); }
 		untranslatedKnown = TRUE;
 	}
 	
