@@ -22,7 +22,6 @@
 	NSError *error = nil;
 	NSStringEncoding encoding;
 
-// contents is what is failing us
 	NSString *contents = [NSString stringWithContentsOfFile:fromPath
 											   usedEncoding:&encoding
 													  error:&error];
@@ -39,14 +38,27 @@
 	NSMutableArray *proofedStrings = [[NSMutableArray alloc] init];
 
 	for (NSString *line in lines) {
-		NSString *original = [self leftSideOfStringsLine:line];
-		NSString *translated = [self rightSideOfStringsLine:line];
-		NSString *proofed = [translator translateString:translated];			
-		
-		[originalStrings addObject:original];
-		[translatedStrings addObject:translated];
-		[proofedStrings addObject:proofed];
+		// don't proof if the line is a comment line or empty
+		NSUInteger location = [line rangeOfString:@"/*"].location;
+		if (location == NSNotFound && [line length] != 0) {
+			NSString *original = [self leftSideOfStringsLine:line];
+			NSString *translated = [self rightSideOfStringsLine:line];
+			NSString *proofed = [translator translateString:translated];			
+			
+			[originalStrings addObject:original];
+			[translatedStrings addObject:translated];
+			[proofedStrings addObject:proofed];
+		}
 	}
+
+	NSString *outputString = @"Translation = Original = Proofed\n";
+	for (NSUInteger i = 0; i < [originalStrings count]; i++) {
+		outputString = [outputString stringByAppendingFormat:@"\"%@\" = \"%@\" = \"%@\"\n", 
+						[translatedStrings objectAtIndex:i], [originalStrings objectAtIndex:i], 
+						[proofedStrings objectAtIndex:i]];
+	}
+
+	[outputString writeToFile:toPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 }
 
 - (void)initTranslatorUsingLines:(NSArray *)lines {
@@ -108,7 +120,7 @@
 	NSArray *components = [line componentsSeparatedByString:@"\" = \""];
 	NSCharacterSet *trim = [NSCharacterSet characterSetWithCharactersInString:@"\";"];
 	if ([components count] == 2) {
-			leftSide = [[components objectAtIndex:1] stringByTrimmingCharactersInSet:trim];
+			leftSide = [[components objectAtIndex:0] stringByTrimmingCharactersInSet:trim];
 	}
 	return leftSide;
 }
