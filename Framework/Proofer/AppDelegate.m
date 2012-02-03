@@ -74,15 +74,15 @@
 	[panel beginSheetModalForWindow:[self window] completionHandler:completion];
 }
 
-- (void)importFromTbz:(NSString *)path toPath:(NSString *)exportPath {
+- (void)importFromTbz:(NSString *)path toPath:(NSString *)savePath {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	NSError *error = nil;
-	
+
+	NSString *exportPath = [[self newTempDir] stringByAppendingPathComponent:@"extracted"];
 	[fileManager uncompressItemAtPath:path to:exportPath error:&error];
 	//TODO: implement proper error handling, especially in the case that the directory already exists
 	if (error) { NSLog(@"Error"); }
 	
-	NSString *savePath = [exportPath stringByAppendingString:@"PROOFED"];
 	[fileManager createDirectoryAtPath:savePath withIntermediateDirectories:NO attributes:nil error:nil];
 	
 	NSDirectoryEnumerator *dirEnum = [fileManager enumeratorAtPath:exportPath];
@@ -101,7 +101,24 @@
 			[self importFromStringsFileAtPath:fullFilePath toPath:newFilePath];
 		}
 	}
+	[fileManager removeItemAtPath:[exportPath stringByDeletingLastPathComponent] error:NULL];
 }
+
+- (NSString *)newTempDir {
+	NSString *tempDirectory = NSTemporaryDirectory();
+	char *dirname = NULL;
+	asprintf(&dirname, "%sPROOF_TEMP.XXXXX", [tempDirectory fileSystemRepresentation]);
+	char *chdir_location = mkdtemp(dirname);
+	
+	if (!chdir_location) {
+		NSLog(@"Temp directory creation failed.");
+	}
+	
+	tempDirectory = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:chdir_location
+																				length:strlen(chdir_location)];
+	return tempDirectory;
+}
+
 
 - (void)importFromStringsFileAtPath:(NSString *)fromPath toPath:(NSString *)toPath {
 	[self.proofer proofFileFromPath:fromPath toPath:toPath];
