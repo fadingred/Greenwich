@@ -51,6 +51,7 @@
 		8BAD1EAB146F148500E16433 /* FRNibAutomaticLocalization.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E9D146F148400E16433 /* FRNibAutomaticLocalization.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8BAD1EAC146F148500E16433 /* FRTranslationInfo__.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E9E146F148400E16433 /* FRTranslationInfo__.h */; };
 		8BAD1EAD146F148500E16433 /* FRUntranslatedCountCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BAD1E9F146F148400E16433 /* FRUntranslatedCountCell.h */; };
+		8F0AE78314E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0AE78214E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.m */; };
 		8F1E4D7214D35B2F009A891A /* FRProofer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1E4D7114D35B2F009A891A /* FRProofer.m */; };
 		8F6BF70114CA19CD00C25754 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAD1E73146F11CB00E16433 /* Cocoa.framework */; };
 		8F6BF70D14CA19CD00C25754 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6BF70C14CA19CD00C25754 /* main.m */; };
@@ -127,6 +128,8 @@
 		8BAD1EB3146F159C00E16433 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Base.xcconfig; path = ../Configurations/Mac/Base.xcconfig; sourceTree = "<group>"; };
 		8BAD1EB4146F159C00E16433 /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Framework.xcconfig; path = ../Configurations/Mac/Framework.xcconfig; sourceTree = "<group>"; };
 		8BAD1EB9146F168F00E16433 /* Greenwich.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Greenwich.pch; path = Source/Greenwich.pch; sourceTree = "<group>"; };
+		8F0AE78114E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRTranslateArrayResultParsingDelegate.h; sourceTree = "<group>"; };
+		8F0AE78214E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRTranslateArrayResultParsingDelegate.m; sourceTree = "<group>"; };
 		8F1E4D7014D35B2F009A891A /* FRProofer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRProofer.h; sourceTree = "<group>"; };
 		8F1E4D7114D35B2F009A891A /* FRProofer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRProofer.m; sourceTree = "<group>"; };
 		8F6BF6FF14CA19CD00C25754 /* Proofer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Proofer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -346,6 +349,8 @@
 				8FC50CFF14D3617D00A9E845 /* FRTranslator.m */,
 				8FC50D0314D3641100A9E845 /* FRSingleNodeParsingDelegate.h */,
 				8FC50D0414D3641100A9E845 /* FRSingleNodeParsingDelegate.m */,
+				8F0AE78114E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.h */,
+				8F0AE78214E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.m */,
 			);
 			name = Translator;
 			sourceTree = "<group>";
@@ -549,6 +554,7 @@
 				8F1E4D7214D35B2F009A891A /* FRProofer.m in Sources */,
 				8FC50D0014D3617D00A9E845 /* FRTranslator.m in Sources */,
 				8FC50D0514D3641100A9E845 /* FRSingleNodeParsingDelegate.m in Sources */,
+				8F0AE78314E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
