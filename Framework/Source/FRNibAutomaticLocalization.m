@@ -255,10 +255,7 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 				}
 				else if ([object isKindOfClass:[NSButtonCell class]]) {
 					[self localizeTitle:object];
-					// shouldn't we be able to do this?
-					// what's going on with some of the buttons?
-					// come back to this next time! :)
-					//[self localizeAlternateTitle:object];
+					[self localizeAlternateTitle:object];
 				}
 				else if ([object isKindOfClass:[NSImageCell class]] ||
 						 [object isKindOfClass:[NSDatePickerCell class]] ||
