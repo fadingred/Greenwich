@@ -271,6 +271,7 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 			}
 			else if ([object isKindOfClass:[NSTabViewItem class]]) {
 				[self localizeLabel:object];
+				[self localizeObject:[object view]];
 			}
 			else if ([object isKindOfClass:[NSApplication class]] ||
 					 [object isKindOfClass:[NSFontManager class]] ||
