@@ -29,18 +29,18 @@
 
 #import "archiving.h"
 
-static int append_path_recursively(const char *pathname, struct archive *a);
+static int append_path_recursively(const char *relative_to, const char *pathname, struct archive *a);
 
-int archive_create_tar_bzip2(const char **pathnames) {
+int archive_create_tar_bzip2(int fd, const char *relative_to, const char **pathnames) {
 	int error = 0;
 	
 	struct archive *a = archive_write_new();
 	archive_write_set_compression_bzip2(a);
 	archive_write_set_format_ustar(a);
-	archive_write_open_file(a, NULL);
+	archive_write_open_fd(a, fd);
 	
 	while (*pathnames) {
-		append_path_recursively(*pathnames, a);
+		append_path_recursively(relative_to, *pathnames, a);
 		pathnames++;
 	}
 	
@@ -50,19 +50,22 @@ int archive_create_tar_bzip2(const char **pathnames) {
 	return error;
 }
 
-static int append_path_recursively(const char *pathname, struct archive *a) {
+static int append_path_recursively(const char *relative_to, const char *pathname, struct archive *a) {
 	int error = 0;
 	
+	char *fullpath = NULL;
+	asprintf(&fullpath, "%s/%s", relative_to, pathname);
+
 	struct archive_entry *entry = archive_entry_new();
 	archive_entry_set_pathname(entry, pathname);
 	struct stat st;
-	stat(pathname, &st);
+	stat(fullpath, &st);
 	archive_entry_copy_stat(entry, &st);
 	// if we want to add uname/gname, we should do something like:
 	// archive_entry_copy_uname(entry, uname);
 	// archive_entry_copy_gname(entry, gname);
 	archive_write_header(a, entry);
-	int fd = open(pathname, O_RDONLY);
+	int fd = open(fullpath, O_RDONLY);
 	ssize_t amt = 0;
 	static char buffer[16*1024];
 	while ((amt = read(fd, buffer, sizeof(buffer))) > 0) {
@@ -73,7 +76,7 @@ static int append_path_recursively(const char *pathname, struct archive *a) {
 	
 	if (S_ISLNK(st.st_mode)) { } // don't recurse into symbolic link dirs
 	else if (S_ISDIR(st.st_mode)) {
-		DIR *dir = opendir(pathname);
+		DIR *dir = opendir(fullpath);
 		struct dirent *dirent = NULL;
 		while ((dirent = readdir(dir))) {
 			if (strcmp(dirent->d_name, ".") == 0 ||
@@ -81,17 +84,18 @@ static int append_path_recursively(const char *pathname, struct archive *a) {
 			
 			char *subpath = NULL;
 			asprintf(&subpath, "%s/%s", pathname, dirent->d_name);
-			error = append_path_recursively(subpath, a);
+			error = append_path_recursively(relative_to, subpath, a);
 			free(subpath);
 			
 			if (error != 0) { break; }
 		}
 	}
 	
+	free(fullpath);
 	return error;
 }
 
-int archive_extract_tar_bzip2(void) {
+int archive_extract_tar_bzip2(int fd, const char *relative_to) {
 	struct archive *a;
 	struct archive *ext;
 	int r = 0;
@@ -105,7 +109,7 @@ int archive_extract_tar_bzip2(void) {
 	ext = archive_write_disk_new();
 	archive_write_disk_set_options(ext, flags);
 
-	if ((r = archive_read_open_file(a, NULL, 10240))) {
+	if ((r = archive_read_open_fd(a, fd, 10240))) {
 		fprintf(stderr, "archiving: %s", archive_error_string(a));
 		error = r;
 	}
@@ -119,6 +123,13 @@ int archive_extract_tar_bzip2(void) {
 				error = 1;
 				break;
 			}
+			
+			// update path to the full pathname
+			const char *pathname = archive_entry_pathname(entry);
+			char *fullpath = NULL;
+			asprintf(&fullpath, "%s/%s", relative_to ? relative_to : ".", pathname);
+			archive_entry_set_pathname(entry, fullpath);
+			
 			if (archive_write_header(ext, entry) != ARCHIVE_OK) {
 				fprintf(stderr, "archiving: %s", archive_error_string(ext));
 			}
@@ -152,6 +163,8 @@ int archive_extract_tar_bzip2(void) {
 					break;
 				}
 			}
+			
+			free(fullpath);
 		}
 	}
 	archive_read_close(a);

@@ -57,26 +57,13 @@
 		
 		// create the compression task
 		char *chdir_location = strdup([directory fileSystemRepresentation]);
-		
-		pid_t pid = fork();
-		if (pid < 0) { FRLog(@"Failed to fork"); }
-		else if (pid == 0) {
-			dup2(write_fd, STDOUT_FILENO);
-			close(write_fd);
-			chdir(chdir_location);
-			_exit(archive_create_tar_bzip2(pathnames));
-		}
-		else {
-			close(write_fd);
-		}
-		
-		int status = 0;
-		waitpid(pid, &status, 0);
-		
-		success = (WIFEXITED(status) == true && WEXITSTATUS(status) == 0);
+		int status = archive_create_tar_bzip2(write_fd, chdir_location, pathnames);
+		success = (status == 0);
+		close(write_fd);
+
 		if (success) { } // nothing to do on success
 		else {
-			if (error) { *error = [NSError errorWithDomain:NSPOSIXErrorDomain code:WEXITSTATUS(status) userInfo:nil]; }
+			if (error) { *error = [NSError errorWithDomain:NSPOSIXErrorDomain code:status userInfo:nil]; }
 		}
 		
 		// free memory
@@ -106,22 +93,10 @@
 		char *chdir_location = mkdtemp(dirname);
 
 		// create the extraction task
-		pid_t pid = fork();
-		if (pid < 0) { FRLog(@"Failed to fork"); }
-		else if (pid == 0) {
-			dup2(read_fd, STDIN_FILENO);
-			close(read_fd);
-			chdir(chdir_location);
-			_exit(archive_extract_tar_bzip2());
-		}
-		else {
-			close(read_fd);
-		}
-
-		int status = 0;
-		waitpid(pid, &status, 0);
-
-		success = (WIFEXITED(status) == true && WEXITSTATUS(status) == 0);
+		int status = archive_extract_tar_bzip2(read_fd, chdir_location);
+		success = (status == 0);
+		close(read_fd);
+		
 		if (success) {
 			NSFileManager *manager = [NSFileManager defaultManager];
 			NSString *extractPath = [manager stringWithFileSystemRepresentation:chdir_location
@@ -148,7 +123,7 @@
 			}
 		}
 		else {
-			if (error) { *error = [NSError errorWithDomain:NSPOSIXErrorDomain code:WEXITSTATUS(status) userInfo:nil]; }
+			if (error) { *error = [NSError errorWithDomain:NSPOSIXErrorDomain code:status userInfo:nil]; }
 		}
 		
 		free(chdir_location);
