@@ -38,8 +38,6 @@ This is as simple as adding a few _Run Script_ build phases. In your Xcode proje
 
   1. Click on your project in the project navigator
   1. Select your target in the targets section
-  1. Switch to the _Build Settings_ tab
-  1. Set _Runpath Search Paths_ to `@executable_path/../Frameworks`
   1. Switch to the _Build Phases_ tab
   1. Click _Add Build Phase_
   1. Choose _Add Run Script_
@@ -90,6 +88,8 @@ are just a few steps to getting it added into your project:
   1. Make sure your application target is checked, then click _Finish_
   1. Click on your project in the project navigator
   1. Select on your target in the targets section
+  1. Switch to the _Build Settings_ tab
+  1. Set _Runpath Search Paths_ to `@executable_path/../Frameworks`
   1. Switch to the _Build Phases_ tab
   1. Click _Add Build Phase_
   1. Choose _Add Copy Files_
