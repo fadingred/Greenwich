@@ -305,6 +305,7 @@
 				8B0DCF0114702A4100DF8AC3 /* Update Localizations */,
 				8BAD1E6E146F11CB00E16433 /* Resources */,
 				8B0DCF0314702A4300DF8AC3 /* Verify Localizations */,
+				8B554B0214F53F3F00B79877 /* Copy libarchive */,
 			);
 			buildRules = (
 			);
@@ -391,6 +392,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "localization verify";
+			showEnvVarsInLog = 0;
+		};
+		8B554B0214F53F3F00B79877 /* Copy libarchive */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy libarchive";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -n \"${GREENWICH_NEEDS_LIBARCHIVE}\" ]; then\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n  cp \"External/libarchive/libarchive.dylib\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/libarchive.dylib\"\nfi";
 			showEnvVarsInLog = 0;
 		};
 		8BB93D561474CACB0056EC71 /* Package */ = {
