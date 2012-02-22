@@ -38,6 +38,7 @@ static NSString * const kDisplayNameKey = @"displayName";
 static NSString * const kFileNameKey = @"fileName"; 
 static NSString * const kBundleKey = @"bundleName"; 
 static NSString * const FRLocalizationTypePreferenceKey = @"FRLocalizationType";
+static NSString * const FRLocalizationIgnoreBundlesKey = @"FRLocalizationIgnoreBundles";
 static void * const FRStringsFileCollectionDidChangeContext = @"FRStringsFileCollectionDidChangeContext";
 static void * const FRStringsFileDidChangeContext = @"FRStringsFileDidChangeContext";
 static void * const FRSelectedLanguageDidChangeContext = @"FRSelectedLanguageDidChangeContext";
@@ -59,10 +60,13 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 
 + (void)initialize {
 	if (self == [FRLocalizationWindowController class]) {
+		NSArray *ignoreBundles = [NSArray arrayWithObjects:@"Sparkle", nil];
 		NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
 		gSystemLanguage = ([languages count]) ? [languages objectAtIndex:0] : GREENWICH_DEFAULT_LANGUAGE;
 		[[NSUserDefaults standardUserDefaults] registerDefaults:
-		 [NSDictionary dictionaryWithObjectsAndKeys:gSystemLanguage, FRLocalizationTypePreferenceKey, nil]];
+		 [NSDictionary dictionaryWithObjectsAndKeys:
+		  ignoreBundles, FRLocalizationIgnoreBundlesKey,
+		  gSystemLanguage, FRLocalizationTypePreferenceKey, nil]];
 	}
 }
 
@@ -78,13 +82,16 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 	if (bundles == nil) {
 		bundles = [[NSMutableArray alloc] init];
 		NSMutableArray *search = [NSMutableArray arrayWithObject:[NSBundle mainBundle]];
+		NSSet *ignoreBundles = [NSSet setWithArray:
+								[[NSUserDefaults standardUserDefaults] objectForKey:FRLocalizationIgnoreBundlesKey]];
 		
 		void (^iterate_directory)(NSString *) = ^(NSString *directory) {
 			NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:NULL];
 			for (NSString *path in contents) {
 				NSBundle *bundle = [NSBundle bundleWithPath:[directory stringByAppendingPathComponent:path]];
 				NSString *bundleID = [bundle objectForInfoDictionaryKey:(id)kCFBundleIdentifierKey];
-				if (bundleID) {
+				NSString *bundleName = [bundle name];
+				if (bundleID && ![ignoreBundles containsObject:bundleName]) {
 					[search addObject:bundle];
 				}
 			}
@@ -262,9 +269,7 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 				if ([directoryName isEqualToString:language] && [fileExtension isEqualToString:@"strings"]) {
 					NSString *infoPath = [[bundle bundlePath] stringByAppendingPathComponent:path];
 					FRTranslationInfo *info = [FRTranslationInfo infoWithLanguage:language path:infoPath];
-					if (![[info bundleName] isEqualToString:@"Sparkle"]) {
-						[content addObject:info];
-					}
+					[content addObject:info];
 				}
 			}
 		}
