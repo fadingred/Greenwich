@@ -94,6 +94,7 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 			NSBundle *bundle = [search objectAtIndex:0];
 			[bundles addObject:bundle];
 			iterate_directory([bundle privateFrameworksPath]);
+			iterate_directory([bundle alternativePrivateFrameworksPath]);
 			iterate_directory([bundle builtInPlugInsPath]);
 			[search removeObjectAtIndex:0];
 		}

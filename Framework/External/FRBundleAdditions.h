@@ -52,4 +52,13 @@
  */
 - (NSString *)applicationSupportDirectory;
 
+/*!
+ \brief		Alternative private frameworks path	
+ \details	Frameworks may store sub-frameworks at a different location from what the standard private
+			frameworks path returns. It could be stored alongside the executable in the version
+			directory. This is where Xcode places it during the copy frameworks build phase. Returns nil
+			if there is no alternative path for this type of bundle.
+ */
+- (NSString *)alternativePrivateFrameworksPath;
+
 @end
