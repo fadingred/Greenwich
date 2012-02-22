@@ -42,8 +42,7 @@ NSString * const FRValueKey = @"value";
 - (void)localizePaletteLabel:(id)object;
 - (void)localizePlaceholderString:(id)object;
 - (void)localizeStringValue:(id)object;
-- (void)localizeContentValuesBinding:(id)object;
-- (void)localizeColumnValueBinding:(NSTableColumn *)tc;
+- (void)localizeTextBinding:(NSString *)bindingName forObject:(id)object;
 - (NSString *)localizedStringFor:(NSString *)string;
 @end
 
@@ -142,8 +141,11 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 					// nothing to localize for this
 				}
 				else if ([object isKindOfClass:[NSTextField class]]) {
-					// only localize a text field when it isn't bound
-					if ([object infoForBinding:FRValueKey] == nil) {
+					if ([object infoForBinding:FRValueKey]) {
+						[self localizeTextBinding:FRValueKey forObject:object];
+					}
+					else {
+						// only localize the cell when the value isn't bound
 						[self localizeObject:[object cell]];
 					}
 				}
@@ -156,7 +158,7 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 				else if ([object isKindOfClass:[NSControl class]]) {
 					if ([object isKindOfClass:[NSPopUpButton class]]) {
 						if ([object infoForBinding:FRContentValuesKey]) {
-							[self localizeContentValuesBinding:object];
+							[self localizeTextBinding:FRContentValuesKey forObject:object];
 						}
 					}
 					else if ([object isKindOfClass:[NSMatrix class]]) {
@@ -226,13 +228,17 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 			}
 			else if ([object isKindOfClass:[NSTableColumn class]]) {
 				if ([object infoForBinding:FRValueKey]) {
-					[self localizeColumnValueBinding:object];
+					[self localizeTextBinding:FRValueKey forObject:object];
 				}
 				[self localizeObject:[object headerCell]];
 				[self localizeObject:[[object dataCell] menu]];
 			}
 			else if ([object isKindOfClass:[NSCell class]] &&
-					   [object infoForBinding:FRValueKey] == nil) {
+					 [object infoForBinding:FRValueKey]) {
+				[self localizeTextBinding:FRValueKey forObject:object];
+			}
+			else if ([object isKindOfClass:[NSCell class]] &&
+					 [object infoForBinding:FRValueKey] == nil) {
 				if ([(NSCell *)object type] == NSTextCellType &&
 					[(NSCell *)object isKindOfClass:[NSImageCell class]] == FALSE) {
 					[self localizeStringValue:object];
@@ -355,53 +361,9 @@ FRDefineLocalization(stringValue, StringValue);
 	}
 }
 
-- (void)localizeContentValuesBinding:(id)object {
-	// store the current binding values
-	NSDictionary *cvBinding = [object infoForBinding:FRContentValuesKey];
-	NSString *observedKeyPath = [cvBinding objectForKey:NSObservedKeyPathKey];
-	id observedObject = [cvBinding objectForKey:NSObservedObjectKey];
-	
-	// translate the placeholder strings
-	NSMutableDictionary *newOptions = [[[cvBinding objectForKey:NSOptionsKey] mutableCopy] autorelease];
-	id multipleValuesPlaceholder = [newOptions valueForKey:NSMultipleValuesPlaceholderBindingOption];
-	id noSelectionPlaceholder = [newOptions valueForKey:NSNoSelectionPlaceholderBindingOption];
-	id notApplicablePlaceholder = [newOptions valueForKey:NSNotApplicablePlaceholderBindingOption];
-	id nullPlaceholder = [newOptions valueForKey:NSNullPlaceholderBindingOption];
-	
-	BOOL (^localizable)(id) = ^BOOL(id boundValue) {
-		return (boundValue != [NSNull null]) &&
-			[boundValue isKindOfClass:[NSString class]] &&
-			[boundValue length];
-	};
-
-	if (localizable(multipleValuesPlaceholder)) {
-		[newOptions setObject:[self localizedStringFor:multipleValuesPlaceholder]
-					   forKey:NSMultipleValuesPlaceholderBindingOption];
-	}
-	if (localizable(noSelectionPlaceholder)) {
-		[newOptions setObject:[self localizedStringFor:noSelectionPlaceholder]
-					   forKey:NSNoSelectionPlaceholderBindingOption];
-	}
-	if (localizable(notApplicablePlaceholder)) {
-		[newOptions setObject:[self localizedStringFor:notApplicablePlaceholder]
-					   forKey:NSNotApplicablePlaceholderBindingOption];
-	}
-	if (localizable(nullPlaceholder)) {
-		[newOptions setObject:[self localizedStringFor:nullPlaceholder]
-					   forKey:NSNullPlaceholderBindingOption];
-	}
-	
-	// unbind then rebind using the new translation values
-	[object unbind:FRContentValuesKey];
-	[object bind:FRContentValuesKey
-		toObject:observedObject
-	 withKeyPath:observedKeyPath
-		 options:(NSDictionary *)newOptions];
-}
-
-- (void)localizeColumnValueBinding:(NSTableColumn *)tc {
+- (void)localizeTextBinding:(NSString *)bindingName forObject:(id)object {
 	// store the value binding
-	NSDictionary *vBinding = [tc infoForBinding:FRValueKey];
+	NSDictionary *vBinding = [object infoForBinding:bindingName];
 	NSString *observedKeyPath = [vBinding objectForKey:NSObservedKeyPathKey];
 	id observedObject = [vBinding objectForKey:NSObservedObjectKey];
 	
@@ -436,8 +398,8 @@ FRDefineLocalization(stringValue, StringValue);
 	}
 	
 	// unbind then rebind using the new translation values
-	[tc unbind:FRValueKey];
-	[tc bind:FRValueKey
+	[object unbind:bindingName];
+	[object bind:bindingName
 		toObject:observedObject
 	 withKeyPath:observedKeyPath
 		 options:(NSDictionary *)newOptions];
