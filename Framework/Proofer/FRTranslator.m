@@ -8,27 +8,56 @@
 
 #import "FRTranslator.h"
 #import "FRSingleNodeParsingDelegate.h"
+#import "FRTranslateArrayResultParsingDelegate.h"
 
 static NSString *kErrorString = @"Error!";
 
 @interface FRTranslator ()
 - (NSString *)escapeString:(NSString *)string;
+- (void)getAccessToken;
 @end
 
 @implementation FRTranslator
 
+@synthesize authToken;
 @synthesize language;
 @synthesize singleNodeParser;
+@synthesize translatedArrayParser;
 
 - (id)init {
 	if (self = [super init]) {
 		self.language = @"";
 		self.singleNodeParser = [[FRSingleNodeParsingDelegate alloc] init];
+		self.translatedArrayParser = [[FRTranslateArrayResultParsingDelegate alloc] init];
+		[self getAccessToken];
 	}
 	return self;
 }
 
-- translateString:(NSString *)stringToTranslate {
+- (void)getAccessToken {
+	NSString *accessURI = @"https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
+	NSString *requestString = [NSString stringWithFormat:@"grant_type=client_credentials&client_id=%@&client_secret=%@&scope=http://api.microsofttranslator.com", 
+							   [self escapeString:@"GreenwichTest"], [self escapeString:@"3jKJzUuVRHePxJWLgyAEqCIzy+QQ2Y3V52jFz2GthF4="]];
+	
+	NSURL *url = [NSURL URLWithString:accessURI];
+	
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData
+													   timeoutInterval:60.0];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+	[request setHTTPBody:[requestString dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	NSURLResponse *response;
+	NSError *error;
+	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+	
+	NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	// don't want to use a JSON parser when all I'm really doing is pulling out this one piece of data
+	NSArray *resultParts = [result componentsSeparatedByString:@"\""];
+	self.authToken = [resultParts objectAtIndex:3];
+}
+
+- (NSString *)translateString:(NSString *)stringToTranslate {
 	NSMutableString *translateFrom = [NSMutableString stringWithString:@"&from="];
 	[translateFrom appendString:self.language];
 	
@@ -64,6 +93,51 @@ static NSString *kErrorString = @"Error!";
 	}
 	
 	return @"Error";
+}
+
+- (NSArray *)translateArray:(NSArray *)arrayToTranslate {
+	NSMutableString *urlString = [NSMutableString stringWithString:
+								  @"http://api.microsofttranslator.com/v2/Http.svc/TranslateArray"];
+	NSMutableString *dataString = [[NSMutableString alloc] initWithString:
+		@"<TranslateArrayRequest>"
+			@"<AppId />"
+			@"<From>de</From>"
+			@"<Texts>"];
+
+	for (NSString *string in arrayToTranslate) {
+		NSString *startElement = @"<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/Arrays\">";
+		NSString *closeElement = @"</string>";
+		[dataString appendFormat:@"%@%@%@", startElement, string, closeElement];
+	}
+	
+	[dataString appendString:
+			@"</Texts>"
+			@"<To>en</To>"
+		@"</TranslateArrayRequest>"];
+	
+	NSURL *url = [NSURL URLWithString:urlString];
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData
+													   timeoutInterval:60.0];
+	
+	NSString *authHeader = [NSString stringWithFormat:@"Bearer %@", self.authToken];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
+	[request addValue:authHeader forHTTPHeaderField:@"Authorization"];
+	[request setHTTPBody:[dataString dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	NSURLResponse *response;
+	NSError *error;
+	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+	
+	if (data == nil) { NSLog(@"Could not parse translation result :["); }
+	else {
+		NSXMLParser *resultParser = [[NSXMLParser alloc] initWithData:data];
+		resultParser.delegate = translatedArrayParser;
+		[resultParser parse];
+		while ([translatedArrayParser parsing]) { /* wait until the translation has been parsed */ }
+	}
+
+	return translatedArrayParser.translations;
 }
 
 - (NSString *)detectLanguageOfString:(NSString *)stringToDetect {

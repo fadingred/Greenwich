@@ -9,6 +9,7 @@
 #import "FRProofer.h"
 #import "FRTranslator.h"
 
+#define ARRAY_TRANSLATE
 
 @interface FRProofer ()
 - (NSString *)mostUsedLanguageFromArray:(NSArray *)languagesArray;
@@ -35,8 +36,27 @@
 
 	NSMutableArray *originalStrings = [[NSMutableArray alloc] init];
 	NSMutableArray *translatedStrings = [[NSMutableArray alloc] init];
-	NSMutableArray *proofedStrings = [[NSMutableArray alloc] init];
+	NSArray *proofedStrings = [[NSMutableArray alloc] init];
 
+#ifdef ARRAY_TRANSLATE
+	for (NSString *line in lines) {
+		NSUInteger location = [line rangeOfString:@"/*"].location;
+		if (location == NSNotFound && [line length] != 0) {
+			[originalStrings addObject:[self leftSideOfStringsLine:line]];
+			[translatedStrings addObject:[self rightSideOfStringsLine:line]];
+		}
+	}
+	proofedStrings = [translator translateArray:translatedStrings];
+	
+	NSString *outputString = @"Translation = Original = Proofed\n";
+	for (NSUInteger i = 0; i < [originalStrings count]; i++) {
+		outputString = [outputString stringByAppendingFormat:@"\"%@\" = \"%@\" = \"%@\"\n", 
+						[translatedStrings objectAtIndex:i], [originalStrings objectAtIndex:i], 
+						[proofedStrings objectAtIndex:i]];
+	}
+
+	[outputString writeToFile:toPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];	
+#else	
 	for (NSString *line in lines) {
 		// don't proof if the line is a comment line or empty
 		NSUInteger location = [line rangeOfString:@"/*"].location;
@@ -59,6 +79,7 @@
 	}
 
 	[outputString writeToFile:toPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+#endif
 }
 
 - (void)initTranslatorUsingLines:(NSArray *)lines {

@@ -6,14 +6,18 @@
 //  Copyright (c) 2012 FadingRed. All rights reserved.
 //
 
-@class FRSingleNodeParsingDelegate;
+@class 
+	FRSingleNodeParsingDelegate, FRTranslateArrayResultParsingDelegate;
 
 @interface FRTranslator : NSObject
 
+@property (strong, nonatomic) NSString *authToken;
 @property (strong, nonatomic) NSString *language;
 @property (strong, nonatomic) FRSingleNodeParsingDelegate *singleNodeParser;
+@property (strong, nonatomic) FRTranslateArrayResultParsingDelegate *translatedArrayParser;
 
-- translateString:(NSString *)stringToTranslate;
+- (NSString *)translateString:(NSString *)stringToTranslate;
+- (NSArray *)translateArray:(NSArray *)arrayToTranslate;
 - (NSString *)detectLanguageOfString:(NSString *)stringToDetect;
 
 @end
