@@ -406,7 +406,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -n \"${GREENWICH_NEEDS_LIBARCHIVE}\" ]; then\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n  cp \"External/libarchive/libarchive.dylib\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/libarchive.dylib\"\nfi";
+			shellScript = "if [ -n \"${GREENWICH_NEEDS_LIBARCHIVE}\" ]; then\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n  cp \"External/libarchive/libarchive.dylib\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/libarchive.dylib\"\n  cp \"External/libarchive/libarchive.license\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/libarchive.license\"\nfi";
 			showEnvVarsInLog = 0;
 		};
 		8BB93D561474CACB0056EC71 /* Package */ = {
