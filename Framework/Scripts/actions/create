@@ -18,6 +18,8 @@
 
 from scriptlib.config import OptionParser
 from scriptlib.i18n import Strings, Xib
+import shutil
+import errno
 import sys
 import os
 
@@ -29,9 +31,32 @@ LOCALIZE_SYMBOL = os.environ.get('GREENWICH_LOCALIZATION_SYMBOL', 'NSLocalizedSt
 
 # main create strings function
 # ----------------------------------------------------------------------
+def copy_strings(strings, config):
+  source = strings.path()
+  if not os.path.exists(source): return
+  destination = os.path.join(config.app_resources,
+    '%s.lproj' % strings.lang,
+    '%s.strings' % strings.name)
+  try: mtime = os.path.getmtime(destination)
+  except OSError: mtime = 0
+  if strings.modification_time() >= mtime:
+    sys.stdout.write('Copying %s.strings (%s) to %s\n' % (strings.name, strings.lang, destination))
+    try: os.makedirs(os.path.dirname(destination))
+    except OSError: pass
+    shutil.copyfile(source, destination)
 
 def create_strings(config):
   if os.path.exists(config.resources):
+    # if copying strings, make sure that this is taking place after the copying of bundle resources since
+    # we will later check for the existence of the compiled nib file when copying over strings files.
+    if config.copy_strings:
+      try: resources_len = len(os.listdir(config.resources))
+      except: resources_len = 0
+      try: app_resources_len = len(os.listdir(config.app_resources))
+      except: app_resources_len = 0
+      if resources_len and not app_resources_len:
+        sys.stderr.write('warning: Creating strings through Greenwich should take place after the copy bundle resources build phase\n')
+    
     for xibname in os.listdir(config.resources):
       if xibname.endswith('.xib'):
         xib = Xib(xibname, config)
@@ -48,6 +73,8 @@ def create_strings(config):
             lang = Strings(xibname, langname, config)
             if xib.generation_time() > lang.modification_time() and lang.lang != config.lang:
               lang.integrate_changes(strings)
+            if config.copy_strings and os.path.exists(os.path.join(config.app_resources, '%s.nib' % xib.name)):
+              copy_strings(lang, config)
 
   # handle localizable.strings file
   if os.path.exists(config.source):
@@ -71,6 +98,8 @@ def create_strings(config):
         lang = Strings(localizable.name, langname, config)
         if latest > lang.modification_time() and lang.lang != config.lang:
           lang.integrate_changes(localizable)
+        if config.copy_strings:
+          copy_strings(lang, config)
       
 
 # main function
@@ -79,4 +108,9 @@ def create_strings(config):
 if __name__ == '__main__':
   usage = """usage: %%prog [options]
   Used to update strings files for all xibs and source files in a target."""
-  create_strings(OptionParser(usage=usage).parse_config()[0])
+  parser = OptionParser(usage=usage)
+  c = 'Copy created strings files to application resources folder [default]'
+  n = 'Disable copy of created strings files to application resources folder'
+  parser.add_option('-c', '--copy', action="store_true", dest='copy_strings', default=True, help=c)
+  parser.add_option('--no-copy', action="store_false", dest='copy_strings', help=n)
+  create_strings(parser.parse_config()[0])

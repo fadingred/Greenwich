@@ -41,20 +41,14 @@ This is as simple as adding a few _Run Script_ build phases. In your Xcode proje
   1. Switch to the _Build Phases_ tab
   1. Click _Add Build Phase_
   1. Choose _Add Run Script_
-  1. Move this build phase **above** the _Copy Bundle Resources_ build phase
+  1. Move this build phase **below** the _Copy Bundle Resources_ build phase
   1. Update the script to `./Scripts/localization create -s. -r.`
 
 [![Set Runpath Search Paths](http://fadingred.github.com/greenwich/media/images/runpaths_thumbnail.png)](http://fadingred.github.com/greenwich/media/images/runpaths.png)
 [![Add Run Script](http://fadingred.github.com/greenwich/media/images/runscript_thumbnail.png)](http://fadingred.github.com/greenwich/media/images/runscript.png)
 [![Define Run Script](http://fadingred.github.com/greenwich/media/images/definescript_thumbnail.png)](http://fadingred.github.com/greenwich/media/images/definescript.png)
 
-This is sufficient for Greenwich to generate strings files for you, but you can add one more piece to the puzzle.
-This step is optional, but recommended. Simply add another _Run Script_ but do the following for this script:
-
-  1. Move this build phase **below** the _Copy Bundle Resources_ build phase
-  1. Update the script to `./Scripts/localization verify -s. -r.`
-
-Note that these scripts may need to be altered slightly depending on your configuration. The path
+Note that the script may need to be altered slightly depending on your configuration. The path
 to the script should relative to your project's `.xcodeproj` file. If you put the scripts folder in a
 folder called `External`, you would need to change the beginning of the script
 to `./External/Scripts/localization`. The scripts also

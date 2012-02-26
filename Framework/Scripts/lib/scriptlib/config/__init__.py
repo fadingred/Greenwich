@@ -36,12 +36,16 @@ class OptionParser(optparse.OptionParser):
         'default value: $CONFIGURATION_TEMP_DIR'
     p = 'interface builder plugin directory. '\
         'default value: $IBC_PLUGIN_SEARCH_PATHS'
+    r = 'Built application resources folder, '\
+        'default value: $BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH'
+        
     self.add_option('-b', '--base', dest='base', default=None, help=b)
     self.add_option('-r', '--resources', dest='resources', default=None, help=r)
     self.add_option('-s', '--source', dest='source', default=None, help=s)
     self.add_option('-l', '--lang', dest='lang', default=None, help=l)
     self.add_option('-t', '--tempdir', dest='tempdir', default=None, help=t)
-    self.add_option('-p', '--plugindir', dest='plugin', default=None, help=p)
+    self.add_option('-p', '--plugindir', dest='plugindir', default=None, help=p)
+    self.add_option('--app-resources', dest='app_resources', default=None, help=r)
 
     options, args = self.parse_args()
     
@@ -51,20 +55,15 @@ class OptionParser(optparse.OptionParser):
     self.remove_option('-l')
     self.remove_option('-t')
     self.remove_option('-p')
+    self.remove_option('--app-resources')
     
     base = options.base or os.environ.get('PROJECT_DIR', '.')
-    
-    return Config(
-      resources=options.resources or os.path.join(base, 'Resources'),
-      source=options.source or os.path.join(base, 'Source'),
-      lang=options.lang or os.environ.get('BASE_LANGUAGE', 'en'),
-      tempdir=options.tempdir or os.environ.get('CONFIGURATION_TEMP_DIR'),
-      plugindir=options.plugin or os.environ.get('IBC_PLUGIN_SEARCH_PATHS')), options, args
-
-class Config(object):
-  def __init__(self, **options):
-    self.resources = options.get('resources')
-    self.source = options.get('source')
-    self.lang = options.get('lang')
-    self.tempdir = options.get('tempdir')
-    self.plugindir = options.get('plugindir')
+    options.resources = options.resources or os.path.join(base, 'Resources')
+    options.source = options.source or os.path.join(base, 'Source')
+    options.lang = options.lang or os.environ.get('BASE_LANGUAGE', 'en')
+    options.tempdir = options.tempdir or os.environ.get('CONFIGURATION_TEMP_DIR')
+    options.plugindir = options.plugindir or os.environ.get('IBC_PLUGIN_SEARCH_PATHS')
+    options.app_resources = options.app_resources or os.path.join(
+      os.environ.get('BUILT_PRODUCTS_DIR', ''),
+      os.environ.get('UNLOCALIZED_RESOURCES_FOLDER_PATH', ''))
+    return options, args
