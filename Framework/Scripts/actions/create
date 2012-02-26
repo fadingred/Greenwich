@@ -46,7 +46,7 @@ def create_strings(config):
         for langname in os.listdir(config.resources):
           if langname.endswith('.lproj'):
             lang = Strings(xibname, langname, config)
-            if xib.generation_time() > lang.modification_time() and lang.name != config.lang:
+            if xib.generation_time() > lang.modification_time() and lang.lang != config.lang:
               lang.integrate_changes(strings)
 
   # handle localizable.strings file
@@ -69,7 +69,7 @@ def create_strings(config):
     for langname in os.listdir(config.resources):
       if langname.endswith('.lproj'):
         lang = Strings(localizable.name, langname, config)
-        if latest > lang.modification_time() and lang.name != config.lang:
+        if latest > lang.modification_time() and lang.lang != config.lang:
           lang.integrate_changes(localizable)
       
 
