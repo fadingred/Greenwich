@@ -136,7 +136,7 @@
 				8BBFCBB314705019006CFFDE /* Sources */,
 				8BBFCBB414705019006CFFDE /* Frameworks */,
 				8BBFCBB514705019006CFFDE /* Resources */,
-				8BBFCBE614705485006CFFDE /* Create Localizations */,
+				8BBFCBE614705485006CFFDE /* Update & Copy Localizations */,
 				8BBFCBDA14705173006CFFDE /* Copy Frameworks */,
 			);
 			buildRules = (
@@ -203,14 +203,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8BBFCBE614705485006CFFDE /* Create Localizations */ = {
+		8BBFCBE614705485006CFFDE /* Update & Copy Localizations */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Create Localizations";
+			name = "Update & Copy Localizations";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
