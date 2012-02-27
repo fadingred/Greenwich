@@ -334,7 +334,6 @@
 			children = (
 				8BAD1EAF146F14F000E16433 /* Info */,
 				8BAD1EB5146F15D300E16433 /* Configurations */,
-				8B0DCF0414702CBD00DF8AC3 /* Strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -510,9 +509,9 @@
 				8BAD1E6B146F11CB00E16433 /* Sources */,
 				8BAD1E6C146F11CB00E16433 /* Frameworks */,
 				8BAD1E6D146F11CB00E16433 /* Headers */,
-				8B0DCF0114702A4100DF8AC3 /* Update Localizations */,
 				8BAD1E6E146F11CB00E16433 /* Resources */,
-				8B0DCF0314702A4300DF8AC3 /* Verify Localizations */,
+				8B0DCF0114702A4100DF8AC3 /* Update & Copy Localizations */,
+				8B554B0214F53F3F00B79877 /* Copy libarchive */,
 			);
 			buildRules = (
 			);
@@ -591,22 +590,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B33C276146F5E6E007C2196 /* Localization.xib in Resources */,
-				8B0DCF0B14702CDE00DF8AC3 /* Localizable.strings in Resources */,
-				8B0DCF0C14702CDE00DF8AC3 /* Localization.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8B0DCF0114702A4100DF8AC3 /* Update Localizations */ = {
+		8B0DCF0114702A4100DF8AC3 /* Update & Copy Localizations */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Update Localizations";
+			name = "Update & Copy Localizations";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -614,19 +611,19 @@
 			shellScript = "localization create";
 			showEnvVarsInLog = 0;
 		};
-		8B0DCF0314702A4300DF8AC3 /* Verify Localizations */ = {
+		8B554B0214F53F3F00B79877 /* Copy libarchive */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Verify Localizations";
+			name = "Copy libarchive";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "localization verify";
+			shellScript = "if [ -n \"${GREENWICH_NEEDS_LIBARCHIVE}\" ]; then\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n  cp \"External/libarchive/libarchive.dylib\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/libarchive.dylib\"\n  cp \"External/libarchive/libarchive.license\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/libarchive.license\"\nfi";
 			showEnvVarsInLog = 0;
 		};
 		8BB93D561474CACB0056EC71 /* Package */ = {
@@ -716,41 +713,6 @@
 			targetProxy = 8BB93D541474CAC00056EC71 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		8B0DCF0514702CDE00DF8AC3 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8B0DCF0614702CDE00DF8AC3 /* en */,
-				8B0DCF0E14702DB400DF8AC3 /* de */,
-				8B0DCF1114702DBE00DF8AC3 /* es */,
-				8B0DCF1714702DC500DF8AC3 /* fr */,
-				8B0DCF1D14702DCC00DF8AC3 /* it */,
-				8B0DCF2314702DD300DF8AC3 /* ja */,
-				8B0DCF2914702DDA00DF8AC3 /* nl */,
-				8B0DCF2F14702DE000DF8AC3 /* no */,
-				8B0DCF3514702DE600DF8AC3 /* pt */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		8B0DCF0714702CDE00DF8AC3 /* Localization.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8B0DCF0814702CDE00DF8AC3 /* en */,
-				8B0DCF0F14702DB400DF8AC3 /* de */,
-				8B0DCF1214702DBE00DF8AC3 /* es */,
-				8B0DCF1814702DC500DF8AC3 /* fr */,
-				8B0DCF1E14702DCC00DF8AC3 /* it */,
-				8B0DCF2414702DD300DF8AC3 /* ja */,
-				8B0DCF2A14702DDA00DF8AC3 /* nl */,
-				8B0DCF3014702DE000DF8AC3 /* no */,
-				8B0DCF3614702DE600DF8AC3 /* pt */,
-			);
-			name = Localization.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8B2B99BB14D347C500A40CD4 /* Debug */ = {

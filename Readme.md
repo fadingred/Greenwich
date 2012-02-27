@@ -7,7 +7,7 @@ Greenwich is a framework for easily allowing users to translate Cocoa applicatio
 Greenwich allows users to translate your Cocoa applications quickly and conveniently using a
 simple interface that is packaged directly within the application:
 
-![Translator](http://fadingred.github.com//Greenwich/media/images/translator.png)
+![Translator](http://fadingred.github.com/greenwich/media/images/translator.png)
 
 As a translator works through the strings in your application, she can simply relaunch the
 application at any time to see the changes directly in the app. This significantly improves
@@ -38,25 +38,17 @@ This is as simple as adding a few _Run Script_ build phases. In your Xcode proje
 
   1. Click on your project in the project navigator
   1. Select your target in the targets section
-  1. Switch to the _Build Settings_ tab
-  1. Set _Runpath Search Paths_ to `@executable_path/../Frameworks`
   1. Switch to the _Build Phases_ tab
   1. Click _Add Build Phase_
   1. Choose _Add Run Script_
-  1. Move this build phase **above** the _Copy Bundle Resources_ build phase
+  1. Move this build phase **below** the _Copy Bundle Resources_ build phase
   1. Update the script to `./Scripts/localization create -s. -r.`
 
-[![Set Runpath Search Paths](http://fadingred.github.com//Greenwich/media/images/runpaths_thumbnail.png)](http://fadingred.github.com//Greenwich/media/images/runpaths.png)
-[![Add Run Script](http://fadingred.github.com//Greenwich/media/images/runscript_thumbnail.png)](http://fadingred.github.com//Greenwich/media/images/runscript.png)
-[![Define Run Script](http://fadingred.github.com//Greenwich/media/images/definescript_thumbnail.png)](http://fadingred.github.com//Greenwich/media/images/definescript.png)
+[![Set Runpath Search Paths](http://fadingred.github.com/greenwich/media/images/runpaths_thumbnail.png)](http://fadingred.github.com/greenwich/media/images/runpaths.png)
+[![Add Run Script](http://fadingred.github.com/greenwich/media/images/runscript_thumbnail.png)](http://fadingred.github.com/greenwich/media/images/runscript.png)
+[![Define Run Script](http://fadingred.github.com/greenwich/media/images/definescript_thumbnail.png)](http://fadingred.github.com/greenwich/media/images/definescript.png)
 
-This is sufficient for Greenwich to generate strings files for you, but you can add one more piece to the puzzle.
-This step is optional, but recommended. Simply add another _Run Script_ but do the following for this script:
-
-  1. Move this build phase **below** the _Copy Bundle Resources_ build phase
-  1. Update the script to `./Scripts/localization verify -s. -r.`
-
-Note that these scripts may need to be altered slightly depending on your configuration. The path
+Note that the script may need to be altered slightly depending on your configuration. The path
 to the script should relative to your project's `.xcodeproj` file. If you put the scripts folder in a
 folder called `External`, you would need to change the beginning of the script
 to `./External/Scripts/localization`. The scripts also
@@ -90,15 +82,17 @@ are just a few steps to getting it added into your project:
   1. Make sure your application target is checked, then click _Finish_
   1. Click on your project in the project navigator
   1. Select on your target in the targets section
+  1. Switch to the _Build Settings_ tab
+  1. Set _Runpath Search Paths_ to `@executable_path/../Frameworks`
   1. Switch to the _Build Phases_ tab
   1. Click _Add Build Phase_
   1. Choose _Add Copy Files_
   1. Change the _Destination_ to _Frameworks_
   1. Drag `Greenwich.framework` from the project navigator into the copy files list
 
-[![Drag Framework](http://fadingred.github.com//Greenwich/media/images/frameworkdrag_thumbnail.png)](http://fadingred.github.com//Greenwich/media/images/frameworkdrag.png)
-[![Add Framework](http://fadingred.github.com//Greenwich/media/images/frameworkadd_thumbnail.png)](http://fadingred.github.com//Greenwich/media/images/frameworkadd.png)
-[![Copy Framework](http://fadingred.github.com//Greenwich/media/images/frameworkcopy_thumbnail.png)](http://fadingred.github.com//Greenwich/media/images/frameworkcopy.png)
+[![Drag Framework](http://fadingred.github.com/greenwich/media/images/frameworkdrag_thumbnail.png)](http://fadingred.github.com/greenwich/media/images/frameworkdrag.png)
+[![Add Framework](http://fadingred.github.com/greenwich/media/images/frameworkadd_thumbnail.png)](http://fadingred.github.com/greenwich/media/images/frameworkadd.png)
+[![Copy Framework](http://fadingred.github.com/greenwich/media/images/frameworkcopy_thumbnail.png)](http://fadingred.github.com/greenwich/media/images/frameworkcopy.png)
 
 ### Code
 
@@ -132,7 +126,6 @@ localization has occurred. Don't worry, we've got you covered:
 If you're using your own macro based off of `NSLocalizedString`, simply define the `GREENWICH_LOCALIZATION_SYMBOL` in
 your Xcode configuration with that symbol, and Greenwich will handle it from there!
 
-**Source Only:**
 Setting the environment variable `GREENWICH_PSEUDO_LOCALIZE` will make Greenwich pseudo-localize your application.
 It will swap out certain characters and extend your strings slightly while keeping them identifiable. This setting is
 great for testing to make sure that everything is localized and that you've allowed enough space for strings

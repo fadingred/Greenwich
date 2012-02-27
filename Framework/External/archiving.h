@@ -20,17 +20,16 @@
 
 /*!
  \brief		Create a bzip2 compressed archive
- \details	Create a tar bzip2 archive from the pathnames and write the archive to stdout. Pathnames
-			should be NULL terminated. This is not thread safe at all and really should only be used
-			from a child process using fork.
+ \details	Create a tar bzip2 archive from the pathnames relative to a given path and write the archive
+			to a file descriptor. Pathnames should be NULL terminated.
  */
-int archive_create_tar_bzip2(const char **pathnames);
+int archive_create_tar_bzip2(int fd, const char *relative_to, const char **pathnames);
 
 /*!
  \brief		Extract a bzip2 compressed archive
- \details	Extracts a tar bzip2 archive from stdin to the current working directory. This is not
-			thread safe at all and really should only be used from a child process using fork.
+ \details	Extracts a tar bzip2 archive by reading from a file descriptor and writing the archive out
+			relative to a given path.
  */
-int archive_extract_tar_bzip2(void);
+int archive_extract_tar_bzip2(int fd, const char *relative_to);
 
 #endif

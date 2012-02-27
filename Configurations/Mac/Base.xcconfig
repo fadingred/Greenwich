@@ -26,7 +26,8 @@ GCC_VERSION = com.apple.compilers.llvm.clang.1_0
 MACOSX_DEPLOYMENT_TARGET = 10.6
 VALID_ARCHS = i386 x86_64
 
-GREENWICH_OTHER_LDFLAGS = $(inherited) -larchive
+GREENWICH_NEEDS_LIBARCHIVE = 1
+GREENWICH_OTHER_LDFLAGS = $(inherited) -larchive -LExternal/libarchive
 GREENWICH_OTHER_CFLAGS = $(inherited)
 
 // \brief		Custom settings
