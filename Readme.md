@@ -126,7 +126,6 @@ localization has occurred. Don't worry, we've got you covered:
 If you're using your own macro based off of `NSLocalizedString`, simply define the `GREENWICH_LOCALIZATION_SYMBOL` in
 your Xcode configuration with that symbol, and Greenwich will handle it from there!
 
-**Source Only:**
 Setting the environment variable `GREENWICH_PSEUDO_LOCALIZE` will make Greenwich pseudo-localize your application.
 It will swap out certain characters and extend your strings slightly while keeping them identifiable. This setting is
 great for testing to make sure that everything is localized and that you've allowed enough space for strings
