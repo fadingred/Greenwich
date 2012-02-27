@@ -22,9 +22,20 @@
 #import "FRLocalizationBundleAdditions.h"
 #import "FRLocalizationBundleAdditions__.h"
 
+static NSString * const FRLocalizationIgnoreBundlesKey = @"FRLocalizationIgnoreBundles";
+
 @implementation FRTranslationContainer
 
 @synthesize name;
+
++ (void)initialize {
+	if (self == [FRTranslationContainer class]) {
+		NSArray *ignoreBundles = [NSArray arrayWithObjects:@"Sparkle", nil];
+		[[NSUserDefaults standardUserDefaults] registerDefaults:
+		 [NSDictionary dictionaryWithObjectsAndKeys:
+		  ignoreBundles, FRLocalizationIgnoreBundlesKey, nil]];
+	}
+}
 
 + (id)containerForApplicationBundle:(NSBundle *)bundle {
 	FRTranslationContainer *continer = [[self alloc] init];
@@ -42,14 +53,21 @@
 	NSArray *languages = [NSArray arrayWithObjects:language, nil];
 	if (applicationBundle) {
 		NSMutableArray *result = [NSMutableArray array];
-		for (NSBundle *bundle in [applicationBundle containedBundles]) {
-			NSBundle *translateBundle =
-				[bundle bundleUsingContentsForTranslationsWithIdentifier:[bundle bundleIdentifier]
-											 updatingStringsForLanguages:languages error:NULL];
-			if (translateBundle) {
-				[result addObject:translateBundle];
+		NSSet *ignoreBundles = [NSSet setWithArray:
+								[[NSUserDefaults standardUserDefaults] objectForKey:FRLocalizationIgnoreBundlesKey]];
+		[applicationBundle enumerateContainedBundlesUsingBlock:^(NSBundle *bundle, BOOL *skipDescendants, BOOL *stop) {
+			if ([ignoreBundles containsObject:[bundle name]]) {
+				*skipDescendants = TRUE;
 			}
-		}
+			else {
+				NSBundle *translateBundle =
+					[bundle bundleUsingContentsForTranslationsWithIdentifier:[bundle bundleIdentifier]
+												 updatingStringsForLanguages:languages error:NULL];
+				if (translateBundle) {
+					[result addObject:translateBundle];
+				}
+			}
+		}];
 		return result;
 	}
 	else if (resourcesURL) {
@@ -112,9 +130,7 @@
 				if ([directoryName isEqualToString:language] && [fileExtension isEqualToString:@"strings"]) {
 					NSString *infoPath = [[bundle bundlePath] stringByAppendingPathComponent:path];
 					FRTranslationInfo *info = [FRTranslationInfo infoWithLanguage:language path:infoPath];
-					if (![[info bundleName] isEqualToString:@"Sparkle"]) {
-						[content addObject:info];
-					}
+					[content addObject:info];
 				}
 			}
 		}

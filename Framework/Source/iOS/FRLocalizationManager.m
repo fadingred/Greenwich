@@ -102,6 +102,8 @@
 	NSMutableArray *resources = [NSMutableArray array];
 	NSFileManager *manager = [NSFileManager defaultManager];
 	
+	// TODO: could ignore certain contained bundles here by enumerating contained bundles and skipping
+	// the bundle and descendants if the bundle name is in FRLocalizationIgnoreBundlesKey
 	for (NSBundle *bundle in [[NSBundle mainBundle] containedBundles]) {
 		NSString *bundleIdentifier = [bundle bundleIdentifier];
 		NSString *bundlePath = [bundle bundlePath];

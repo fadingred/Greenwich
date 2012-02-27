@@ -338,6 +338,13 @@ static NSString *FRPseudoLocalizedString(NSString *string) {
 
 - (NSArray *)containedBundles {
 	NSMutableArray *bundles = [[NSMutableArray alloc] init];
+	[self enumerateContainedBundlesUsingBlock:^(NSBundle *bundle, BOOL *skipDescendants, BOOL *stop) {
+		[bundles addObject:bundle];
+	}];
+	return bundles;
+}
+
+- (void)enumerateContainedBundlesUsingBlock:(void(^)(NSBundle *bundle, BOOL *skipDescendants, BOOL *stop))block {
 	NSMutableArray *search = [NSMutableArray arrayWithObject:self];
 		
 	void (^iterate_directory)(NSString *) = ^(NSString *directory) {
@@ -353,13 +360,16 @@ static NSString *FRPseudoLocalizedString(NSString *string) {
 	
 	while ([search count]) {
 		NSBundle *bundle = [search objectAtIndex:0];
-		[bundles addObject:bundle];
-		iterate_directory([bundle privateFrameworksPath]);
-		iterate_directory([bundle builtInPlugInsPath]);
+		BOOL stop = FALSE;
+		BOOL skipDescendants = FALSE;
+		block(bundle, &skipDescendants, &stop);
+		if (!skipDescendants) {
+			iterate_directory([bundle privateFrameworksPath]);
+			iterate_directory([bundle builtInPlugInsPath]);
+		}
 		[search removeObjectAtIndex:0];
+		if (stop) { break; }
 	}
-
-	return bundles;
 }
 
 @end

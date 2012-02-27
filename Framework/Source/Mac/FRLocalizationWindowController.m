@@ -40,7 +40,6 @@ static NSString * const kDisplayNameKey = @"displayName";
 static NSString * const kFileNameKey = @"fileName"; 
 static NSString * const kBundleKey = @"bundleName"; 
 static NSString * const FRLocalizationTypePreferenceKey = @"FRLocalizationType";
-static NSString * const FRLocalizationIgnoreBundlesKey = @"FRLocalizationIgnoreBundles";
 static void * const FRStringsFileCollectionDidChangeContext = @"FRStringsFileCollectionDidChangeContext";
 static void * const FRStringsFileDidChangeContext = @"FRStringsFileDidChangeContext";
 static void * const FRSelectedContainerDidChangeContext = @"FRSelectedContainerDidChangeContext";
@@ -70,12 +69,10 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 
 + (void)initialize {
 	if (self == [FRLocalizationWindowController class]) {
-		NSArray *ignoreBundles = [NSArray arrayWithObjects:@"Sparkle", nil];
 		NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
 		gSystemLanguage = ([languages count]) ? [languages objectAtIndex:0] : GREENWICH_DEFAULT_LANGUAGE;
 		[[NSUserDefaults standardUserDefaults] registerDefaults:
 		 [NSDictionary dictionaryWithObjectsAndKeys:
-		  ignoreBundles, FRLocalizationIgnoreBundlesKey,
 		  gSystemLanguage, FRLocalizationTypePreferenceKey, nil]];
 	}
 }

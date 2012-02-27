@@ -35,4 +35,11 @@
  */
 - (NSArray *)containedBundles;
 
+/*!
+ \brief		Enumerate all sub-bundles of a bundle
+ \details	Search for all sub bundles of a given bundle. Will call block for anything that
+			appears to be a bundle because it has defined a bundle identifier in the proper place.
+ */
+- (void)enumerateContainedBundlesUsingBlock:(void(^)(NSBundle *bundle, BOOL *skipDescendants, BOOL *stop))block;
+
 @end
