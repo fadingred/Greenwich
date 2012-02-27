@@ -8,14 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		8B7BAF1214D2FD5000D7B32A /* Example.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B7BAF1114D2FD5000D7B32A /* Example.storyboard */; };
-		8BAB444A14D339E800945E4E /* Example.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B7BAEDB14D2FC1300D7B32A /* Example.strings */; };
 		8BAB445714D33D0500945E4E /* FRMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB445514D33D0500945E4E /* FRMainViewController.m */; };
 		8BD5E14A14D1E4F20021848F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD5E14914D1E4F20021848F /* UIKit.framework */; };
 		8BD5E14C14D1E4F20021848F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD5E14B14D1E4F20021848F /* Foundation.framework */; };
 		8BD5E18314D1E68F0021848F /* FRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5E17814D1E68F0021848F /* FRAppDelegate.m */; };
 		8BD5E18514D1E68F0021848F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5E17A14D1E68F0021848F /* main.m */; };
 		8BD5E29614D1F5F70021848F /* Greenwich.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD5E28514D1F5A80021848F /* Greenwich.framework */; };
-		8BD5E3EC14D2076F0021848F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8BD5E3EA14D2076F0021848F /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,8 +48,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8B7BAEDC14D2FC1300D7B32A /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Example.strings; sourceTree = "<group>"; };
-		8B7BAEDE14D2FC1900D7B32A /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Example.strings; sourceTree = "<group>"; };
 		8B7BAF1114D2FD5000D7B32A /* Example.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Example.storyboard; sourceTree = "<group>"; };
 		8BAB445414D33D0500945E4E /* FRMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRMainViewController.h; sourceTree = "<group>"; };
 		8BAB445514D33D0500945E4E /* FRMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRMainViewController.m; sourceTree = "<group>"; };
@@ -65,8 +61,6 @@
 		8BD5E17F14D1E68F0021848F /* FRAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRAppDelegate.h; sourceTree = "<group>"; };
 		8BD5E19514D1E70D0021848F /* Greenwich.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Greenwich.xcodeproj; path = ../Framework/Greenwich.xcodeproj; sourceTree = "<group>"; };
 		8BD5E28514D1F5A80021848F /* Greenwich.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Greenwich.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BD5E3EB14D2076F0021848F /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		8BD5E3ED14D2077C0021848F /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,8 +116,6 @@
 			isa = PBXGroup;
 			children = (
 				8BD5E17714D1E68F0021848F /* Example.plist */,
-				8B7BAEDB14D2FC1300D7B32A /* Example.strings */,
-				8BD5E3EA14D2076F0021848F /* Localizable.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -155,9 +147,8 @@
 			buildPhases = (
 				8BD5E14114D1E4F20021848F /* Sources */,
 				8BD5E14214D1E4F20021848F /* Frameworks */,
-				8BD5E3E814D206C50021848F /* Update Localizations */,
 				8BD5E14314D1E4F20021848F /* Resources */,
-				8BD5E3E914D206C80021848F /* Run Verify Localizations */,
+				8BD5E3E814D206C50021848F /* Update & Copy Localizations */,
 			);
 			buildRules = (
 			);
@@ -231,43 +222,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BD5E3EC14D2076F0021848F /* Localizable.strings in Resources */,
 				8B7BAF1214D2FD5000D7B32A /* Example.storyboard in Resources */,
-				8BAB444A14D339E800945E4E /* Example.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8BD5E3E814D206C50021848F /* Update Localizations */ = {
+		8BD5E3E814D206C50021848F /* Update & Copy Localizations */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Update Localizations";
+			name = "Update & Copy Localizations";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "localization create -s. -r.";
-			showEnvVarsInLog = 0;
-		};
-		8BD5E3E914D206C80021848F /* Run Verify Localizations */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Verify Localizations";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "localization verify -s. -r.";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -292,27 +266,6 @@
 			targetProxy = 8BD5E24614D1EA0A0021848F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		8B7BAEDB14D2FC1300D7B32A /* Example.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8B7BAEDC14D2FC1300D7B32A /* en */,
-				8B7BAEDE14D2FC1900D7B32A /* de */,
-			);
-			name = Example.strings;
-			sourceTree = "<group>";
-		};
-		8BD5E3EA14D2076F0021848F /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8BD5E3EB14D2076F0021848F /* en */,
-				8BD5E3ED14D2077C0021848F /* de */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8BD5E16714D1E4F20021848F /* Debug */ = {
