@@ -111,8 +111,13 @@
 
 	NSString *exportPath = [[self newTempDir] stringByAppendingPathComponent:@"extracted"];
 	[fileManager uncompressItemAtPath:path to:exportPath error:&error];
-	//TODO: implement proper error handling, especially in the case that the directory already exists
-	if (error) { NSLog(@"Error"); }
+	if (error) { 
+		NSAlert *alert = [NSAlert alertWithMessageText:@"Error" defaultButton:NULL 
+									   alternateButton:NULL otherButton:NULL 
+							 informativeTextWithFormat:@"Error decompressing translation archive."];
+		[alert runModal];
+		return;
+	}
 	
 	[fileManager createDirectoryAtPath:savePath withIntermediateDirectories:NO attributes:nil error:nil];
 	
@@ -122,7 +127,6 @@
 		NSString *dirPath = [filePath stringByDeletingLastPathComponent];
 		NSString *newFileDirPath = [savePath stringByAppendingPathComponent:dirPath];
 		if (![fileManager contentsOfDirectoryAtPath:newFileDirPath error:nil]) {
-			NSLog(@"Creating %@", newFileDirPath);
 			[fileManager createDirectoryAtPath:newFileDirPath withIntermediateDirectories:YES attributes:nil error:nil];
 		}
 		
