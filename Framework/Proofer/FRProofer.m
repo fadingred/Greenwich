@@ -48,7 +48,7 @@
 	}
 	proofedStrings = [translator translateArray:translatedStrings];
 	
-	NSString *outputString = @"Translation = Original = Proofed\n";
+	NSString *outputString = @"/* Translation = Original = Proofed */\n";
 	for (NSUInteger i = 0; i < [originalStrings count]; i++) {
 		outputString = [outputString stringByAppendingFormat:@"\"%@\" = \"%@\" = \"%@\"\n", 
 						[translatedStrings objectAtIndex:i], [originalStrings objectAtIndex:i], 
@@ -71,7 +71,7 @@
 		}
 	}
 
-	NSString *outputString = @"Translation = Original = Proofed\n";
+	NSString *outputString = @"/* Translation = Original = Proofed */\n";
 	for (NSUInteger i = 0; i < [originalStrings count]; i++) {
 		outputString = [outputString stringByAppendingFormat:@"\"%@\" = \"%@\" = \"%@\"\n", 
 						[translatedStrings objectAtIndex:i], [originalStrings objectAtIndex:i], 
