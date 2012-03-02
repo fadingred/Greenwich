@@ -30,7 +30,7 @@
 }
 
 - (void)awakeFromNib {
-	[self.codeTextField setStringValue:MyLocalizedString(@"Code string", nil)];
+	[self.codeTextField setStringValue:MyLocalizedString(@"Code text", nil)];
 }
 
 - (void)awakeFromLocalization {

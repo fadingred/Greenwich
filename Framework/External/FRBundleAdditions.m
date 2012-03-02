@@ -40,6 +40,7 @@
 		while ([search count]) {
 			NSBundle *bundle = [search objectAtIndex:0];
 			iterate_directory([bundle privateFrameworksPath]);
+			iterate_directory([bundle alternativePrivateFrameworksPath]);
 			iterate_directory([bundle builtInPlugInsPath]);
 			
 			NSString *bundleID = [bundle objectForInfoDictionaryKey:(id)kCFBundleIdentifierKey];
@@ -77,6 +78,25 @@
 - (NSString *)applicationSupportDirectory {
 	NSArray *search = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
 	return [search count] ? [[search objectAtIndex:0] stringByAppendingPathComponent:[self name]] : nil;
+}
+
+- (NSString *)alternativePrivateFrameworksPath {
+	NSString *path = nil;
+	if ([[[self bundlePath] pathExtension] isEqualToString:@"framework"]) {
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSString *executablePath = [self executablePath];
+		NSString *executableDirectory = [executablePath stringByDeletingLastPathComponent];
+		NSString *executableLink = [fileManager destinationOfSymbolicLinkAtPath:executablePath error:NULL];
+		if (executableLink) {
+			if (![executableLink hasPrefix:@"/"]) {
+				executableLink = [executableDirectory stringByAppendingPathComponent:executableLink];
+			}
+			executablePath = executableLink;
+		}
+		NSString *versionDirectory = [executablePath stringByDeletingLastPathComponent];
+		path = [versionDirectory stringByAppendingPathComponent:@"Frameworks"];
+	}
+	return path;
 }
 
 @end

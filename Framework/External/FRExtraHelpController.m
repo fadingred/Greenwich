@@ -140,6 +140,7 @@ CGEventRef flagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef even
 
 - (void)menuDidClose:(NSMenu *)menu {
 	if (eventTap) {
+		CFMachPortInvalidate(eventTap);
 		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopCommonModes);
 		CFRelease(eventTap); eventTap = NULL;
 		CFRelease(runLoopSource); runLoopSource = NULL;

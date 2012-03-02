@@ -23,7 +23,7 @@ import os
 # main verify strings function
 # ----------------------------------------------------------------------
 
-def verify_strings(app_resources, config):
+def verify_strings(config):
   if os.path.exists(config.resources):
     for lang in os.listdir(config.resources):
       if lang.endswith('.lproj'):
@@ -31,9 +31,9 @@ def verify_strings(app_resources, config):
         if os.path.exists(directory):
           for stringsname in os.listdir(directory):
             name, ext = os.path.splitext(stringsname)
-            nibpath = os.path.join(app_resources, '%s.nib' % name)
+            nibpath = os.path.join(config.app_resources, '%s.nib' % name)
             if ext == '.strings' and (name == 'Localizable' or os.path.exists(nibpath)) and \
-               os.path.exists(os.path.join(app_resources, lang, stringsname)) == False:
+               os.path.exists(os.path.join(config.app_resources, lang, stringsname)) == False:
               sys.stderr.write('warning: missing %s strings file in built product for %s\n' % (lang, stringsname,))
 
 
@@ -42,13 +42,6 @@ def verify_strings(app_resources, config):
 
 if __name__ == '__main__':
   usage = """usage: %%prog [options]
-  Used to verify strings files from resources are in a bundle."""
-  parser = OptionParser(usage=usage)
-  r = 'Built application resources folder, '\
-      'default value: $BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH'
-  parser.add_option('--app-resources', dest='app_resources', default=None, help=r)
-  config, options, args = parser.parse_config()
-  app_resources = options.app_resources or os.path.join(
-    os.environ.get('BUILT_PRODUCTS_DIR', ''),
-    os.environ.get('UNLOCALIZED_RESOURCES_FOLDER_PATH', ''))
-  verify_strings(app_resources, config)
+  Used to verify strings files from resources are in a bundle.
+This should be used if you use the create script with the --no-copy option."""
+  verify_strings(OptionParser(usage=usage).parse_config()[0])
