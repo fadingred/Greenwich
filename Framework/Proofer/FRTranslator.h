@@ -16,7 +16,6 @@
 @property (strong, nonatomic) FRSingleNodeParsingDelegate *singleNodeParser;
 @property (strong, nonatomic) FRTranslateArrayResultParsingDelegate *translatedArrayParser;
 
-- (NSString *)translateString:(NSString *)stringToTranslate;
 - (NSArray *)translateArray:(NSArray *)arrayToTranslate;
 - (NSString *)detectLanguageOfString:(NSString *)stringToDetect;
 

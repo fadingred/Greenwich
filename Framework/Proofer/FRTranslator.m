@@ -57,44 +57,6 @@ static NSString *kErrorString = @"Error!";
 	self.authToken = [resultParts objectAtIndex:3];
 }
 
-- (NSString *)translateString:(NSString *)stringToTranslate {
-	NSMutableString *translateFrom = [NSMutableString stringWithString:@"&from="];
-	[translateFrom appendString:self.language];
-	
-	if ([translateFrom isEqualToString:kErrorString]) {
-		NSLog(@"Couldn't detect language");
-		return @"";
-	}
-	
-	NSMutableString *urlString = [NSMutableString stringWithString:
-								  @"http://api.microsofttranslator.com/v2/Http.svc/Translate?appId=AC56E0F30DC3119A55994244361E06DC1B777049&text="];
-	
-	NSString *escapedStringToTranslate = [self escapeString:stringToTranslate];
-	[urlString appendString:escapedStringToTranslate];
-	[urlString appendString:translateFrom];
-	[urlString appendString:@"&to=en"];
-	
-	NSURL *url = [NSURL URLWithString:urlString];
-	NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData
-										 timeoutInterval:60.0];
-	NSURLResponse *response;
-	NSError *error;
-	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	
-	if (data == nil) { NSLog(@"Could not parse translation result :["); }
-	else {
-		NSXMLParser *resultParser = [[NSXMLParser alloc]initWithData:data];
-		resultParser.delegate = singleNodeParser;
-		[resultParser parse];
-		
-		while (![singleNodeParser result]) { /* wait until the translation has been parsed */ }
-		
-		return [singleNodeParser result];
-	}
-	
-	return @"Error";
-}
-
 - (NSArray *)translateArray:(NSArray *)arrayToTranslate {
 	NSMutableString *urlString = [NSMutableString stringWithString:
 								  @"http://api.microsofttranslator.com/v2/Http.svc/TranslateArray"];
