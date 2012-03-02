@@ -19,6 +19,8 @@ static NSString *kErrorString = @"Error!";
 
 @implementation FRTranslator
 
+@synthesize clientId;
+@synthesize clientSecret;
 @synthesize authToken;
 @synthesize language;
 @synthesize singleNodeParser;
@@ -29,7 +31,6 @@ static NSString *kErrorString = @"Error!";
 		self.language = @"";
 		self.singleNodeParser = [[FRSingleNodeParsingDelegate alloc] init];
 		self.translatedArrayParser = [[FRTranslateArrayResultParsingDelegate alloc] init];
-		[self getAccessToken];
 	}
 	return self;
 }
@@ -37,7 +38,7 @@ static NSString *kErrorString = @"Error!";
 - (void)getAccessToken {
 	NSString *accessURI = @"https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
 	NSString *requestString = [NSString stringWithFormat:@"grant_type=client_credentials&client_id=%@&client_secret=%@&scope=http://api.microsofttranslator.com", 
-							   [self escapeString:@"GreenwichTest"], [self escapeString:@"3jKJzUuVRHePxJWLgyAEqCIzy+QQ2Y3V52jFz2GthF4="]];
+							   [self escapeString:self.clientId], [self escapeString:self.clientSecret]];
 	
 	NSURL *url = [NSURL URLWithString:accessURI];
 	
@@ -90,6 +91,8 @@ static NSString *kErrorString = @"Error!";
 	NSURLResponse *response;
 	NSError *error;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+	
+	NSString *results = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	
 	if (data == nil) { NSLog(@"Could not parse translation result :["); }
 	else {

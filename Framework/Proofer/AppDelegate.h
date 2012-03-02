@@ -13,6 +13,8 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
+@property (strong, nonatomic) IBOutlet NSTextField *clientIdField;
+@property (strong, nonatomic) IBOutlet NSTextField *clientSecretField;
 @property (strong, nonatomic) IBOutlet NSButton *proofButton;
 @property (strong, nonatomic) IBOutlet NSTextField *pathTextField;
 @property (strong, nonatomic) FRProofer *proofer;

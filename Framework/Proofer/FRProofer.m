@@ -17,6 +17,15 @@
 
 @synthesize translator;
 
+- (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret {
+	if (!self.translator) {
+		self.translator = [[FRTranslator alloc] init];
+	}
+	self.translator.clientId = clientId;
+	self.translator.clientSecret = clientSecret;
+	[self.translator getAccessToken];
+}
+
 - (void)proofFileFromPath:(NSString *)fromPath toPath:(NSString *)toPath {
 	NSError *error = nil;
 	NSStringEncoding encoding;
@@ -28,8 +37,8 @@
 	NSArray *lines = [contents componentsSeparatedByCharactersInSet:
 					  [NSCharacterSet characterSetWithCharactersInString:@"\r\n"]];;
 
-	if (!self.translator) {
-		[self initTranslatorUsingLines:lines];
+	if (!self.translator.language) {
+		[self determineTranslatorLanguageUsingLines:lines];
 	}
 
 	NSMutableArray *originalStrings = [[NSMutableArray alloc] init];
@@ -54,8 +63,8 @@
 	[outputString writeToFile:toPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];	
 }
 
-- (void)initTranslatorUsingLines:(NSArray *)lines {
-	self.translator = [[FRTranslator alloc] init];
+- (void)determineTranslatorLanguageUsingLines:(NSArray *)lines {
+	if (!self.translator) { self.translator = [[FRTranslator alloc] init]; }
 
 	NSMutableArray *detectedLanguages = [[NSMutableArray alloc] init];
 	for (NSString *line in lines) {

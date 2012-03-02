@@ -11,11 +11,15 @@
 
 @interface FRTranslator : NSObject
 
+@property (strong, nonatomic) NSString *clientId;
+@property (strong, nonatomic) NSString *clientSecret;
+
 @property (strong, nonatomic) NSString *authToken;
 @property (strong, nonatomic) NSString *language;
 @property (strong, nonatomic) FRSingleNodeParsingDelegate *singleNodeParser;
 @property (strong, nonatomic) FRTranslateArrayResultParsingDelegate *translatedArrayParser;
 
+- (void)getAccessToken;
 - (NSArray *)translateArray:(NSArray *)arrayToTranslate;
 - (NSString *)detectLanguageOfString:(NSString *)stringToDetect;
 

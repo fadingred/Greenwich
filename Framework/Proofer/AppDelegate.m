@@ -14,13 +14,15 @@
 @interface AppDelegate ()
 - (void)importFromTbz:(NSString *)path toPath:(NSString *)exportPath;
 - (void)importFromStringsFileAtPath:(NSString *)fromPath toPath:(NSString *)toPath;
-- (BOOL)validatePathInTextField;
+- (BOOL)validateInputs;
 - (void)presentSavePanel;
 @end
 
 @implementation AppDelegate
 
 @synthesize window;
+@synthesize clientIdField;
+@synthesize clientSecretField;
 @synthesize proofButton;
 @synthesize pathTextField;
 @synthesize proofer;
@@ -39,21 +41,40 @@
 
 - (IBAction)proof:(id)sender {
 	// we make a new proofer every time in case they're doing a different file with a different language
+	BOOL validInputs = [self validateInputs];
 	self.proofer = [[FRProofer alloc] init];
-	BOOL validFile = [self validatePathInTextField];
-	if (validFile) { [self presentSavePanel]; }
+	[self.proofer setClientId:clientIdField.stringValue clientSecret:clientSecretField.stringValue];
+
+	if (validInputs) { [self presentSavePanel]; }
 }
 
-- (BOOL)validatePathInTextField {
+- (BOOL)validateInputs {
 	BOOL valid = YES;
+	NSMutableString *errorString = [NSMutableString stringWithString:@""];
+	
 	NSString *inputFileExtension = [pathTextField.stringValue pathExtension];
 	if (![inputFileExtension isEqualToString:@"tbz"]) {
-		NSAlert *alert = [NSAlert alertWithMessageText:@"Error" defaultButton:nil 
-									   alternateButton:@"Cancel" otherButton:nil 
-							 informativeTextWithFormat:@"Please select a valid tbz file to proof."];
-		[alert runModal];
+		[errorString appendFormat:@"Please select a valid tbz file to proof.\n"];
 		valid = NO;
 	}
+	
+	if ([clientIdField.stringValue length] == 0 || clientIdField.stringValue == NULL) {
+		valid = NO; 
+		[errorString appendFormat:@"Please enter a registered client ID.\n"];
+	}
+
+	if ([clientSecretField.stringValue length] == 0 || clientSecretField.stringValue == NULL) { 
+		valid = NO; 
+		[errorString appendFormat:@"Please enter a registered client secret.\n"];
+	}
+	
+	if (!valid) {
+		NSAlert *alert = [NSAlert alertWithMessageText:@"Error" defaultButton:nil 
+									   alternateButton:@"Cancel" otherButton:nil 
+							 informativeTextWithFormat:errorString];
+		[alert runModal];
+	}
+	
 	return valid;
 }
 
