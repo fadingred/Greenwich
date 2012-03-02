@@ -25,6 +25,7 @@ LD_RUNPATH_SEARCH_PATHS = @loader_path/../Frameworks
 GCC_VERSION = com.apple.compilers.llvm.clang.1_0
 MACOSX_DEPLOYMENT_TARGET = 10.6
 VALID_ARCHS = i386 x86_64
+SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk
 
 GREENWICH_NEEDS_LIBARCHIVE = 1
 GREENWICH_OTHER_LDFLAGS = $(inherited) -larchive -LExternal/libarchive
