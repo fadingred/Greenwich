@@ -61,8 +61,11 @@ class Xib(object):
     Generate strings file in an expected format and update generation time
     """
     strings.ensure_dir()
-    result = os.system('ibtool --plugin-dir "%s" --generate-strings-file "%s" "%s"' % (
-      self.config.plugindir, strings.path(), self.path()))
+    command = 'ibtool'
+    if self.config.plugindir:
+      command +=  ' --plugin-dir "%s"' % self.config.plugindir
+    command += ' --generate-strings-file "%s" "%s"' % (strings.path(), self.path())
+    result = os.system(command)
     if result != 0:
       sys.stderr.write('warning: error generating strings, see prior output for information\n');
     strings.normalize()
