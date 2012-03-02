@@ -96,8 +96,10 @@
 	[panel setNameFieldStringValue:@"translation"];
 	
 	void (^completion)(NSInteger) = ^(NSInteger returnCode) {
-		NSString *savePath = [[panel URL] path];
-		[self importFromTbz:self.pathTextField.stringValue toPath:savePath];
+		if (returnCode) {
+			NSString *savePath = [[panel URL] path];
+			[self importFromTbz:self.pathTextField.stringValue toPath:savePath];
+		}
 	};
 	
 	[panel beginSheetModalForWindow:[self window] completionHandler:completion];
