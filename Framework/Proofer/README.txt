@@ -28,7 +28,7 @@ After passing through the Proofer the corresponding output file would have this 
 
 The translation provided by the translator is on the left side, followed by the original word in the application that the translator is translating from, and then the translation provided by Microsoft's Translate API at the end. The original and proofed phrases are next to each other to enable ease of comparison.
 
-Obtaining a Microsoft Translation Access Token:
+Proofer uses Microsoft's translation API to translate the text. Here are the steps for obtaining a Microsoft Translation Access Token:
 
 1. If you don't have a Windows Live account, you'll have to make one at live.com.
 2. Go to the Azure Marketplace (https://datamarket.azure.com/dataset/1899a118-d202-492c-aa16-ba21c33c06cb) and sign up for Microsoft Translator. The free plan will let you translate 2,000,000 characters per month. Click Sign Up for the plan you'd like, enter your information, and accept the terms of use.
@@ -37,4 +37,4 @@ Obtaining a Microsoft Translation Access Token:
 	- The Name is an arbitrary name of what you'd like to call your application.
 	- I'm not sure what the Redirect URI is for.
 4. Click "Edit" on the application to view your information again. You'll need the client ID and the client secret.
-5. Open the proofer and enter this information.
+5. Open the proofer and enter the Client ID and Client Secret from the Azure application edit screen.
