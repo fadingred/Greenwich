@@ -27,7 +27,7 @@ static NSString *kErrorString = @"Error!";
 
 - (id)init {
 	if (self = [super init]) {
-		self.language = @"";
+		self.language = NULL;
 		self.singleNodeParser = [[FRSingleNodeParsingDelegate alloc] init];
 		self.translatedArrayParser = [[FRTranslateArrayResultParsingDelegate alloc] init];
 	}
@@ -66,11 +66,11 @@ static NSString *kErrorString = @"Error!";
 - (NSArray *)translateArray:(NSArray *)arrayToTranslate {
 	NSMutableString *urlString = [NSMutableString stringWithString:
 								  @"http://api.microsofttranslator.com/v2/Http.svc/TranslateArray"];
-	NSMutableString *dataString = [[NSMutableString alloc] initWithString:
+	NSMutableString *dataString = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:
 		@"<TranslateArrayRequest>"
 			@"<AppId />"
-			@"<From>de</From>"
-			@"<Texts>"];
+			@"<From>%@</From>"
+			@"<Texts>", self.language]];
 
 	for (NSString *string in arrayToTranslate) {
 		NSString *startElement = @"<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/Arrays\">";
