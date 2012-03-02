@@ -14,7 +14,6 @@ static NSString *kErrorString = @"Error!";
 
 @interface FRTranslator ()
 - (NSString *)escapeString:(NSString *)string;
-- (void)getAccessToken;
 @end
 
 @implementation FRTranslator
@@ -35,7 +34,7 @@ static NSString *kErrorString = @"Error!";
 	return self;
 }
 
-- (void)getAccessToken {
+- (BOOL)getAccessToken {
 	NSString *accessURI = @"https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
 	NSString *requestString = [NSString stringWithFormat:@"grant_type=client_credentials&client_id=%@&client_secret=%@&scope=http://api.microsofttranslator.com", 
 							   [self escapeString:self.clientId], [self escapeString:self.clientSecret]];
@@ -56,6 +55,12 @@ static NSString *kErrorString = @"Error!";
 	// don't want to use a JSON parser when all I'm really doing is pulling out this one piece of data
 	NSArray *resultParts = [result componentsSeparatedByString:@"\""];
 	self.authToken = [resultParts objectAtIndex:3];
+
+	BOOL success = TRUE;
+	if ([self.authToken isEqualToString:@"invalid_client"]) {
+		success = FALSE;
+	}
+	return success;
 }
 
 - (NSArray *)translateArray:(NSArray *)arrayToTranslate {
@@ -91,8 +96,6 @@ static NSString *kErrorString = @"Error!";
 	NSURLResponse *response;
 	NSError *error;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	
-	NSString *results = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	
 	if (data == nil) { NSLog(@"Could not parse translation result :["); }
 	else {

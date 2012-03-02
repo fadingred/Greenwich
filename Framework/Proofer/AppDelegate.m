@@ -44,8 +44,16 @@
 	BOOL validInputs = [self validateInputs];
 	self.proofer = [[FRProofer alloc] init];
 	[self.proofer setClientId:clientIdField.stringValue clientSecret:clientSecretField.stringValue];
-
-	if (validInputs) { [self presentSavePanel]; }
+	
+	BOOL validCredentials = [self.proofer setupAccessToken];
+	if (!validCredentials) {
+		NSAlert *alert = [NSAlert alertWithMessageText:@"Invalid Credentials" defaultButton:nil 
+									   alternateButton:@"Cancel" otherButton:nil 
+							 informativeTextWithFormat:@"The Client ID and Client Secret entere were not recognized by the translation server as valid."];
+		[alert runModal];
+	}
+	
+	if (validInputs && validCredentials) { [self presentSavePanel]; }
 }
 
 - (BOOL)validateInputs {

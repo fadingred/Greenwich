@@ -19,7 +19,7 @@
 @property (strong, nonatomic) FRSingleNodeParsingDelegate *singleNodeParser;
 @property (strong, nonatomic) FRTranslateArrayResultParsingDelegate *translatedArrayParser;
 
-- (void)getAccessToken;
+- (BOOL)getAccessToken;
 - (NSArray *)translateArray:(NSArray *)arrayToTranslate;
 - (NSString *)detectLanguageOfString:(NSString *)stringToDetect;
 

@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) FRTranslator *translator;
 
+- (BOOL)setupAccessToken;
 - (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret;
 - (void)proofFileFromPath:(NSString *)fromPath toPath:(NSString *)toPath;
 

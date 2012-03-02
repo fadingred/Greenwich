@@ -23,7 +23,10 @@
 	}
 	self.translator.clientId = clientId;
 	self.translator.clientSecret = clientSecret;
-	[self.translator getAccessToken];
+}
+
+- (BOOL)setupAccessToken {
+	return [self.translator getAccessToken];
 }
 
 - (void)proofFileFromPath:(NSString *)fromPath toPath:(NSString *)toPath {
