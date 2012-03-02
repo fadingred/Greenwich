@@ -69,8 +69,19 @@
 - (void)determineTranslatorLanguageUsingLines:(NSArray *)lines {
 	if (!self.translator) { self.translator = [[FRTranslator alloc] init]; }
 
+	// each translation takes up three lines. check the language of the first 5 lines to determine which language to
+	// translate from
+	NSArray *firstLines;
+	if ([lines count] > 15) {
+		NSRange firstTenLinesRange = { .location = 0, .length = 15 };
+		firstLines = [lines subarrayWithRange:firstTenLinesRange];
+	}
+	else {
+		firstLines = lines;
+	}
+	
 	NSMutableArray *detectedLanguages = [[NSMutableArray alloc] init];
-	for (NSString *line in lines) {
+	for (NSString *line in firstLines) {
 		NSString *translatedStringInLine = [self rightSideOfStringsLine:line];
 		if (![translatedStringInLine isEqualToString:@""]) {
 			NSString *detectedLanguage = [self.translator detectLanguageOfString:translatedStringInLine];
