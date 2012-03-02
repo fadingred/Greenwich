@@ -17,6 +17,7 @@
 
 from util import *
 from hashlib import md5
+import subprocess
 import codecs
 import sys
 import os
@@ -61,11 +62,15 @@ class Xib(object):
     Generate strings file in an expected format and update generation time
     """
     strings.ensure_dir()
-    command = 'ibtool'
+    command = ['ibtool']
     if self.config.plugindir:
-      command +=  ' --plugin-dir "%s"' % self.config.plugindir
-    command += ' --generate-strings-file "%s" "%s"' % (strings.path(), self.path())
-    result = os.system(command)
+      command +=  ['--plugin-dir', self.config.plugindir]
+    command += ['--generate-strings-file', strings.path(), self.path()]
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    sys.stdout.write(stdout)
+    sys.stderr.write(stderr)
+    result = process.wait()
     if result != 0:
       sys.stderr.write('warning: error generating strings, see prior output for information\n');
     strings.normalize()
