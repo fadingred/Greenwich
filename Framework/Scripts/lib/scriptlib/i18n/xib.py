@@ -17,18 +17,21 @@
 
 from util import *
 from hashlib import md5
+import subprocess
 import codecs
 import sys
 import os
 
 class Xib(object):
-  def __init__(self, name, config):
+  def __init__(self, name, config, path=None):
     self.name = clean_name(name)
     self.config = config
+    self._path = path
     self._mtime = None
     self._gtime = None
   
   def path(self):
+    if self._path: return self._path
     resources = self.config.resources
     path = os.path.join(resources, '%s.xib' % self.name)
     return path
@@ -56,16 +59,23 @@ class Xib(object):
     if not os.path.exists(directory):
       os.mkdir(directory)
   
-  def generate(self, strings):
+  def generate(self, strings, normalize=True):
     """
     Generate strings file in an expected format and update generation time
     """
     strings.ensure_dir()
-    result = os.system('ibtool --plugin-dir "%s" --generate-strings-file "%s" "%s"' % (
-      self.config.plugindir, strings.path(), self.path()))
+    command = ['ibtool']
+    if self.config.plugindir:
+      command +=  ['--plugin-dir', self.config.plugindir]
+    command += ['--generate-strings-file', strings.path(), self.path()]
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    sys.stdout.write(stdout)
+    sys.stderr.write(stderr)
+    result = process.wait()
     if result != 0:
       sys.stderr.write('warning: error generating strings, see prior output for information\n');
-    strings.normalize()
+    if normalize: strings.normalize()
     generation = self._generation()
     self._ensure_dir_for_file(generation)
     os.system('touch "%s"' % (generation,))

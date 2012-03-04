@@ -291,7 +291,7 @@
 		8BAD1E54146F114700E16433 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 8BAD1E57146F114700E16433 /* Build configuration list for PBXProject "Greenwich" */;
 			compatibilityVersion = "Xcode 3.2";

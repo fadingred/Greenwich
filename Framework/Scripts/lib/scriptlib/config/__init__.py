@@ -16,6 +16,7 @@
 # 
 
 import optparse
+import tempfile
 import os
 
 class OptionParser(optparse.OptionParser):
@@ -61,7 +62,7 @@ class OptionParser(optparse.OptionParser):
     options.resources = options.resources or os.path.join(base, 'Resources')
     options.source = options.source or os.path.join(base, 'Source')
     options.lang = options.lang or os.environ.get('BASE_LANGUAGE', 'en')
-    options.tempdir = options.tempdir or os.environ.get('CONFIGURATION_TEMP_DIR')
+    options.tempdir = options.tempdir or os.environ.get('CONFIGURATION_TEMP_DIR') or tempfile.gettempdir()
     options.plugindir = options.plugindir or os.environ.get('IBC_PLUGIN_SEARCH_PATHS')
     options.app_resources = options.app_resources or os.path.join(
       os.environ.get('BUILT_PRODUCTS_DIR', ''),
