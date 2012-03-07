@@ -131,6 +131,9 @@ It will swap out certain characters and extend your strings slightly while keepi
 great for testing to make sure that everything is localized and that you've allowed enough space for strings
 in other languages.
 
+**Source Only:**
+Greenwich includes a [proofer tool](https://github.com/fadingred/Greenwich/blob/master/Framework/Proofer/Readme.md)
+that will allow you to validate user translations.
 
 ## Compatibility
 
