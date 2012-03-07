@@ -38,5 +38,5 @@ Proofer uses Microsoft's translation API to translate the text. Here are the ste
     - The Client ID is an arbitrary name for your application that you choose.
     - The Name is an arbitrary name of what you'd like to call your application.
     - I'm not sure what the Redirect URI is for.
-  1. Click "Edit" on the application to view your information again. You'll need the client ID and the client secret.
+  1. Click _Edit_ on the application to view your information again. You'll need the client ID and the client secret.
   1. Open the proofer and enter the Client ID and Client Secret from the Azure application edit screen.
