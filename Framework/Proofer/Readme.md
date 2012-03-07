@@ -33,8 +33,8 @@ The translation provided by the translator is on the left side, followed by the 
 Proofer uses Microsoft's translation API to translate the text. Here are the steps for obtaining a Microsoft Translation Access Token:
 
   1. If you don't have a Windows Live account, you'll have to make one at live.com.
-  1. Go to the Azure Marketplace (https://datamarket.azure.com/dataset/1899a118-d202-492c-aa16-ba21c33c06cb) and sign up for Microsoft Translator. The free plan will let you translate 2,000,000 characters per month. Click Sign Up for the plan you'd like, enter your information, and accept the terms of use.
-  1. Go to https://datamarket.azure.com/developer/applications/ and register an application so you can begin using the translation service. 
+  1. Go to the [Azure Marketplace](https://datamarket.azure.com/dataset/1899a118-d202-492c-aa16-ba21c33c06cb) and sign up for Microsoft Translator. The free plan will let you translate 2,000,000 characters per month. Click Sign Up for the plan you'd like, enter your information, and accept the terms of use.
+  1. [Register an application](https://datamarket.azure.com/developer/applications/) so you can begin using the translation service. 
     - The Client ID is an arbitrary name for your application that you choose.
     - The Name is an arbitrary name of what you'd like to call your application.
     - I'm not sure what the Redirect URI is for.
