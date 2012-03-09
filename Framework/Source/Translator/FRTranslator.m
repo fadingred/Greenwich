@@ -66,7 +66,7 @@ static NSString * const kApplicationNameKey = @"FRApplicationName";
 
 		NSURL *appSupport = [NSURL fileURLWithPath:[[NSBundle mainBundle] applicationSupportDirectory]];
 		[query setSearchScopes:[NSArray arrayWithObjects:appSupport, nil]];
-		[query setPredicate:[NSPredicate predicateWithFormat:@"%K == 'Greenwich.details'", NSMetadataItemFSNameKey]];
+		[query setPredicate:[NSPredicate predicateWithFormat:@"%K == 'Greenwich.details'", kMDItemFSName]];
 		[query startQuery];
 	}
 }
