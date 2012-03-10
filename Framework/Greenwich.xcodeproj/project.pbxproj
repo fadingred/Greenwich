@@ -187,7 +187,6 @@
 		8BAD1EB0146F150100E16433 /* Localization.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Localization.plist; path = Info/Localization.plist; sourceTree = "<group>"; };
 		8BAD1EB1146F158E00E16433 /* Project.debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Project.debug.xcconfig; path = ../Configurations/Shared/Project.debug.xcconfig; sourceTree = "<group>"; };
 		8BAD1EB2146F158E00E16433 /* Project.release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Project.release.xcconfig; path = ../Configurations/Shared/Project.release.xcconfig; sourceTree = "<group>"; };
-		8BAD1EB3146F159C00E16433 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Application.xcconfig; path = ../Configurations/Mac/Application.xcconfig; sourceTree = "<group>"; };
 		8BAD1EB3146F159C00E16433 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Base.xcconfig; path = ../Configurations/Mac/Base.xcconfig; sourceTree = "<group>"; };
 		8BAD1EB4146F159C00E16433 /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Framework.xcconfig; path = ../Configurations/Mac/Framework.xcconfig; sourceTree = "<group>"; };
 		8BAD1EB9146F168F00E16433 /* Greenwich.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Greenwich.pch; path = Source/Greenwich.pch; sourceTree = "<group>"; };
@@ -410,7 +409,7 @@
 		8BAD1EB7146F15DF00E16433 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
-				8BAD1EB3146F159C00E16433 /* Application.xcconfig */,
+				8BAD1EB3146F159C00E16433 /* Base.xcconfig */,
 				8BAD1EB3146F159C00E16433 /* Base.xcconfig */,
 				8BAD1EB4146F159C00E16433 /* Framework.xcconfig */,
 			);
@@ -868,7 +867,7 @@
 /* Begin XCBuildConfiguration section */
 		8B2B99BB14D347C500A40CD4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BAD1EB3146F159C00E16433 /* Application.xcconfig */;
+			baseConfigurationReference = 8BAD1EB3146F159C00E16433 /* Base.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = Source/Greenwich.pch;
 				HEADER_SEARCH_PATHS = (
@@ -886,7 +885,7 @@
 		};
 		8B2B99BC14D347C500A40CD4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BAD1EB3146F159C00E16433 /* Application.xcconfig */;
+			baseConfigurationReference = 8BAD1EB3146F159C00E16433 /* Base.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = Source/Greenwich.pch;
 				HEADER_SEARCH_PATHS = (
@@ -1000,6 +999,28 @@
 			};
 			name = Debug;
 		};
+		8BD5E23D14D1E7C80021848F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BD5E24514D1E9EF0021848F /* Library.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = Source/Greenwich.pch;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					External/libarchive,
+				);
+				INFOPLIST_FILE = "Proofer/Proofer-Info.plist";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"$(GREENWICH_OTHER_CFLAGS)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"$(GREENWICH_OTHER_LDFLAGS)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		8F6BF71814CA19CD00C25754 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8BAD1EB3146F159C00E16433 /* Base.xcconfig */;
@@ -1025,30 +1046,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
-		};
-		8BD5E23D14D1E7C80021848F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BD5E24514D1E9EF0021848F /* Library.xcconfig */;
-			buildSettings = {
-				GCC_PREFIX_HEADER = Source/Greenwich.pch;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					External/libarchive,
-				);
-				INFOPLIST_FILE = Info/Localization.plist;
-				PRODUCT_NAME = Greenwich;
-				INFOPLIST_FILE = "Proofer/Proofer-Info.plist";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"$(GREENWICH_OTHER_CFLAGS)",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"$(GREENWICH_OTHER_LDFLAGS)",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
 		};
 		8F6BF71914CA19CD00C25754 /* Release */ = {
 			isa = XCBuildConfiguration;
