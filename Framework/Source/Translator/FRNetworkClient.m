@@ -42,6 +42,10 @@
 		connection = [[FRConnection alloc] initWithHost:[service hostName] port:[service port]];
 		connection.delegate = self;
 		[connection connect];
+		
+		if ([self.delegate respondsToSelector:@selector(networkClient:didCreateConnection:)]) {
+			[self.delegate networkClient:self didCreateConnection:connection];
+		}
 	}
 }
 
@@ -73,7 +77,9 @@
 }
 
 - (void)connection:(FRConnection *)aConnection receivedMessage:(NSDictionary *)message {
-	[self.delegate networkClient:self receivedMessage:message fromConnection:aConnection];
+	if ([self.delegate respondsToSelector:@selector(networkClient:receivedMessage:fromConnection:)]) {
+		[self.delegate networkClient:self receivedMessage:message fromConnection:aConnection];
+	}
 }
 
 

@@ -20,6 +20,7 @@
 
 @interface FRLocalizationManager : NSObject {
 	FRNetworkServer *server;
+	NSString *generatedAuthorizationCode;
 }
 
 + (id)defaultLocalizationManager;

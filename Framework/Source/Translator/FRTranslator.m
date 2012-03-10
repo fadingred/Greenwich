@@ -15,6 +15,8 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+#import <SystemConfiguration/SystemConfiguration.h>
+
 #import "FRTranslator.h"
 #import "FRNetworkClient.h"
 #import "FRBundleAdditions.h"
@@ -24,6 +26,9 @@
 #import "FRTranslationInfo__.h"
 
 static NSString * const kApplicationNameKey = @"FRApplicationName";
+
+static NSString *DeviceGUIDString(void);
+static NSString *DeviceNameString(void);
 
 @interface FRTranslator () <FRNetworkClientDelegate>
 - (void)extractStringsFromResourcesMessage:(NSDictionary *)message;
@@ -152,9 +157,22 @@ static NSString * const kApplicationNameKey = @"FRApplicationName";
 // ----------------------------------------------------------------------------------------------------
 
 - (void)networkClient:(FRNetworkClient *)client
+  didCreateConnection:(FRConnection *)connection {
+
+	// send authorization message on initial connection
+	NSString *deviceIdentifier = DeviceGUIDString();
+	NSString *deviceName = DeviceNameString();
+	[connection sendMessage:
+	 [NSDictionary dictionaryWithObjectsAndKeys:
+	  FRAuthenticationMessage.messageID, FRAuthenticationMessage.messageID,
+	  deviceIdentifier, FRAuthenticationMessage.keys.deviceIdentifier,
+	  deviceName, FRAuthenticationMessage.keys.deviceName, nil]];
+}
+
+- (void)networkClient:(FRNetworkClient *)client
 	  receivedMessage:(NSDictionary *)message
 	   fromConnection:(FRConnection *)connection {
-	
+
 	if ([message objectForKey:FRLocalizationResourcesMessage.messageID]) {
 		[self extractStringsFromResourcesMessage:message];
 	}
@@ -195,3 +213,56 @@ static NSString * const kApplicationNameKey = @"FRApplicationName";
 }
 
 @end
+
+
+static CFDataRef GUIDCopy(void);
+static CFDataRef GUIDCopy(void) {
+	kern_return_t kernResult = 0;
+	mach_port_t master_port = 0;
+	io_iterator_t iterator = 0;
+	io_object_t service = 0;
+	CFMutableDictionaryRef matchingDict = NULL;
+	CFDataRef macAddress = NULL;
+	
+	if ((kernResult = IOMasterPort(MACH_PORT_NULL, &master_port)) != KERN_SUCCESS) {
+		NSLog(@"IOMasterPort returned %d", kernResult);
+	}
+	
+	if (!(matchingDict = IOBSDNameMatching(master_port, 0, "en0"))) {
+		NSLog(@"IOBSDNameMatching returned empty dictionary");
+	}
+	
+	if ((kernResult = IOServiceGetMatchingServices(master_port, matchingDict, &iterator)) != KERN_SUCCESS) {
+		NSLog(@"IOServiceGetMatchingServices returned %d", kernResult);
+	}
+	
+	while((service = IOIteratorNext(iterator)) != 0) {
+		io_object_t parentService = 0;
+		if ((kernResult = IORegistryEntryGetParentEntry(service, kIOServicePlane, &parentService)) == KERN_SUCCESS) {
+			if (macAddress) { CFRelease(macAddress); }
+			macAddress = IORegistryEntryCreateCFProperty(parentService, CFSTR("IOMACAddress"), kCFAllocatorDefault, 0);
+			IOObjectRelease(parentService);
+		}
+		else { NSLog(@"IORegistryEntryGetParentEntry returned %d", kernResult); }
+		IOObjectRelease(service);
+	}
+	
+	return macAddress;
+}
+
+static NSString *DeviceGUIDString(void) {
+	NSData *data = (__bridge_transfer NSData *)GUIDCopy();
+	NSMutableString *address = [NSMutableString string];
+	const unsigned char *bytes = [data bytes];
+	for (NSUInteger i = 0; i < [data length]; i++) {
+		if ([address length]) {
+			[address appendString:@":"];
+		}
+		[address appendFormat:@"%02x", bytes[i]];
+	}
+	return address;
+}
+
+static NSString *DeviceNameString(void) {
+	return(__bridge_transfer NSString *)SCDynamicStoreCopyComputerName(NULL, &(CFStringEncoding){0});
+}

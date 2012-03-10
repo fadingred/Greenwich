@@ -17,6 +17,14 @@
 
 #import "FRMessages.h"
 
+const struct FRAuthenticationMessage FRAuthenticationMessage = {
+	.messageID = @"FRAuthenticationMessageID",
+	.keys = {
+		.deviceName = @"deviceName",
+		.deviceIdentifier = @"deviceIdentifier",
+	}
+};
+
 const struct FRLocalizationResourcesMessage FRLocalizationResourcesMessage = {
 	.messageID = @"FRLocalizationResourcesMessageID",
 	.keys = {

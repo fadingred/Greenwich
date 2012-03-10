@@ -118,7 +118,9 @@ static void callback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef ad
 		if (server->connection) { [server->connection connect]; }
 		else { close(sock); }
 		
-		[server.delegate networkServer:server receivedMessage:nil fromConnection:server->connection];
+		if ([server.delegate respondsToSelector:@selector(networkServer:didCreateConnection:)]) {
+			[server.delegate networkServer:server didCreateConnection:server->connection];
+		}
 	}
 	else { close(sock); }
 }
@@ -138,9 +140,11 @@ static void callback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef ad
 }
 
 - (void)connection:(FRConnection *)aConnection receivedMessage:(NSDictionary *)message {
-	[self.delegate networkServer:self
-				 receivedMessage:message
-				  fromConnection:aConnection];;
+	if ([self.delegate respondsToSelector:@selector(networkServer:receivedMessage:fromConnection:)]) {
+		[self.delegate networkServer:self
+					 receivedMessage:message
+					  fromConnection:aConnection];
+	}
 }
 
 #pragma mark -

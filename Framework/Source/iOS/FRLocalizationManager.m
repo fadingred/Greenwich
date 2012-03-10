@@ -15,15 +15,26 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+#import <objc/runtime.h>
+
 #import "FRLocalizationManager.h"
 #import "FRNetworkServer__.h"
 #import "FRBundleAdditions.h"
 #import "FRMessages.h"
 #import "FRLocalizationBundleAdditions__.h"
 
+static NSString * const kAuthorizedDevicesKey = @"FRTranslatorAuthorizedDevices";
+static const char kConfirmationKey;
+static const char kCancelationKey;
+static const char kAuthorizedKey;
+
 @interface FRLocalizationManager () <FRNetworkServerDelegate>
 - (NSDictionary *)localizationResourcesMessage;
 - (void)extractUpdatedStringsFromResourcesMessage:(NSDictionary *)message;
+@end
+
+@interface FRConnection (FRAuthorizationAdditions)
+@property (nonatomic, assign, getter=isAuthorized) BOOL authorized;
 @end
 
 @implementation FRLocalizationManager
@@ -52,43 +63,94 @@
 	  receivedMessage:(NSDictionary *)message
 	   fromConnection:(FRConnection *)connection {
 	
-	if (!message) { // on initial connection, send all strings to the client
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-			NSDictionary *response = [self localizationResourcesMessage];
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[connection sendMessage:response];
+	BOOL isAuthorized = [connection isAuthorized];
+	if (isAuthorized) {
+		if ([message objectForKey:FRLocalizationChangesMessage.messageID]) {
+			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+				[self extractUpdatedStringsFromResourcesMessage:message];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					NSString *title = FRLocalizedString(@"New Localizations", nil);
+					NSString *details =
+						FRLocalizedString(@"You have added new localizations to the application. To see these "
+										  @"localization, you will need to terminate the application and then start it "
+										  @"again.", nil);
+					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:details delegate:self
+														  cancelButtonTitle:FRLocalizedString(@"Cancel", nil)
+														  otherButtonTitles:FRLocalizedString(@"Terminate", nil), nil];
+					void (^complete)(void) = ^{
+						UIApplication *application = [UIApplication sharedApplication];
+						id <UIApplicationDelegate> delegate = [application delegate];
+						if ([delegate respondsToSelector:@selector(applicationWillTerminate:)]) {
+							[delegate applicationWillTerminate:application];
+						}
+						exit(0);
+					};
+					objc_setAssociatedObject(alert, &kConfirmationKey, complete, OBJC_ASSOCIATION_COPY_NONATOMIC);
+					
+					[alert show];
+				});
 			});
-		});
+		}
 	}
-	else if ([message objectForKey:FRLocalizationChangesMessage.messageID]) {
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-			[self extractUpdatedStringsFromResourcesMessage:message];
-			dispatch_async(dispatch_get_main_queue(), ^{
-				NSString *title = FRLocalizedString(@"New Localizations", nil);
-				NSString *details =
-					FRLocalizedString(@"You have added new localizations to the application. To see these "
-									  @"localization, you will need to terminate the application and then start it "
-									  @"again.", nil);
-				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-																message:details
-															   delegate:self
-													  cancelButtonTitle:FRLocalizedString(@"Cancel", nil)
-													  otherButtonTitles:FRLocalizedString(@"Terminate", nil), nil];
-				[alert show];
+	else if ([message objectForKey:FRAuthenticationMessage.messageID]) {
+		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+		NSArray *authorizedDevices = [userDefaults objectForKey:kAuthorizedDevicesKey];
+		NSString *deviceIdentifier = [message objectForKey:FRAuthenticationMessage.keys.deviceIdentifier];
+		
+		void (^performActionsForValidAuthentication)(void) = ^{
+			// on initial authorization, send all strings to the client
+			[connection setAuthorized:YES];
+			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+				NSDictionary *response = [self localizationResourcesMessage];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[connection sendMessage:response];
+				});
 			});
-		});
+		};
+		
+		if ([authorizedDevices containsObject:deviceIdentifier]) {
+			performActionsForValidAuthentication();
+		}
+		else {
+			NSString *deviceName = [message objectForKey:FRAuthenticationMessage.keys.deviceName];
+			NSString *title = FRLocalizedString(@"Localization Setup", nil);
+			NSString *details = 
+				[NSString stringWithFormat:
+				 FRLocalizedString(@"The computer \"%@\" would like to communicate with your device allowing you "
+								   @"to localize this application.", nil), deviceName];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:details delegate:self
+												  cancelButtonTitle:FRLocalizedString(@"Cancel", nil)
+												  otherButtonTitles:FRLocalizedString(@"Authorize", nil), nil];
+			
+			void (^authorize)(void) = ^{
+				NSMutableArray *updatedDevices = [NSMutableArray arrayWithArray:authorizedDevices];
+				[updatedDevices addObject:deviceIdentifier];
+				[userDefaults setObject:updatedDevices forKey:kAuthorizedDevicesKey];
+				[userDefaults synchronize];
+				performActionsForValidAuthentication();
+			};
+			void (^cancel)(void) = ^{ [connection close]; };
+
+			objc_setAssociatedObject(alert, &kConfirmationKey, authorize, OBJC_ASSOCIATION_COPY_NONATOMIC);
+			objc_setAssociatedObject(alert, &kCancelationKey, cancel, OBJC_ASSOCIATION_COPY_NONATOMIC);
+			
+			[alert show];
+		}
+	}
+	else {
+		// cose connection on invalid, unauthorized messages
+		[connection close];
 	}
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex != [alertView cancelButtonIndex]) {
-		UIApplication *application = [UIApplication sharedApplication];
-		id <UIApplicationDelegate> delegate = [application delegate];
-		if ([delegate respondsToSelector:@selector(applicationWillTerminate:)]) {
-			[delegate applicationWillTerminate:application];
-		}
-		exit(0);
+	void (^block)(void) = nil;
+	if (buttonIndex == [alertView cancelButtonIndex]) {
+		block = objc_getAssociatedObject(alertView, &kCancelationKey);
+	} else {
+		block = objc_getAssociatedObject(alertView, &kConfirmationKey);
 	}
+	if (block) { block(); }
 }
 
 - (NSDictionary *)localizationResourcesMessage {
@@ -159,4 +221,11 @@
 	}
 }
 
+@end
+
+@implementation FRConnection (FRAuthorizationAdditions)
+- (BOOL)isAuthorized { return [objc_getAssociatedObject(self, &kAuthorizedKey) boolValue]; }
+- (void)setAuthorized:(BOOL)flag {
+	objc_setAssociatedObject(self, &kAuthorizedKey, [NSNumber numberWithBool:flag], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
 @end

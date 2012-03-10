@@ -18,6 +18,19 @@
 #define safe __unsafe_unretained
 
 /*!
+ \brief		Authentication message
+ \details	Sent from the Mac app to the iOS server to authenticate. After authentication,
+			the iOS app will continue by sending a localization resources message.
+ */
+extern const struct FRAuthenticationMessage {
+	safe NSString *messageID;
+	struct {
+		safe NSString *deviceName;
+		safe NSString *deviceIdentifier;
+	} keys;
+} FRAuthenticationMessage;
+
+/*!
  \brief		Resources message
  \details	Sent from the iOS server back to the Mac app and includes information on all localizable
 			strings files.

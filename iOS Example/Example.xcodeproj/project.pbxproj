@@ -48,6 +48,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B4FC98D150C019800179136 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		8B4FC98E150C01A000179136 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8B7BAF1114D2FD5000D7B32A /* Example.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Example.storyboard; sourceTree = "<group>"; };
 		8BAB445414D33D0500945E4E /* FRMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRMainViewController.h; sourceTree = "<group>"; };
 		8BAB445514D33D0500945E4E /* FRMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRMainViewController.m; sourceTree = "<group>"; };
@@ -108,6 +110,8 @@
 				8BD5E28514D1F5A80021848F /* Greenwich.framework */,
 				8BD5E14914D1E4F20021848F /* UIKit.framework */,
 				8BD5E14B14D1E4F20021848F /* Foundation.framework */,
+				8B4FC98E150C01A000179136 /* SystemConfiguration.framework */,
+				8B4FC98D150C019800179136 /* IOKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

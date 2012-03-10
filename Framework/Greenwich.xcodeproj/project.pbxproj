@@ -44,6 +44,8 @@
 		8B33C26C146F5B37007C2196 /* Greenwich.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B33C26B146F5B36007C2196 /* Greenwich.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B33C276146F5E6E007C2196 /* Localization.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B33C275146F5E6E007C2196 /* Localization.xib */; };
 		8B33C28C147025E5007C2196 /* FRLocalizationBundleAdditions__.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B33C28B147025E4007C2196 /* FRLocalizationBundleAdditions__.h */; };
+		8B4FC991150C01BB00179136 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B4FC98F150C01BB00179136 /* IOKit.framework */; };
+		8B4FC992150C01BB00179136 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B4FC990150C01BB00179136 /* SystemConfiguration.framework */; };
 		8B634D93146F1C9A00BF5058 /* FRBundleAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B634D8A146F1C9A00BF5058 /* FRBundleAdditions.h */; };
 		8B634D94146F1C9A00BF5058 /* FRBundleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B634D8B146F1C9A00BF5058 /* FRBundleAdditions.m */; };
 		8B634DC0146F2E0500BF5058 /* FRRuntimeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B634DBE146F2E0500BF5058 /* FRRuntimeAdditions.h */; };
@@ -129,6 +131,8 @@
 		8B33C26B146F5B36007C2196 /* Greenwich.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Greenwich.h; path = Source/Mac/Greenwich.h; sourceTree = "<group>"; };
 		8B33C275146F5E6E007C2196 /* Localization.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Localization.xib; path = Resources/Mac/Localization.xib; sourceTree = "<group>"; };
 		8B33C28B147025E4007C2196 /* FRLocalizationBundleAdditions__.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRLocalizationBundleAdditions__.h; path = Source/FRLocalizationBundleAdditions__.h; sourceTree = "<group>"; };
+		8B4FC98F150C01BB00179136 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
+		8B4FC990150C01BB00179136 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = ../../../../../System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<group>"; };
 		8B634D8A146F1C9A00BF5058 /* FRBundleAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRBundleAdditions.h; path = External/FRBundleAdditions.h; sourceTree = "<group>"; };
 		8B634D8B146F1C9A00BF5058 /* FRBundleAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRBundleAdditions.m; path = External/FRBundleAdditions.m; sourceTree = "<group>"; };
 		8B634DBE146F2E0500BF5058 /* FRRuntimeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRRuntimeAdditions.h; path = External/FRRuntimeAdditions.h; sourceTree = "<group>"; };
@@ -180,6 +184,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B2B99A414D347C400A40CD4 /* Cocoa.framework in Frameworks */,
+				8B4FC992150C01BB00179136 /* SystemConfiguration.framework in Frameworks */,
+				8B4FC991150C01BB00179136 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +275,8 @@
 		8BAD1E52146F114700E16433 = {
 			isa = PBXGroup;
 			children = (
+				8B4FC98F150C01BB00179136 /* IOKit.framework */,
+				8B4FC990150C01BB00179136 /* SystemConfiguration.framework */,
 				8BAD1EB9146F168F00E16433 /* Greenwich.pch */,
 				8BADE86A146F17F40094AE93 /* Mac */,
 				8B33C26E146F5CF8007C2196 /* iOS */,

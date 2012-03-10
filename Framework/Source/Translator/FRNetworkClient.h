@@ -32,10 +32,18 @@
 @end
 
 @protocol FRNetworkClientDelegate <NSObject>
+@optional;
 
 /*!
  \brief		
- \details	Message is nil when first connecting.
+ \details	
+ */
+- (void)networkClient:(FRNetworkClient *)client
+  didCreateConnection:(FRConnection *)connection;
+
+/*!
+ \brief		
+ \details	
  */
 - (void)networkClient:(FRNetworkClient *)client
 	  receivedMessage:(NSDictionary *)message
