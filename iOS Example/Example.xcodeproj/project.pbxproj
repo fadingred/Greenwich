@@ -17,6 +17,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8BA68B3F150C0AAD00712760 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BD5E19514D1E70D0021848F /* Greenwich.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8F6BF6FF14CA19CD00C25754;
+			remoteInfo = Proofer;
+		};
 		8BCA747114D34E1C004F27D9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8BD5E19514D1E70D0021848F /* Greenwich.xcodeproj */;
@@ -138,6 +145,7 @@
 				8BD5E19B14D1E70D0021848F /* Greenwich.framework */,
 				8BD5E24A14D1EA0A0021848F /* Greenwich.framework */,
 				8BCA747214D34E1C004F27D9 /* Greenwich Translator.app */,
+				8BA68B40150C0AAD00712760 /* Proofer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -170,7 +178,7 @@
 		8BD5E13C14D1E4F20021848F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = FadingRed;
 			};
 			buildConfigurationList = 8BD5E13F14D1E4F20021848F /* Build configuration list for PBXProject "Example" */;
@@ -198,6 +206,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		8BA68B40150C0AAD00712760 /* Proofer.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Proofer.app;
+			remoteRef = 8BA68B3F150C0AAD00712760 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		8BCA747214D34E1C004F27D9 /* Greenwich Translator.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
