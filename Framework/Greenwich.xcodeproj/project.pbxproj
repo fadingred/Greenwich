@@ -148,10 +148,10 @@
 		8B2B99A614D347C400A40CD4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		8B2B99A714D347C400A40CD4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		8B2B99A814D347C400A40CD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		8B2B99BF14D3485C00A40CD4 /* FRTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRTranslator.m; path = Source/Translator/FRTranslator.m; sourceTree = "<group>"; };
-		8B2B99C014D3485C00A40CD4 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/Translator/main.m; sourceTree = "<group>"; };
-		8B2B99C114D3485C00A40CD4 /* FRTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRTranslator.h; path = Source/Translator/FRTranslator.h; sourceTree = "<group>"; };
-		8B2B99C514D3491D00A40CD4 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = Resources/Translator/MainMenu.xib; sourceTree = "<group>"; };
+		8B2B99BF14D3485C00A40CD4 /* FRTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRTranslator.m; path = Source/Mac/Translator/FRTranslator.m; sourceTree = "<group>"; };
+		8B2B99C014D3485C00A40CD4 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/Mac/Translator/main.m; sourceTree = "<group>"; };
+		8B2B99C114D3485C00A40CD4 /* FRTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRTranslator.h; path = Source/Mac/Translator/FRTranslator.h; sourceTree = "<group>"; };
+		8B2B99C514D3491D00A40CD4 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = Resources/Mac/Translator/MainMenu.xib; sourceTree = "<group>"; };
 		8B2B99CD14D349FC00A40CD4 /* Translator.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Translator.plist; path = Info/Translator.plist; sourceTree = "<group>"; };
 		8B33C234146F3CDB007C2196 /* FRFileManagerArchivingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRFileManagerArchivingAdditions.h; path = External/FRFileManagerArchivingAdditions.h; sourceTree = "<group>"; };
 		8B33C235146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRFileManagerArchivingAdditions.m; path = External/FRFileManagerArchivingAdditions.m; sourceTree = "<group>"; };
@@ -199,8 +199,8 @@
 		8BECC4A614D5F2C400D886DB /* FRConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRConnection.h; path = Source/Shared/FRConnection.h; sourceTree = "<group>"; };
 		8BECC4AB14D5FEA700D886DB /* FRMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRMessages.h; path = Source/Shared/FRMessages.h; sourceTree = "<group>"; };
 		8BECC4AC14D5FEA700D886DB /* FRMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRMessages.m; path = Source/Shared/FRMessages.m; sourceTree = "<group>"; };
-		8BEDC06114D5ACCC00529A85 /* FRNetworkClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRNetworkClient.m; path = Source/Translator/FRNetworkClient.m; sourceTree = "<group>"; };
-		8BEDC06214D5ACCC00529A85 /* FRNetworkClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRNetworkClient.h; path = Source/Translator/FRNetworkClient.h; sourceTree = "<group>"; };
+		8BEDC06114D5ACCC00529A85 /* FRNetworkClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRNetworkClient.m; path = Source/Mac/Translator/FRNetworkClient.m; sourceTree = "<group>"; };
+		8BEDC06214D5ACCC00529A85 /* FRNetworkClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRNetworkClient.h; path = Source/Mac/Translator/FRNetworkClient.h; sourceTree = "<group>"; };
 		8BEDC06414D5ACE700529A85 /* FRNetworkServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRNetworkServer.m; path = Source/iOS/FRNetworkServer.m; sourceTree = "<group>"; };
 		8BEDC06514D5ACE700529A85 /* FRNetworkServer__.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRNetworkServer__.h; path = Source/iOS/FRNetworkServer__.h; sourceTree = "<group>"; };
 		8BF0440B14D35F82009B9529 /* FRTranslationContainer__.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRTranslationContainer__.h; path = Source/Mac/FRTranslationContainer__.h; sourceTree = "<group>"; };
@@ -275,7 +275,7 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		8B2B99C414D3486100A40CD4 /* Translator */ = {
+		8B2B99C414D3486100A40CD4 /* Standalone Translator App */ = {
 			isa = PBXGroup;
 			children = (
 				8B2B99CD14D349FC00A40CD4 /* Translator.plist */,
@@ -286,7 +286,7 @@
 				8B2B99C514D3491D00A40CD4 /* MainMenu.xib */,
 				8B2B99C014D3485C00A40CD4 /* main.m */,
 			);
-			name = Translator;
+			name = "Standalone Translator App";
 			sourceTree = "<group>";
 		};
 		8B33C231146F37D3007C2196 /* Interface */ = {
@@ -337,7 +337,6 @@
 				8BADE86A146F17F40094AE93 /* Mac */,
 				8B33C26E146F5CF8007C2196 /* iOS */,
 				8BD5E24014D1E8ED0021848F /* Shared */,
-				8B2B99C414D3486100A40CD4 /* Translator */,
 				8BAD1EAE146F14DF00E16433 /* Resources */,
 				8F6BF70614CA19CD00C25754 /* Proofer */,
 				8BAD1E72146F11CB00E16433 /* Frameworks */,
@@ -425,6 +424,7 @@
 				8BAD1E9D146F148400E16433 /* FRNibAutomaticLocalization.h */,
 				8BAD1E96146F148400E16433 /* FRNibAutomaticLocalization.m */,
 				8B33C231146F37D3007C2196 /* Interface */,
+				8B2B99C414D3486100A40CD4 /* Standalone Translator App */,
 				8B634D89146F1C8900BF5058 /* External */,
 			);
 			name = Mac;
@@ -571,6 +571,7 @@
 				8B2B999E14D347C400A40CD4 /* Sources */,
 				8B2B999F14D347C400A40CD4 /* Frameworks */,
 				8B2B99A014D347C400A40CD4 /* Resources */,
+				8BA68C2B150C0FB100712760 /* Update & Copy Localizations */,
 				8B11043814FB33AE004D17D7 /* Copy libarchive */,
 			);
 			buildRules = (
@@ -608,6 +609,7 @@
 			buildPhases = (
 				8BD5E22F14D1E7C80021848F /* Sources */,
 				8BD5E23014D1E7C80021848F /* Frameworks */,
+				8BA68C29150C0F7400712760 /* Update & Copy Localizations */,
 				8BD5E23114D1E7C80021848F /* Headers */,
 			);
 			buildRules = (
@@ -715,7 +717,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "localization create -s Source/Mac -r Resources/Mac/";
+			shellScript = "localization create -s Source/Mac -r Resources/Mac";
 			showEnvVarsInLog = 0;
 		};
 		8B11043814FB33AE004D17D7 /* Copy libarchive */ = {
@@ -746,6 +748,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ -n \"${GREENWICH_NEEDS_LIBARCHIVE}\" ]; then\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n  cp \"External/libarchive/libarchive.dylib\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/libarchive.dylib\"\n  cp \"External/libarchive/libarchive.license\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/libarchive.license\"\nfi";
+			showEnvVarsInLog = 0;
+		};
+		8BA68C29150C0F7400712760 /* Update & Copy Localizations */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Update & Copy Localizations";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "localization create -s Source/iOS -r Resources/iOS";
+			showEnvVarsInLog = 0;
+		};
+		8BA68C2B150C0FB100712760 /* Update & Copy Localizations */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Update & Copy Localizations";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "localization create -s Source/Mac -r Resources/Mac/Translator:Resources/Mac";
 			showEnvVarsInLog = 0;
 		};
 		8BB93D561474CACB0056EC71 /* Package */ = {
