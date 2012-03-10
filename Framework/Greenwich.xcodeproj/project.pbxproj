@@ -715,7 +715,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "localization create -r Resources/Mac/";
+			shellScript = "localization create -s Source/Mac -r Resources/Mac/";
 			showEnvVarsInLog = 0;
 		};
 		8B11043814FB33AE004D17D7 /* Copy libarchive */ = {
