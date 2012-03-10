@@ -24,18 +24,19 @@ import os
 # ----------------------------------------------------------------------
 
 def verify_strings(config):
-  if os.path.exists(config.resources):
-    for lang in os.listdir(config.resources):
-      if lang.endswith('.lproj'):
-        directory = os.path.join(config.resources, lang)
-        if os.path.exists(directory):
-          for stringsname in os.listdir(directory):
-            name, ext = os.path.splitext(stringsname)
-            nibpath = os.path.join(config.app_resources, '%s.nib' % name)
-            storyboardpath = os.path.join(config.app_resources, '%s.storyboardc' % name)
-            if ext == '.strings' and (name == 'Localizable' or os.path.exists(nibpath) or os.path.exists(storyboardpath)) and \
-               os.path.exists(os.path.join(config.app_resources, lang, stringsname)) == False:
-              sys.stderr.write('warning: missing %s strings file in built product for %s\n' % (lang, stringsname,))
+  for resources in config.resources.split(':'):
+    if os.path.exists(resources):
+      for lang in os.listdir(resources):
+        if lang.endswith('.lproj'):
+          directory = os.path.join(resources, lang)
+          if os.path.exists(directory):
+            for stringsname in os.listdir(directory):
+              name, ext = os.path.splitext(stringsname)
+              nibpath = os.path.join(config.app_resources, '%s.nib' % name)
+              storyboardpath = os.path.join(config.app_resources, '%s.storyboardc' % name)
+              if ext == '.strings' and (name == 'Localizable' or os.path.exists(nibpath) or os.path.exists(storyboardpath)) and \
+                 os.path.exists(os.path.join(config.app_resources, lang, stringsname)) == False:
+                sys.stderr.write('warning: missing %s strings file in built product for %s\n' % (lang, stringsname,))
 
 
 # main function

@@ -32,49 +32,50 @@ LOCALIZE_SYMBOL = os.environ.get('GREENWICH_LOCALIZATION_SYMBOL', 'NSLocalizedSt
 # ----------------------------------------------------------------------
 
 def migrate_strings(config):
-  if os.path.exists(config.resources):
-    base_path = os.path.join(config.resources, '%s.lproj' % config.lang)
-    remove = []
-    move = []
-    for xibname in os.listdir(base_path):
-      if xibname.endswith('.xib'):
-        xib_path = os.path.join(base_path, xibname)
-        xib = Xib(xibname, config, path=xib_path)
-        strings = Strings(xibname, config.lang, config)
-        xib.generate(strings, normalize=False)
+  for resources in config.resources.split(':'):
+    if os.path.exists(resources):
+      base_path = os.path.join(resources, '%s.lproj' % config.lang)
+      remove = []
+      move = []
+      for xibname in os.listdir(base_path):
+        if xibname.endswith('.xib'):
+          xib_path = os.path.join(base_path, xibname)
+          xib = Xib(xibname, config, resources=resources, path=xib_path)
+          strings = Strings(xibname, config.lang, config)
+          xib.generate(strings, normalize=False)
 
-        # handle all languages other than the base language of the file by creating
-        # and integrating changes from xib files in other lproj directories
-        for langname in os.listdir(config.resources):
-          if langname.endswith('.lproj'):
-            lang = Strings(xibname, langname, config)
-            if lang.lang != config.lang:
-              lang_path = os.path.join(config.resources, langname)
-              lang_xib_path = os.path.join(lang_path, xibname)
-              if os.path.exists(lang_xib_path):
-                lang_xib = Xib(xibname, config, path=lang_xib_path)
-                lang_xib.generate(lang, normalize=False)
-                lang.normalize(source=strings)
-                remove.append(lang_xib_path)
+          # handle all languages other than the base language of the file by creating
+          # and integrating changes from xib files in other lproj directories
+          for langname in os.listdir(resources):
+            if langname.endswith('.lproj'):
+              lang = Strings(xibname, langname, config)
+              if lang.lang != config.lang:
+                lang_path = os.path.join(resources, langname)
+                lang_xib_path = os.path.join(lang_path, xibname)
+                if os.path.exists(lang_xib_path):
+                  lang_xib = Xib(xibname, config, resources=resources, path=lang_xib_path)
+                  lang_xib.generate(lang, normalize=False)
+                  lang.normalize(source=strings)
+                  remove.append(lang_xib_path)
 
-        # normalize strings after handling all languages
-        strings.normalize()
-        move.append(xib_path)
+          # normalize strings after handling all languages
+          strings.normalize()
+          move.append(xib_path)
 
-    if move or remove:
-      if config.force: run = True
-      else:
-        sys.stdout.write(
-          'Strings files were created successfully. This script can also move your main xib\n' \
-          'file into place and remove extra xibs. %i xib files will be moved, and %i deleted.\n\n' % (len(move), len(remove)))
-        run = (raw_input('Update xib files? [Y/n] ').lower() == 'y')
-      if run:
-        for path in remove:
-          os.unlink(path)
-        for path in move:
-          directory, name = os.path.split(path)
-          directory = os.path.dirname(directory)
-          os.rename(path, os.path.join(directory, name))
+      if move or remove:
+        if config.force: run = True
+        else:
+          sys.stdout.write(
+            'Strings files were created successfully. This script can also move your main xib\n' \
+            'file into place and remove extra xibs. %i xib files will be moved, and %i deleted.\n\n' % (len(move), len(remove)))
+          run = (raw_input('Update xib files? [Y/n] ').lower() == 'y')
+        if run:
+          for path in remove:
+            os.unlink(path)
+          for path in move:
+            directory, name = os.path.split(path)
+            directory = os.path.dirname(directory)
+            os.rename(path, os.path.join(directory, name))
 
 
 # main function

@@ -23,16 +23,17 @@ import sys
 import os
 
 class InterfaceDocument(object):
-  def __init__(self, name, config, path=None):
+  def __init__(self, name, config, resources=None, path=None):
     self.name = clean_name(name)
     self.config = config
+    self._resources = resources
     self._path = path
     self._mtime = None
     self._gtime = None
   
   def path(self):
     if self._path: return self._path
-    resources = self.config.resources
+    resources = self._resources or self.config.resources.split(':')[0]
     path = os.path.join(resources, '%s.%s' % (self.name, self.__class__.EXTENSION))
     return path
   

@@ -46,65 +46,68 @@ def copy_strings(strings, config):
     shutil.copyfile(source, destination)
 
 def create_strings(config):
-  if os.path.exists(config.resources):
-    # if copying strings, make sure that this is taking place after the copying of bundle resources since
-    # we will later check for the existence of the compiled nib file when copying over strings files.
-    if config.copy_strings:
-      try: resources_len = len(os.listdir(config.resources))
-      except: resources_len = 0
-      try: app_resources_len = len(os.listdir(config.app_resources))
-      except: app_resources_len = 0
-      if resources_len and not app_resources_len:
-        sys.stderr.write('warning: Creating strings through Greenwich should take place after the copy bundle resources build phase\n')
+  for resources in config.resources.split(':'):
+    if os.path.exists(resources):
+      # if copying strings, make sure that this is taking place after the copying of bundle resources since
+      # we will later check for the existence of the compiled nib file when copying over strings files.
+      if config.copy_strings:
+        try: resources_len = len(os.listdir(resources))
+        except: resources_len = 0
+        try: app_resources_len = len(os.listdir(config.app_resources))
+        except: app_resources_len = 0
+        if resources_len and not app_resources_len:
+          sys.stderr.write('warning: Creating strings through Greenwich should take place after the copy bundle resources build phase\n')
     
-    for docname in os.listdir(config.resources):
-      docclass = None
-      if docname.endswith('.xib'): docclass = Xib
-      elif docname.endswith('.storyboard'): docclass = Storyboard
-      if docclass:
-        doc = docclass(docname, config)
-        strings = Strings(docname, config.lang, config)
-        if doc.modification_time() > doc.generation_time():
-          sys.stdout.write('Generating %s strings for %s\n' % (config.lang, doc.name))
-          doc.generate(strings)
+      for docname in os.listdir(resources):
+        docclass = None
+        if docname.endswith('.xib'): docclass = Xib
+        elif docname.endswith('.storyboard'): docclass = Storyboard
+        if docclass:
+          doc = docclass(docname, config, resources=resources)
+          strings = Strings(docname, config.lang, config, resources=resources)
+          if doc.modification_time() > doc.generation_time():
+            sys.stdout.write('Generating %s strings for %s\n' % (config.lang, doc.name))
+            doc.generate(strings)
       
-        # handle all languages other than the base language of the file
-        # by integrating (or creating) the same strings files in that lproj
-        # directory
-        for langname in os.listdir(config.resources):
-          if langname.endswith('.lproj'):
-            lang = Strings(docname, langname, config)
-            if doc.generation_time() > lang.modification_time() and lang.lang != config.lang:
-              lang.integrate_changes(strings)
-            if config.copy_strings and (
-              os.path.exists(os.path.join(config.app_resources, '%s.nib' % doc.name)) or
-              os.path.exists(os.path.join(config.app_resources, '%s.storyboardc' % doc.name))):
-              copy_strings(lang, config)
+          # handle all languages other than the base language of the file
+          # by integrating (or creating) the same strings files in that lproj
+          # directory
+          for langname in os.listdir(resources):
+            if langname.endswith('.lproj'):
+              lang = Strings(docname, langname, config, resources=resources)
+              if doc.generation_time() > lang.modification_time() and lang.lang != config.lang:
+                lang.integrate_changes(strings)
+              if config.copy_strings and (
+                os.path.exists(os.path.join(config.app_resources, '%s.nib' % doc.name)) or
+                os.path.exists(os.path.join(config.app_resources, '%s.storyboardc' % doc.name))):
+                copy_strings(lang, config)
 
   # handle localizable.strings file
-  if os.path.exists(config.source):
-    latest = None # get the latest modification time of any source .m file
-    for file in os.listdir(config.source):
-      if file.endswith('.m'):
-        mod = os.path.getmtime(os.path.join(config.source, file))
-        if not latest or mod > latest: latest = mod
-    localizable = Strings('Localizable', config.lang, config)
-    if latest > localizable.modification_time():
-      sys.stdout.write('Generating %s strings for source files\n' % (config.lang,))
-      if not os.path.exists(config.resources): os.mkdir(config.resources)
-      localizable.ensure_dir()
-      os.system('find "%s" -name "*.m" -print0 |'
-                'xargs -0 genstrings -s %s -o "%s"' % (config.source, LOCALIZE_SYMBOL, os.path.dirname(localizable.path())))
-    # handle all languages other than the base language of the file
-    # by integrating (or creating) the same strings files in that lproj
-    # directory
-    for langname in os.listdir(config.resources):
-      if langname.endswith('.lproj'):
-        lang = Strings(localizable.name, langname, config)
-        if latest > lang.modification_time() and lang.lang != config.lang:
-          lang.integrate_changes(localizable)
-        if config.copy_strings:
-          copy_strings(lang, config)
+  for source in config.source.split(':'):
+    resources = config.resources.split(':')[0]
+    if os.path.exists(source):
+      latest = None # get the latest modification time of any source .m file
+      for file in os.listdir(source):
+        if file.endswith('.m'):
+          mod = os.path.getmtime(os.path.join(source, file))
+          if not latest or mod > latest: latest = mod
+      localizable = Strings('Localizable', config.lang, config, resources=resources)
+      if latest > localizable.modification_time():
+        sys.stdout.write('Generating %s strings for source files\n' % (config.lang,))
+        if not os.path.exists(resources): os.mkdir(resources)
+        localizable.ensure_dir()
+        os.system('find "%s" -name "*.m" -print0 |'
+                  'xargs -0 genstrings -s %s -o "%s"' % (source, LOCALIZE_SYMBOL, os.path.dirname(localizable.path())))
+      # handle all languages other than the base language of the file
+      # by integrating (or creating) the same strings files in that lproj
+      # directory
+      for langname in os.listdir(resources):
+        if langname.endswith('.lproj'):
+          lang = Strings(localizable.name, langname, config, resources=resources)
+          if latest > lang.modification_time() and lang.lang != config.lang:
+            lang.integrate_changes(localizable)
+          if config.copy_strings:
+            copy_strings(lang, config)
       
 
 # main function

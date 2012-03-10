@@ -22,16 +22,17 @@ import os
 import re
 
 class Strings(object):
-  def __init__(self, name, lang, config):
+  def __init__(self, name, lang, config, resources=None):
     self.name = clean_name(name)
     self.lang = clean_lang(lang)
     self.config = config
+    self._resources = resources
     self._mtime = None
     self._translation = None
     self._index = {}
   
   def path(self):
-    resources = self.config.resources
+    resources = self._resources or self.config.resources.split(':')[0]
     lang = os.path.join(resources, '%s.lproj' % self.lang)
     path = os.path.join(lang, '%s.strings' % self.name)
     return path
@@ -61,7 +62,8 @@ class Strings(object):
     return self._index
   
   def _create_translation(self):
-    langdir = os.path.join(self.config.resources, '%s.lproj' % self.lang)
+    resources = self._resources or self.config.resources.split(':')[0]
+    langdir = os.path.join(resources, '%s.lproj' % self.lang)
     base = self.config.lang == self.lang
     self._translation = Parser(self.name, langdir, base=base)
     self._index = {}
