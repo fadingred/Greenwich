@@ -16,6 +16,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8BA68B50150C0B1F00712760 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BBFCBA914705003006CFFDE /* Greenwich.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8F6BF6FF14CA19CD00C25754;
+			remoteInfo = Proofer;
+		};
 		8BAB446614D343A900945E4E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8BBFCBA914705003006CFFDE /* Greenwich.xcodeproj */;
@@ -104,6 +111,7 @@
 				8BBFCBB114705003006CFFDE /* Greenwich.framework */,
 				8BAB446714D343A900945E4E /* Greenwich.framework */,
 				8BF0441D14D46B4F009B9529 /* Greenwich Translator.app */,
+				8BA68B51150C0B1F00712760 /* Proofer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -198,6 +206,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		8BA68B51150C0B1F00712760 /* Proofer.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Proofer.app;
+			remoteRef = 8BA68B50150C0B1F00712760 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		8BAB446714D343A900945E4E /* Greenwich.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
