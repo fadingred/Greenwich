@@ -15,39 +15,36 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-#import <Greenwich/Greenwich.h>
+#import "FRTranslateArrayResultParsingDelegate.h"
 
-#import "AppDelegate.h"
+@implementation FRTranslateArrayResultParsingDelegate
 
-@implementation AppDelegate
+@synthesize parsing;
+@synthesize nextCharsAreTranslation;
+@synthesize translations;
 
-@synthesize window = _window;
-@synthesize codeTextField = _codeTextField;
-@synthesize designTextField = _designTextField;
-
-- (void)applicationDidFinishLaunching:(NSNotification *)notification {
-	[[FRLocalizationManager defaultLocalizationManager] installExtraHelpMenu];
+- (void)parserDidStartDocument:(NSXMLParser *)parser {
+	NSLog(@"Starting parse...");
+	translations = [[NSMutableArray alloc] init];
+	parsing = YES;
 }
 
-- (void)awakeFromNib {
-	[self.codeTextField setStringValue:MyLocalizedString(@"Code text", nil)];
+- (void)parserDidEndDocument:(NSXMLParser *)parser {
+	NSLog(@"Ending parse...");
+	NSLog(@"Translations: %@", translations);
+	parsing = NO;
 }
 
-- (void)awakeFromLocalization {
-	[self.codeTextField sizeToFit];
-	[self.designTextField sizeToFit];
-	
-	CGFloat width = fmax(NSWidth(self.codeTextField.frame), NSWidth(self.designTextField.frame));
-	CGFloat proposedWidth = width + 40;
-	NSSize size = [self.window.contentView frame].size;
-	if (proposedWidth > size.width) {
-		size.width = proposedWidth;
-		[self.window setContentSize:size];
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI 
+ qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict {
+	if ([elementName isEqualToString:@"TranslatedText"]) { nextCharsAreTranslation = YES; }
+}
+
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+	if (nextCharsAreTranslation) {
+		[translations addObject:string];
+		nextCharsAreTranslation = NO;
 	}
-}
-
-- (IBAction)translateApplication:(id)sender {
-	[[FRLocalizationManager defaultLocalizationManager] showTranslatorWindow:nil];
 }
 
 @end

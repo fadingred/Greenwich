@@ -15,39 +15,21 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-#import <Greenwich/Greenwich.h>
+@class 
+	FRSingleNodeParsingDelegate, FRTranslateArrayResultParsingDelegate;
 
-#import "AppDelegate.h"
+@interface FRTranslator : NSObject
 
-@implementation AppDelegate
+@property (strong, nonatomic) NSString *clientId;
+@property (strong, nonatomic) NSString *clientSecret;
 
-@synthesize window = _window;
-@synthesize codeTextField = _codeTextField;
-@synthesize designTextField = _designTextField;
+@property (strong, nonatomic) NSString *authToken;
+@property (strong, nonatomic) NSString *language;
+@property (strong, nonatomic) FRSingleNodeParsingDelegate *singleNodeParser;
+@property (strong, nonatomic) FRTranslateArrayResultParsingDelegate *translatedArrayParser;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification {
-	[[FRLocalizationManager defaultLocalizationManager] installExtraHelpMenu];
-}
-
-- (void)awakeFromNib {
-	[self.codeTextField setStringValue:MyLocalizedString(@"Code text", nil)];
-}
-
-- (void)awakeFromLocalization {
-	[self.codeTextField sizeToFit];
-	[self.designTextField sizeToFit];
-	
-	CGFloat width = fmax(NSWidth(self.codeTextField.frame), NSWidth(self.designTextField.frame));
-	CGFloat proposedWidth = width + 40;
-	NSSize size = [self.window.contentView frame].size;
-	if (proposedWidth > size.width) {
-		size.width = proposedWidth;
-		[self.window setContentSize:size];
-	}
-}
-
-- (IBAction)translateApplication:(id)sender {
-	[[FRLocalizationManager defaultLocalizationManager] showTranslatorWindow:nil];
-}
+- (BOOL)getAccessToken;
+- (NSArray *)translateArray:(NSArray *)arrayToTranslate;
+- (NSString *)detectLanguageOfString:(NSString *)stringToDetect;
 
 @end

@@ -294,7 +294,18 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 			if (unhandled) {
 				BOOL private = [[[object class] description] hasPrefix:@"_"];
 				if (!private) {
-					BOOL (^isDefinedInSystemLibrary)(const char *) = ^BOOL(const char *path) {
+					BOOL (^isDefinedInSystemLibrary)(const char *) = ^BOOL(const char *cpath) {
+						NSString *path = [NSString stringWithUTF8String:cpath];
+						NSRange range = [path rangeOfString:@"Developer/SDKs/"];
+						if (range.location != NSNotFound) {
+							range.location += range.length;
+							range.length = [path length] - range.location;
+							range = [path rangeOfString:@"/" options:0 range:range];
+							if (range.location != NSNotFound) {
+								path = [path substringFromIndex:range.location];
+							}
+						}
+						
 						// check specific paths where we know xib items come from
 						const char *kFoundationPrefix = "/System/Library/Frameworks/Foundation.framework";
 						static int foundationPrefixLength = 0;
@@ -303,8 +314,8 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 						static int appKitPrefixLength = 0;
 						if (!appKitPrefixLength) { appKitPrefixLength = strlen(kAppKitPrefix); }
 						return
-							(strncmp(path, kFoundationPrefix, foundationPrefixLength) == 0) ||
-							(strncmp(path, kAppKitPrefix, appKitPrefixLength) == 0);
+							(strncmp([path UTF8String], kFoundationPrefix, foundationPrefixLength) == 0) ||
+							(strncmp([path UTF8String], kAppKitPrefix, appKitPrefixLength) == 0);
 					};
 
 					// check the location of method and warn if it is defined and the

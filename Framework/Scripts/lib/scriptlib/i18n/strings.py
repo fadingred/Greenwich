@@ -53,9 +53,11 @@ class Strings(object):
       self._create_translation()
     return self._translation
   
-  def index(self):
+  def index(self, normalized=True):
     if not self._index:
       self._create_translation()
+    if not normalized:
+      return self._uindex
     return self._index
   
   def _create_translation(self):
@@ -63,7 +65,9 @@ class Strings(object):
     base = self.config.lang == self.lang
     self._translation = Parser(self.name, langdir, base=base)
     self._index = {}
+    self._uindex = {}
     for key, value in self._translation.index.items():
+      self._uindex[value.key] = value
       if base:
         # since we're the base language, strip out the extra argument information
         # on the key and the translation and if they're not equal, then just use
@@ -74,17 +78,24 @@ class Strings(object):
           value.key = value.trans
       self._index[value.key] = value
   
-  def normalize(self):
+  def normalize(self, source=None):
     """
-    Normalizes strings to an expected format
+    Normalizes strings to an expected format. If given, it will use source
+    as the source of normalized keys to use. This is convenient for migrating
+    xib files over to multiple strings files since the real keys are object
+    identifiers in the xib. This allows you to use the source language strings
+    as the source for normalization and actually get the source language key
+    for other languages.
     """
     lines = []
-    index = self.index()
-    for key in sorted(index.keys(), key=unicode.lower):
-      value = index[key]
+    if not source: source = self
+    for key in sorted(self.index().keys(), key=unicode.lower):
+      line_trans = self.index()[key].trans
+      try: line_key = source.index()[key].key
+      except KeyError: line_key = source.index(normalized=False)[key].key
       lines += [
         '/* No comment provided by engineer. */\n',
-        '"%s" = "%s";\n\n' % (value.key, value.trans),
+        '"%s" = "%s";\n\n' % (line_key, line_trans),
       ]
     os.unlink(self.path())
     if lines:
