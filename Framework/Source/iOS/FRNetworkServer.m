@@ -132,10 +132,16 @@ static void callback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef ad
 // ----------------------------------------------------------------------------------------------------
 
 - (void)connectionFailed:(FRConnection *)aConnection {
+	if ([self.delegate respondsToSelector:@selector(networkServer:didCloseConnection:)]) {
+		[self.delegate networkServer:self didCloseConnection:aConnection];
+	}
 	connection = nil;
 }
 
 - (void)connectionTerminated:(FRConnection *)aConnection {
+	if ([self.delegate respondsToSelector:@selector(networkServer:didCloseConnection:)]) {
+		[self.delegate networkServer:self didCloseConnection:aConnection];
+	}
 	connection = nil;
 }
 

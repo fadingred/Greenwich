@@ -67,11 +67,17 @@
 // ----------------------------------------------------------------------------------------------------
 
 - (void)connectionFailed:(FRConnection *)aConnection {
+	if ([self.delegate respondsToSelector:@selector(networkClient:didCloseConnection:)]) {
+		[self.delegate networkClient:self didCloseConnection:aConnection];
+	}
 	connection = nil;
 	service = nil;
 }
 
 - (void)connectionTerminated:(FRConnection *)aConnection {
+	if ([self.delegate respondsToSelector:@selector(networkClient:didCloseConnection:)]) {
+		[self.delegate networkClient:self didCloseConnection:aConnection];
+	}
 	connection = nil;
 	service = nil;
 }

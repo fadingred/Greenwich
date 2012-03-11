@@ -144,6 +144,22 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 
 
 #pragma mark -
+#pragma mark properties
+// ----------------------------------------------------------------------------------------------------
+// properties
+// ----------------------------------------------------------------------------------------------------
+
+- (void)setConnectionActive:(BOOL)connectionActive {
+	[self window]; // ensure outlets are connected
+	[sendToDeviceButton setEnabled:connectionActive];
+}
+
+- (void)setConnectionMessageString:(NSString *)string {
+	[self window]; // ensure outlets are connected
+	[connectionMessageTextField setStringValue:string];
+}
+
+#pragma mark -
 #pragma mark observations
 // ----------------------------------------------------------------------------------------------------
 // observations

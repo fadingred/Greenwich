@@ -49,4 +49,11 @@
 	  receivedMessage:(NSDictionary *)message
 	   fromConnection:(FRConnection *)connection;
 
+/*!
+ \brief		
+ \details	
+ */
+- (void)networkClient:(FRNetworkClient *)client
+   didCloseConnection:(FRConnection *)connection;
+
 @end

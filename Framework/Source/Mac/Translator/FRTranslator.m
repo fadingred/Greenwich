@@ -56,8 +56,11 @@ static NSString *DeviceNameString(void);
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[[[self class] sharedLocalizationWindowController] showWindow:nil];
-	
+	FRLocalizationWindowController *windowController = [[self class] sharedLocalizationWindowController];
+	[windowController setConnectionMessageString:FRLocalizedString(@"Not Connected", nil)];
+	[windowController setConnectionActive:NO];
+	[windowController showWindow:nil];
+
 	static NSMetadataQuery *query = nil;
 	if (!query) {
 		query = [[NSMetadataQuery alloc] init];
@@ -158,6 +161,10 @@ static NSString *DeviceNameString(void);
 
 - (void)networkClient:(FRNetworkClient *)client
   didCreateConnection:(FRConnection *)connection {
+	
+	FRLocalizationWindowController *windowController = [[self class] sharedLocalizationWindowController];
+	[windowController setConnectionActive:YES];
+	[windowController setConnectionMessageString:FRLocalizedString(@"Authorizing", nil)];
 
 	// send authorization message on initial connection
 	NSString *deviceIdentifier = DeviceGUIDString();
@@ -173,10 +180,22 @@ static NSString *DeviceNameString(void);
 	  receivedMessage:(NSDictionary *)message
 	   fromConnection:(FRConnection *)connection {
 
+	FRLocalizationWindowController *windowController = [[self class] sharedLocalizationWindowController];
+	[windowController setConnectionMessageString:FRLocalizedString(@"Connected", nil)];
+	
 	if ([message objectForKey:FRLocalizationResourcesMessage.messageID]) {
 		[self extractStringsFromResourcesMessage:message];
 	}
 }
+
+- (void)networkClient:(FRNetworkClient *)client
+   didCloseConnection:(FRConnection *)connection {
+	
+	FRLocalizationWindowController *windowController = [[self class] sharedLocalizationWindowController];
+	[windowController setConnectionActive:NO];
+	[windowController setConnectionMessageString:FRLocalizedString(@"Not Connected", nil)];
+}
+
 
 - (void)extractStringsFromResourcesMessage:(NSDictionary *)message {
 	NSFileManager *manager = [NSFileManager defaultManager];

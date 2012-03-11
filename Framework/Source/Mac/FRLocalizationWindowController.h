@@ -31,9 +31,13 @@
 	IBOutlet NSPopUpButton *containersPopup;
 	IBOutlet NSPopUpButton *languagesPopup;
 	IBOutlet NSButton *sendToDeviceButton;
+	IBOutlet NSTextField *connectionMessageTextField;
 }
 
 - (void)addContainer:(FRTranslationContainer *)container;
+
+- (void)setConnectionActive:(BOOL)connectionActive;
+- (void)setConnectionMessageString:(NSString *)string;
 
 - (IBAction)packageStringsFiles:(id)sender;
 - (IBAction)sendToDevice:(id)sender;
