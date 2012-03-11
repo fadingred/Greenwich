@@ -51,7 +51,7 @@ static NSString *(FRLocalizedStringLookup)(id self, SEL _cmd, NSString *key, NSS
 static NSString *FRLocalizedStringLookup(id self, SEL _cmd, NSString *key, NSString *value, NSString *table) {
 	NSBundle *bundle = self;
 	NSString *bundleID = [self bundleIdentifier];
-	BOOL canPseudoLocalize = FALSE;
+	BOOL shouldPseudoLocalize = FALSE;
 	
 	if (bundleID) {
 		// grab the translated bundle and ensure that it contains an lproj folder for the language the user has set in
@@ -67,12 +67,19 @@ static NSString *FRLocalizedStringLookup(id self, SEL _cmd, NSString *key, NSStr
 		NSFileManager *manager = [NSFileManager defaultManager];
 		if (translated && [manager fileExistsAtPath:lprojDirectory]) {
 			bundle = translated;
-			canPseudoLocalize = TRUE;
+			shouldPseudoLocalize = FRShouldPseudoLocalize();
+		}
+		else {
+			// we should pseudo localize for anything that's a resource in the main bundle.
+			// items outside the main bundle are things like system frameworks, and it doesn't
+			// really make sense to pseudo localize those.
+			shouldPseudoLocalize = FRShouldPseudoLocalize() &&
+				[[self bundlePath] hasPrefix:[[NSBundle mainBundle] bundlePath]];
 		}
 	}
 	
 	NSString *result = SLocalizedStringLookup(bundle, _cmd, key, value, table);
-	if (result && canPseudoLocalize && FRShouldPseudoLocalize()) {
+	if (result && shouldPseudoLocalize) {
 		result = FRPseudoLocalizedString(result);
 	}
 	return result;
