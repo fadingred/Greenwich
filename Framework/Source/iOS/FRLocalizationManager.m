@@ -166,14 +166,21 @@ static const char kAuthorizedKey;
 	
 	// TODO: could ignore certain contained bundles here by enumerating contained bundles and skipping
 	// the bundle and descendants if the bundle name is in FRLocalizationIgnoreBundlesKey
-	for (NSBundle *bundle in [[NSBundle mainBundle] containedBundles]) {
+	NSArray *containedBundles = [[NSBundle mainBundle] containedBundles];
+	NSMutableSet *containedBundlePaths = [NSMutableSet set];
+	for (NSBundle *bundle in containedBundles) {
+		[containedBundlePaths addObject:[bundle bundlePath]];
+	}
+	for (NSBundle *bundle in containedBundles) {
 		NSString *bundleIdentifier = [bundle bundleIdentifier];
-		NSString *bundlePath = [bundle bundlePath];
+		NSString *bundlePath = [[bundle resourceURL] path];
 		// using an enumerator because subpathsOfDirectoryAtPath doesn't traverse the path
 		// if it's a symbolic link (even though it's documented to traverse it)
-		NSEnumerator *enumerator = [manager enumeratorAtPath:bundlePath];
-		NSArray *paths = [enumerator allObjects];
-		for (NSString *path in paths) {
+		NSDirectoryEnumerator *enumerator = [manager enumeratorAtPath:bundlePath];
+		for (NSString *path in enumerator) {
+			if ([containedBundlePaths containsObject:
+				 [bundlePath stringByAppendingPathComponent:path]]) { [enumerator skipDescendants]; continue; }
+			
 			NSString *directoryPath = [path stringByDeletingLastPathComponent];
 			NSString *directoryName = [[directoryPath lastPathComponent] stringByDeletingPathExtension];
 			NSString *fileExtension = [path pathExtension];
