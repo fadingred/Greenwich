@@ -96,7 +96,6 @@
 		8BF0440D14D35F82009B9529 /* FRTranslationContainer__.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BF0440B14D35F82009B9529 /* FRTranslationContainer__.h */; };
 		8BF0440E14D35F82009B9529 /* FRTranslationContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0440C14D35F82009B9529 /* FRTranslationContainer.m */; };
 		8BF0440F14D35F82009B9529 /* FRTranslationContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0440C14D35F82009B9529 /* FRTranslationContainer.m */; };
-		8BF40E271527BBCB00DEFE74 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF40E261527BBCB00DEFE74 /* CoreFoundation.framework */; };
 		8F0AE78314E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0AE78214E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.m */; };
 		8F1E4D7214D35B2F009A891A /* FRProofer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1E4D7114D35B2F009A891A /* FRProofer.m */; };
 		8F6BF70114CA19CD00C25754 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAD1E73146F11CB00E16433 /* Cocoa.framework */; };
@@ -151,9 +150,6 @@
 		8B18302414D4DF050004ECA5 /* FRStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRStrings.m; path = Source/Shared/FRStrings.m; sourceTree = "<group>"; };
 		8B18302514D4DF050004ECA5 /* FRStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRStrings.h; path = Source/Shared/FRStrings.h; sourceTree = "<group>"; };
 		8B2B99A214D347C400A40CD4 /* Greenwich Translator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Greenwich Translator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B2B99A614D347C400A40CD4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		8B2B99A714D347C400A40CD4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		8B2B99A814D347C400A40CD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8B2B99BF14D3485C00A40CD4 /* FRTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRTranslator.m; path = Source/Mac/Translator/FRTranslator.m; sourceTree = "<group>"; };
 		8B2B99C014D3485C00A40CD4 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/Mac/Translator/main.m; sourceTree = "<group>"; };
 		8B2B99C114D3485C00A40CD4 /* FRTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRTranslator.h; path = Source/Mac/Translator/FRTranslator.h; sourceTree = "<group>"; };
@@ -166,8 +162,8 @@
 		8B33C26B146F5B36007C2196 /* Greenwich.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Greenwich.h; path = Source/Mac/Greenwich.h; sourceTree = "<group>"; };
 		8B33C275146F5E6E007C2196 /* Localization.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Localization.xib; path = Resources/Mac/Localization.xib; sourceTree = "<group>"; };
 		8B33C28B147025E4007C2196 /* FRLocalizationBundleAdditions__.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRLocalizationBundleAdditions__.h; path = Source/Shared/FRLocalizationBundleAdditions__.h; sourceTree = "<group>"; };
-		8B4FC98F150C01BB00179136 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
-		8B4FC990150C01BB00179136 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = ../../../../../System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<group>"; };
+		8B4FC98F150C01BB00179136 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		8B4FC990150C01BB00179136 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		8B634D8A146F1C9A00BF5058 /* FRBundleAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRBundleAdditions.h; path = External/FRBundleAdditions.h; sourceTree = "<group>"; };
 		8B634D8B146F1C9A00BF5058 /* FRBundleAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRBundleAdditions.m; path = External/FRBundleAdditions.m; sourceTree = "<group>"; };
 		8B634DBE146F2E0500BF5058 /* FRRuntimeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRRuntimeAdditions.h; path = External/FRRuntimeAdditions.h; sourceTree = "<group>"; };
@@ -212,15 +208,11 @@
 		8BF0440B14D35F82009B9529 /* FRTranslationContainer__.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRTranslationContainer__.h; path = Source/Mac/FRTranslationContainer__.h; sourceTree = "<group>"; };
 		8BF0440C14D35F82009B9529 /* FRTranslationContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRTranslationContainer.m; path = Source/Mac/FRTranslationContainer.m; sourceTree = "<group>"; };
 		8BF40E251527BBCB00DEFE74 /* Greenwich.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Greenwich.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BF40E261527BBCB00DEFE74 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		8F0AE78114E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRTranslateArrayResultParsingDelegate.h; sourceTree = "<group>"; };
 		8F0AE78214E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRTranslateArrayResultParsingDelegate.m; sourceTree = "<group>"; };
 		8F1E4D7014D35B2F009A891A /* FRProofer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRProofer.h; sourceTree = "<group>"; };
 		8F1E4D7114D35B2F009A891A /* FRProofer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRProofer.m; sourceTree = "<group>"; };
 		8F6BF6FF14CA19CD00C25754 /* Proofer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Proofer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F6BF70314CA19CD00C25754 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		8F6BF70414CA19CD00C25754 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		8F6BF70514CA19CD00C25754 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8F6BF70814CA19CD00C25754 /* Proofer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Proofer-Info.plist"; sourceTree = "<group>"; };
 		8F6BF70C14CA19CD00C25754 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8F6BF71214CA19CD00C25754 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -266,7 +258,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BF40E271527BBCB00DEFE74 /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,16 +272,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8B2B99A514D347C400A40CD4 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				8B2B99A614D347C400A40CD4 /* AppKit.framework */,
-				8B2B99A714D347C400A40CD4 /* CoreData.framework */,
-				8B2B99A814D347C400A40CD4 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
 		8B2B99C414D3486100A40CD4 /* Standalone Translator App */ = {
 			isa = PBXGroup;
 			children = (
@@ -347,8 +328,6 @@
 		8BAD1E52146F114700E16433 = {
 			isa = PBXGroup;
 			children = (
-				8B4FC98F150C01BB00179136 /* IOKit.framework */,
-				8B4FC990150C01BB00179136 /* SystemConfiguration.framework */,
 				8BAD1EB9146F168F00E16433 /* Greenwich.pch */,
 				8BADE86A146F17F40094AE93 /* Mac */,
 				8B33C26E146F5CF8007C2196 /* iOS */,
@@ -377,12 +356,11 @@
 			children = (
 				8FC37DE51501740300817DC5 /* libarchive.dylib */,
 				8FC37DE61501740300817DC5 /* libarchive.license */,
-				8BAD1E73146F11CB00E16433 /* Cocoa.framework */,
-				8B73574E14769A96000468EF /* Carbon.framework */,
 				8BD5E23414D1E7C80021848F /* Foundation.framework */,
-				8BF40E261527BBCB00DEFE74 /* CoreFoundation.framework */,
-				8B2B99A514D347C400A40CD4 /* Other Frameworks */,
-				8F6BF70214CA19CD00C25754 /* Other Frameworks */,
+				8BAD1E73146F11CB00E16433 /* Cocoa.framework */,
+				8B4FC98F150C01BB00179136 /* IOKit.framework */,
+				8B4FC990150C01BB00179136 /* SystemConfiguration.framework */,
+				8B73574E14769A96000468EF /* Carbon.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -486,16 +464,6 @@
 				8B33C238146F3CF4007C2196 /* archiving.c */,
 			);
 			name = External;
-			sourceTree = "<group>";
-		};
-		8F6BF70214CA19CD00C25754 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				8F6BF70314CA19CD00C25754 /* AppKit.framework */,
-				8F6BF70414CA19CD00C25754 /* CoreData.framework */,
-				8F6BF70514CA19CD00C25754 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		8F6BF70614CA19CD00C25754 /* Proofer */ = {
@@ -1242,6 +1210,7 @@
 				8BF40E301527BBCB00DEFE74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8F6BF71A14CA19CD00C25754 /* Build configuration list for PBXNativeTarget "Proofer" */ = {
 			isa = XCConfigurationList;
