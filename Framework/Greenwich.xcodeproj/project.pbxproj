@@ -78,9 +78,7 @@
 		8BD5E33F14D1F7620021848F /* FRBundleAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B634D8A146F1C9A00BF5058 /* FRBundleAdditions.h */; };
 		8BD5E34014D1F7620021848F /* FRBundleAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B634D8B146F1C9A00BF5058 /* FRBundleAdditions.m */; };
 		8BD5E34114D1F7620021848F /* FRFileManagerArchivingAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B33C234146F3CDB007C2196 /* FRFileManagerArchivingAdditions.h */; };
-		8BD5E34214D1F7620021848F /* FRFileManagerArchivingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B33C235146F3CDB007C2196 /* FRFileManagerArchivingAdditions.m */; };
 		8BD5E34314D1F7620021848F /* archiving.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B33C239146F3CF4007C2196 /* archiving.h */; };
-		8BD5E34414D1F7620021848F /* archiving.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B33C238146F3CF4007C2196 /* archiving.c */; };
 		8BECC4A714D5F2C400D886DB /* FRConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BECC4A514D5F2C400D886DB /* FRConnection.m */; };
 		8BECC4A814D5F2C400D886DB /* FRConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BECC4A514D5F2C400D886DB /* FRConnection.m */; };
 		8BECC4A914D5F2C400D886DB /* FRConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BECC4A614D5F2C400D886DB /* FRConnection.h */; };
@@ -848,8 +846,6 @@
 				8BD5E24E14D1EC250021848F /* FRUIAutomaticLocalization.m in Sources */,
 				8BD5E33E14D1F7620021848F /* FRRuntimeAdditions.m in Sources */,
 				8BD5E34014D1F7620021848F /* FRBundleAdditions.m in Sources */,
-				8BD5E34214D1F7620021848F /* FRFileManagerArchivingAdditions.m in Sources */,
-				8BD5E34414D1F7620021848F /* archiving.c in Sources */,
 				8B182F8714D4B1740004ECA5 /* FRLocalizationManager.m in Sources */,
 				8B18302714D4DF050004ECA5 /* FRStrings.m in Sources */,
 				8BEDC06614D5ACE700529A85 /* FRNetworkServer.m in Sources */,
@@ -1027,6 +1023,14 @@
 					External/libarchive,
 				);
 				INFOPLIST_FILE = Info/Localization.plist;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"$(GREENWICH_OTHER_CFLAGS)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"$(GREENWICH_OTHER_LDFLAGS)",
+				);
 				PRODUCT_NAME = Greenwich;
 			};
 			name = Debug;
@@ -1040,7 +1044,7 @@
 					"$(inherited)",
 					External/libarchive,
 				);
-				INFOPLIST_FILE = "Proofer/Proofer-Info.plist";
+				INFOPLIST_FILE = Info/Localization.plist;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"$(GREENWICH_OTHER_CFLAGS)",
@@ -1049,7 +1053,7 @@
 					"$(inherited)",
 					"$(GREENWICH_OTHER_LDFLAGS)",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Greenwich;
 			};
 			name = Release;
 		};
