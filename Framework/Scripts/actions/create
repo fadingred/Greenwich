@@ -27,6 +27,9 @@ import os
 # ----------------------------------------------------------------------
 
 LOCALIZE_SYMBOL = os.environ.get('GREENWICH_LOCALIZATION_SYMBOL', 'NSLocalizedString') # localize symbol used in code
+IOS_APPLICATION_TARGET = os.environ.get('EFFECTIVE_PLATFORM_NAME', '').find('iphone') != -1 and \
+  os.environ.get('PACKAGE_TYPE', '') == 'com.apple.package-type.wrapper.application'
+  
 
 
 # main create strings function
@@ -108,7 +111,39 @@ def create_strings(config):
             lang.integrate_changes(localizable)
           if config.copy_strings:
             copy_strings(lang, config)
-      
+
+def copy_ios_framework(config):
+  search_paths = [
+    os.path.dirname(config.app),
+    os.environ.get('BUILT_PRODUCTS_DIR', ''),
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    os.path.dirname(os.path.dirname(os.path.dirname(sys.argv[0]))),
+  ]
+  
+  framework_path = None
+  handled = set()
+  for path in search_paths:
+    if not path in handled:
+      handled.add(path)
+      framework_path = os.path.join(path, 'Greenwich.framework')
+      if os.path.exists(framework_path): break
+      else: framework_path = None
+  
+  if framework_path:
+    frameworks = os.path.join(config.app, 'Frameworks')
+    destination = os.path.join(frameworks, 'Greenwich.framework')
+    if not os.path.exists(destination):
+      sys.stdout.write('Copying Greenwich resources into application bundle\n')
+      headers = os.path.join(destination, 'Headers')
+      executable = os.path.join(destination, 'Greenwich')
+      if not os.path.exists(frameworks):
+        os.makedirs(frameworks)
+      shutil.copytree(framework_path, destination, symlinks=True)
+      shutil.rmtree(headers)
+      os.unlink(executable)
+  else:
+    sys.stdout.write('warning: could not locate Greenwich framework to copy resources to application\n')
+
 
 # main function
 # ----------------------------------------------------------------------
@@ -121,4 +156,8 @@ if __name__ == '__main__':
   n = 'Disable copy of created strings files to application resources folder'
   parser.add_option('-c', '--copy', action="store_true", dest='copy_strings', default=True, help=c)
   parser.add_option('--no-copy', action="store_false", dest='copy_strings', help=n)
-  create_strings(parser.parse_config()[0])
+  config = parser.parse_config()[0]
+  create_strings(config)
+  
+  if IOS_APPLICATION_TARGET and config.copy_strings:
+    copy_ios_framework(config)

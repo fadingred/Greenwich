@@ -37,6 +37,8 @@ class OptionParser(optparse.OptionParser):
         'default value: $CONFIGURATION_TEMP_DIR'
     p = 'interface builder plugin directory. '\
         'default value: $IBC_PLUGIN_SEARCH_PATHS'
+    a = 'Built application path, '\
+        'default value: $BUILT_PRODUCTS_DIR/$WRAPPER_NAME'
     r = 'Built application resources folder, '\
         'default value: $BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH'
         
@@ -46,6 +48,7 @@ class OptionParser(optparse.OptionParser):
     self.add_option('-l', '--lang', dest='lang', default=None, help=l)
     self.add_option('-t', '--tempdir', dest='tempdir', default=None, help=t)
     self.add_option('-p', '--plugindir', dest='plugindir', default=None, help=p)
+    self.add_option('--app', dest='app', default=None, help=a)
     self.add_option('--app-resources', dest='app_resources', default=None, help=r)
 
     options, args = self.parse_args()
@@ -64,6 +67,9 @@ class OptionParser(optparse.OptionParser):
     options.lang = options.lang or os.environ.get('BASE_LANGUAGE', 'en')
     options.tempdir = options.tempdir or os.environ.get('CONFIGURATION_TEMP_DIR') or tempfile.gettempdir()
     options.plugindir = options.plugindir or os.environ.get('IBC_PLUGIN_SEARCH_PATHS')
+    options.app = options.app or os.path.join(
+      os.environ.get('BUILT_PRODUCTS_DIR', ''),
+      os.environ.get('WRAPPER_NAME', ''))
     options.app_resources = options.app_resources or os.path.join(
       os.environ.get('BUILT_PRODUCTS_DIR', ''),
       os.environ.get('UNLOCALIZED_RESOURCES_FOLDER_PATH', ''))
