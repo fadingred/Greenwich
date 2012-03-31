@@ -204,7 +204,8 @@ static NSString *DeviceNameString(void);
 	
 	NSString *applicationName = [message objectForKey:FRLocalizationResourcesMessage.keys.applicationName];
 	NSString *applicationIdentifier = [message objectForKey:FRLocalizationResourcesMessage.keys.applicationIdentifier];
-	NSString *applicationStorage = [translationsDirectory stringByAppendingPathComponent:applicationIdentifier];
+	NSString *applicationPackageName = [applicationIdentifier stringByAppendingFormat:@".greenwichStringsArchive"];
+	NSString *applicationStorage = [translationsDirectory stringByAppendingPathComponent:applicationPackageName];
 	
 	// clear old data
 	[manager removeItemAtPath:applicationStorage error:NULL];
