@@ -207,6 +207,7 @@ static UINib *FRCreateNib(id self, SEL _cmd, NSString *name, NSBundle *bundle) {
 			else if ([object isKindOfClass:[UINavigationItem class]]) {
 				[self localizeTitle:object];
 				[self localizePrompt:object];
+				[self localizeObject:[object titleView]];
 			}
 			else if ([object isKindOfClass:[UINavigationController class]]) {
 				[self localizeObject:[object viewControllers]];
