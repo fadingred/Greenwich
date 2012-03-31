@@ -96,6 +96,7 @@
 		8BF0440D14D35F82009B9529 /* FRTranslationContainer__.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BF0440B14D35F82009B9529 /* FRTranslationContainer__.h */; };
 		8BF0440E14D35F82009B9529 /* FRTranslationContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0440C14D35F82009B9529 /* FRTranslationContainer.m */; };
 		8BF0440F14D35F82009B9529 /* FRTranslationContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0440C14D35F82009B9529 /* FRTranslationContainer.m */; };
+		8BF40E271527BBCB00DEFE74 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF40E261527BBCB00DEFE74 /* CoreFoundation.framework */; };
 		8F0AE78314E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0AE78214E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.m */; };
 		8F1E4D7214D35B2F009A891A /* FRProofer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1E4D7114D35B2F009A891A /* FRProofer.m */; };
 		8F6BF70114CA19CD00C25754 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAD1E73146F11CB00E16433 /* Cocoa.framework */; };
@@ -119,6 +120,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8BAD1E6F146F11CB00E16433;
 			remoteInfo = Greenwich;
+		};
+		8BF40E331527BC2500DEFE74 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8BF40E241527BBCB00DEFE74;
+			remoteInfo = "Greenwich (iOS Wrapper)";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -203,6 +211,8 @@
 		8BEDC06514D5ACE700529A85 /* FRNetworkServer__.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRNetworkServer__.h; path = Source/iOS/FRNetworkServer__.h; sourceTree = "<group>"; };
 		8BF0440B14D35F82009B9529 /* FRTranslationContainer__.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FRTranslationContainer__.h; path = Source/Mac/FRTranslationContainer__.h; sourceTree = "<group>"; };
 		8BF0440C14D35F82009B9529 /* FRTranslationContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FRTranslationContainer.m; path = Source/Mac/FRTranslationContainer.m; sourceTree = "<group>"; };
+		8BF40E251527BBCB00DEFE74 /* Greenwich.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Greenwich.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BF40E261527BBCB00DEFE74 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		8F0AE78114E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRTranslateArrayResultParsingDelegate.h; sourceTree = "<group>"; };
 		8F0AE78214E5D3E70095C794 /* FRTranslateArrayResultParsingDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRTranslateArrayResultParsingDelegate.m; sourceTree = "<group>"; };
 		8F1E4D7014D35B2F009A891A /* FRProofer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRProofer.h; sourceTree = "<group>"; };
@@ -249,6 +259,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BD5E23514D1E7C80021848F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BF40E221527BBCB00DEFE74 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BF40E271527BBCB00DEFE74 /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +367,7 @@
 				8BD5E23314D1E7C80021848F /* Greenwich.framework */,
 				8B2B99A214D347C400A40CD4 /* Greenwich Translator.app */,
 				8F6BF6FF14CA19CD00C25754 /* Proofer.app */,
+				8BF40E251527BBCB00DEFE74 /* Greenwich.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -361,6 +380,7 @@
 				8BAD1E73146F11CB00E16433 /* Cocoa.framework */,
 				8B73574E14769A96000468EF /* Carbon.framework */,
 				8BD5E23414D1E7C80021848F /* Foundation.framework */,
+				8BF40E261527BBCB00DEFE74 /* CoreFoundation.framework */,
 				8B2B99A514D347C400A40CD4 /* Other Frameworks */,
 				8F6BF70214CA19CD00C25754 /* Other Frameworks */,
 			);
@@ -613,11 +633,29 @@
 			buildRules = (
 			);
 			dependencies = (
+				8BF40E341527BC2500DEFE74 /* PBXTargetDependency */,
 			);
 			name = "Greenwich (iOS)";
 			productName = "Greenwich (iOS)";
 			productReference = 8BD5E23314D1E7C80021848F /* Greenwich.framework */;
 			productType = "com.apple.product-type.library.static";
+		};
+		8BF40E241527BBCB00DEFE74 /* Greenwich (iOS Wrapper) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BF40E311527BBCB00DEFE74 /* Build configuration list for PBXNativeTarget "Greenwich (iOS Wrapper)" */;
+			buildPhases = (
+				8BF40E211527BBCB00DEFE74 /* Sources */,
+				8BF40E221527BBCB00DEFE74 /* Frameworks */,
+				8BF40E231527BBCB00DEFE74 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Greenwich (iOS Wrapper)";
+			productName = "Greenwich (iOS Wrapper)";
+			productReference = 8BF40E251527BBCB00DEFE74 /* Greenwich.framework */;
+			productType = "com.apple.product-type.bundle";
 		};
 		8F6BF6FE14CA19CD00C25754 /* Proofer */ = {
 			isa = PBXNativeTarget;
@@ -667,6 +705,7 @@
 			targets = (
 				8BAD1E6F146F11CB00E16433 /* Greenwich */,
 				8BD5E23214D1E7C80021848F /* Greenwich (iOS) */,
+				8BF40E241527BBCB00DEFE74 /* Greenwich (iOS Wrapper) */,
 				8B2B99A114D347C400A40CD4 /* Translator */,
 				8BB93D4F1474CAA90056EC71 /* Package */,
 				8F6BF6FE14CA19CD00C25754 /* Proofer */,
@@ -689,6 +728,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B33C276146F5E6E007C2196 /* Localization.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BF40E231527BBCB00DEFE74 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,6 +900,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8BF40E211527BBCB00DEFE74 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F6BF6FB14CA19CD00C25754 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -878,6 +931,11 @@
 			isa = PBXTargetDependency;
 			target = 8BAD1E6F146F11CB00E16433 /* Greenwich */;
 			targetProxy = 8BB93D541474CAC00056EC71 /* PBXContainerItemProxy */;
+		};
+		8BF40E341527BC2500DEFE74 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8BF40E241527BBCB00DEFE74 /* Greenwich (iOS Wrapper) */;
+			targetProxy = 8BF40E331527BC2500DEFE74 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1057,6 +1115,26 @@
 			};
 			name = Release;
 		};
+		8BF40E2F1527BBCB00DEFE74 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BD5E24514D1E9EF0021848F /* Library.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = Info/Localization.plist;
+				PRODUCT_NAME = Greenwich;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		8BF40E301527BBCB00DEFE74 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BD5E24514D1E9EF0021848F /* Library.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = Info/Localization.plist;
+				PRODUCT_NAME = Greenwich;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
 		8F6BF71814CA19CD00C25754 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8BAD1EB3146F159C00E16433 /* Base.xcconfig */;
@@ -1156,6 +1234,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		8BF40E311527BBCB00DEFE74 /* Build configuration list for PBXNativeTarget "Greenwich (iOS Wrapper)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BF40E2F1527BBCB00DEFE74 /* Debug */,
+				8BF40E301527BBCB00DEFE74 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		8F6BF71A14CA19CD00C25754 /* Build configuration list for PBXNativeTarget "Proofer" */ = {
 			isa = XCConfigurationList;
