@@ -26,6 +26,11 @@
 static int FRAutomaticLocalizationBundleKey;
 static int FRAutomaticLocalizationTableKey;
 
+// we're making the assumption that all nibs are created on the main thread,
+// so these variables don't need to be thread local or thread safe at all.
+static NSString *gInitializingLocalizationTableKey;
+static NSBundle *gInitializingLocalizationBundleKey;
+
 static Class gWebViewClass = nil;
 
 @interface UINib (FRNibAutomaticLocalizationPrivate)
@@ -65,6 +70,8 @@ static NSArray *FRLoadNib(id self, SEL _cmd, NSString *name, id owner, NSDiction
 // swizzling
 static UINib *(*SCreateNib)(id self, SEL _cmd, NSString *name, NSBundle *bundle);
 static UINib *(FRCreateNib)(id self, SEL _cmd, NSString *name, NSBundle *bundle);
+static id (*SInitNibWithCodder)(id self, SEL _cmd, NSCoder *coder);
+static id (FRInitNibWithCodder)(id self, SEL _cmd, NSCoder *coder);
 static NSArray *(*SInstantiateNib)(id self, SEL _cmd, id owner, NSDictionary *options);
 static NSArray *(FRInstantiateNib)(id self, SEL _cmd, id owner, NSDictionary *options);
 
@@ -74,6 +81,7 @@ static NSArray *(FRInstantiateNib)(id self, SEL _cmd, id owner, NSDictionary *op
 	gWebViewClass = NSClassFromString(@"UIWebView");
 	
 	[self swizzleClassMethod:@selector(nibWithNibName:bundle:) with:(IMP)FRCreateNib store:(IMPPointer)&SCreateNib];
+	[self swizzle:@selector(initWithCoder:) with:(IMP)FRInitNibWithCodder store:(IMPPointer)&SInitNibWithCodder];
 	[self swizzle:@selector(instantiateWithOwner:options:)
 			 with:(IMP)FRInstantiateNib store:(IMPPointer)&SInstantiateNib];
 }
@@ -104,6 +112,16 @@ static UINib *FRCreateNib(id self, SEL _cmd, NSString *name, NSBundle *bundle) {
 		objc_setAssociatedObject(result, &FRAutomaticLocalizationTableKey, name, OBJC_ASSOCIATION_COPY);
 	}
 	
+	return result;
+}
+
+static id FRInitNibWithCodder(id self, SEL _cmd, NSCoder *coder) {
+	// nibs that are decoded while another nib is being initialized are considered part of that same table/bundle
+	id result = SInitNibWithCodder(self, _cmd, coder);
+	if ([NSThread isMainThread] && gInitializingLocalizationTableKey && gInitializingLocalizationBundleKey) {
+		objc_setAssociatedObject(result, &FRAutomaticLocalizationBundleKey, gInitializingLocalizationBundleKey, OBJC_ASSOCIATION_RETAIN);
+		objc_setAssociatedObject(result, &FRAutomaticLocalizationTableKey, gInitializingLocalizationTableKey, OBJC_ASSOCIATION_COPY);
+	}
 	return result;
 }
 
@@ -346,6 +364,19 @@ FRDefineLocalization(prompt, Prompt);
 }
 
 static NSArray *FRInstantiateNib(id self, SEL _cmd, id owner, NSDictionary *options) {
+	NSString *currentTableKey = nil;
+	NSBundle *currentBundleKey = nil;
+	if ([NSThread isMainThread]) {
+		NSString *instantiateTableKey = objc_getAssociatedObject(self, &FRAutomaticLocalizationTableKey);
+		NSBundle *instantiateBundleKey = objc_getAssociatedObject(self, &FRAutomaticLocalizationBundleKey);
+		currentTableKey = gInitializingLocalizationTableKey;
+		currentBundleKey = gInitializingLocalizationBundleKey;
+		if (instantiateTableKey && instantiateBundleKey) {
+			gInitializingLocalizationTableKey = instantiateTableKey;
+			gInitializingLocalizationBundleKey = instantiateBundleKey;
+		}
+	}
+	
 	NSArray *topLevelObjects = SInstantiateNib(self, _cmd, owner, options);
 	
 	if (topLevelObjects && [self automaticallyLocalizes]) {
@@ -367,6 +398,10 @@ static NSArray *FRInstantiateNib(id self, SEL _cmd, id owner, NSDictionary *opti
 		}
 	}
 	
+	if ([NSThread isMainThread]) {
+		gInitializingLocalizationTableKey = currentTableKey;
+		gInitializingLocalizationBundleKey = currentBundleKey;
+	}
 	return topLevelObjects;
 }
 
