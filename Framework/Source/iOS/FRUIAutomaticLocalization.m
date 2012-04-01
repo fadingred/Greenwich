@@ -228,7 +228,14 @@ static UINib *FRCreateNib(id self, SEL _cmd, NSString *name, NSBundle *bundle) {
 				}
 			}
 			else if ([object isKindOfClass:[UIViewController class]]) {
-				[self localizeObject:[object view]];
+				// view controllers in storyboards will cause another nib to be loaded, so we
+				// don't actually want to localize them right away. this is just one case where
+				// this could happen, though. in every case, we still don't want to force the
+				// controller to load the view right now. it will get localized when it's loaded
+				// later.
+				if ([object isViewLoaded]) {
+					[self localizeObject:[object view]];
+				}
 				[self localizeObject:[object toolbarItems]];
 				[self localizeObject:[object tabBarItem]];
 				[self localizeObject:[object navigationItem]];
