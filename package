@@ -44,20 +44,31 @@ class Packager < Object
 	def build
 		outdir = File.join ENV["PROJECT_DIR"], '..'
 		version = ENV["GREENWICH_VERSION"]
-		framework = File.join ENV["BUILT_PRODUCTS_DIR"], "Greenwich.framework"
 		scripts = File.join ENV["PROJECT_DIR"], "Scripts"
-		framework_archive = File.join outdir, "greenwich_#{version}.tbz"
-		dsym_archive = File.join outdir, "greenwich_#{version}.dsym.tbz"
+		readme = File.join ENV["PROJECT_DIR"], "PackageReadme.md"
+		license = File.join ENV["PROJECT_DIR"], "..", "License"
+		mac = [File.join(ENV["BUILT_PRODUCTS_DIR"], "Greenwich.framework"), scripts]
+		ios = [File.join(ENV["BUILT_PRODUCTS_DIR"] + "-iphoneos", "Greenwich.framework"), scripts]
+		tools = [File.join(ENV["BUILT_PRODUCTS_DIR"], "Greenwich Translator.app"), File.join(ENV["BUILT_PRODUCTS_DIR"], "Proofer.app")]
+		archive = File.join outdir, "greenwich_#{version}.tbz"
+		archive_dsym = File.join outdir, "greenwich_#{version}.dsym.tbz"
 		
 		if ENV["CONFIGURATION"] == "Release"
 			puts "creating packages..."
-			Dir.chdir ENV["BUILT_PRODUCTS_DIR"] do
+			Dir.chdir File.join ENV["BUILT_PRODUCTS_DIR"], ".." do
 				FileUtils.rm_rf "Greenwich"
-				FileUtils.mkdir_p "Greenwich"
-				FileUtils.mv framework, "Greenwich"
-				FileUtils.cp_r scripts, "Greenwich", :preserve => true
-				tbz ["Greenwich"], :output => framework_archive
-				tbz Dir.glob("*.dSYM"), :output => dsym_archive
+				FileUtils.mkdir_p "Greenwich/Tools"
+				FileUtils.mkdir_p "Greenwich/Mac"
+				FileUtils.mkdir_p "Greenwich/iOS"
+				mac.each { |file| system "cp", "-R", file, "Greenwich/Mac/" }
+				ios.each { |file| system "cp", "-R", file, "Greenwich/iOS/" }
+				tools.each { |file| system "cp", "-R", file, "Greenwich/Tools/" }
+				FileUtils.cp readme, "Greenwich/Readme"
+				FileUtils.cp license, "Greenwich/License"
+				tbz ["Greenwich"], :output => archive
+			end
+			Dir.chdir File.join ENV["BUILT_PRODUCTS_DIR"] do
+				tbz Dir.glob("*.dSYM"), :output => archive_dsym
 			end
 		else
 			puts "need to build as a release!"

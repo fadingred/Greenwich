@@ -15,6 +15,9 @@
 			);
 			dependencies = (
 				8BB93D551474CAC00056EC71 /* PBXTargetDependency */,
+				8B40BE8915289D7800D1A161 /* PBXTargetDependency */,
+				8B40BE7D15289C8900D1A161 /* PBXTargetDependency */,
+				8B40BEBB1528A2F400D1A161 /* PBXTargetDependency */,
 			);
 			name = Package;
 			productName = Package;
@@ -113,6 +116,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8B40BE7C15289C8900D1A161 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B2B99A114D347C400A40CD4;
+			remoteInfo = Translator;
+		};
+		8B40BE8815289D7800D1A161 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8BD5E23214D1E7C80021848F;
+			remoteInfo = "Greenwich (iOS)";
+		};
+		8B40BEBA1528A2F400D1A161 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F6BF6FE14CA19CD00C25754;
+			remoteInfo = Proofer;
+		};
 		8BB93D541474CAC00056EC71 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
@@ -895,6 +919,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8B40BE7D15289C8900D1A161 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8B2B99A114D347C400A40CD4 /* Translator */;
+			targetProxy = 8B40BE7C15289C8900D1A161 /* PBXContainerItemProxy */;
+		};
+		8B40BE8915289D7800D1A161 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8BD5E23214D1E7C80021848F /* Greenwich (iOS) */;
+			targetProxy = 8B40BE8815289D7800D1A161 /* PBXContainerItemProxy */;
+		};
+		8B40BEBB1528A2F400D1A161 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F6BF6FE14CA19CD00C25754 /* Proofer */;
+			targetProxy = 8B40BEBA1528A2F400D1A161 /* PBXContainerItemProxy */;
+		};
 		8BB93D551474CAC00056EC71 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8BAD1E6F146F11CB00E16433 /* Greenwich */;
@@ -1027,6 +1066,7 @@
 		};
 		8BB93D501474CAA90056EC71 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BAD1EB4146F159C00E16433 /* Framework.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1034,6 +1074,7 @@
 		};
 		8BB93D511474CAA90056EC71 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BAD1EB4146F159C00E16433 /* Framework.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
