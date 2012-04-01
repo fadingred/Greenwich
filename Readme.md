@@ -23,7 +23,7 @@ get this thing set up already!
 ## Setup & Usage
 
 Setup and usage for [iOS](http://fadingred.github.com/greenwich/setup/#ios) and
-[Mac](http://fadingred.github.com/greenwich/setup/#ios) are documented on the
+[Mac](http://fadingred.github.com/greenwich/setup/#mac) are documented on the
 [setup page](http://fadingred.github.com/greenwich/setup/).
 
 ## Compatibility
