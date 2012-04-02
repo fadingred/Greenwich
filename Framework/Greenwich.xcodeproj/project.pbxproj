@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		8B153D1C15292EAB00098298 /* Package (Simulator) */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 8B153D1F15292EAB00098298 /* Build configuration list for PBXAggregateTarget "Package (Simulator)" */;
+			buildPhases = (
+			);
+			dependencies = (
+				8B153D2215292ECB00098298 /* PBXTargetDependency */,
+			);
+			name = "Package (Simulator)";
+			productName = "Package (Simulator)";
+		};
 		8BB93D4F1474CAA90056EC71 /* Package */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 8BB93D521474CAA90056EC71 /* Build configuration list for PBXAggregateTarget "Package" */;
@@ -116,6 +127,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8B153D2115292ECB00098298 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8BD5E23214D1E7C80021848F;
+			remoteInfo = "Greenwich (iOS)";
+		};
 		8B40BE7C15289C8900D1A161 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
@@ -700,6 +718,7 @@
 				8BF40E241527BBCB00DEFE74 /* Greenwich (iOS Wrapper) */,
 				8B2B99A114D347C400A40CD4 /* Translator */,
 				8BB93D4F1474CAA90056EC71 /* Package */,
+				8B153D1C15292EAB00098298 /* Package (Simulator) */,
 				8F6BF6FE14CA19CD00C25754 /* Proofer */,
 			);
 		};
@@ -919,6 +938,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8B153D2215292ECB00098298 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8BD5E23214D1E7C80021848F /* Greenwich (iOS) */;
+			targetProxy = 8B153D2115292ECB00098298 /* PBXContainerItemProxy */;
+		};
 		8B40BE7D15289C8900D1A161 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8B2B99A114D347C400A40CD4 /* Translator */;
@@ -958,6 +982,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8B153D1D15292EAB00098298 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8B153D1E15292EAB00098298 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		8B2B99BB14D347C500A40CD4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8BAD1EB3146F159C00E16433 /* Base.xcconfig */;
@@ -1066,7 +1104,6 @@
 		};
 		8BB93D501474CAA90056EC71 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BAD1EB4146F159C00E16433 /* Framework.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1074,7 +1111,6 @@
 		};
 		8BB93D511474CAA90056EC71 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BAD1EB4146F159C00E16433 /* Framework.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1199,6 +1235,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8B153D1F15292EAB00098298 /* Build configuration list for PBXAggregateTarget "Package (Simulator)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B153D1D15292EAB00098298 /* Debug */,
+				8B153D1E15292EAB00098298 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		8B2B99BD14D347C500A40CD4 /* Build configuration list for PBXNativeTarget "Translator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
