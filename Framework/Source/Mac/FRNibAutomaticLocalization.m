@@ -25,6 +25,7 @@
 
 static int FRAutomaticLocalizationBundleKey;
 static int FRAutomaticLocalizationTableKey;
+static int FRAutomaticLocalizationProgressCountKey;
 
 static Class gTextFinderClass = nil;
 static Class gPopoverClass = nil;
@@ -81,6 +82,8 @@ static id (*SInitWithNib)(id self, SEL _cmd, NSString *nibName, NSBundle *bundle
 static id (FRInitWithNib)(id self, SEL _cmd, NSString *nibName, NSBundle *bundle);
 static BOOL (*SInstantiateNib)(id self, SEL _cmd, NSDictionary *externalNameTable);
 static BOOL (FRInstantiateNib)(id self, SEL _cmd, NSDictionary *externalNameTable);
+static BOOL (*SInstantiateNibWithOwner)(id self, SEL _cmd, id owner, NSArray **topLevelObjects);
+static BOOL (FRInstantiateNibWithOwner)(id self, SEL _cmd, id owner, NSArray **topLevelObjects);
 
 @implementation NSNib (FRNibAutomaticLocalization)
 
@@ -90,6 +93,9 @@ static BOOL (FRInstantiateNib)(id self, SEL _cmd, NSDictionary *externalNameTabl
 	[self swizzle:@selector(instantiateNibWithExternalNameTable:)
 			 with:(IMP)FRInstantiateNib
 			store:(IMPPointer)&SInstantiateNib];
+	[self swizzle:@selector(instantiateNibWithOwner:topLevelObjects:)
+			 with:(IMP)FRInstantiateNibWithOwner
+			store:(IMPPointer)&SInstantiateNibWithOwner];
 }
 
 static id FRInitWithContents(id self, SEL _cmd, NSURL *nibFileURL) {
@@ -116,6 +122,23 @@ static id FRInitWithNib(id self, SEL _cmd, NSString *nibName, NSBundle *bundle) 
 		}
 	}
 	return self;
+}
+
+- (void)beginInitializationForLocalization {
+	NSUInteger count = [objc_getAssociatedObject(self, &FRAutomaticLocalizationProgressCountKey) unsignedIntegerValue];
+	NSNumber *value = [NSNumber numberWithUnsignedInteger:count+1];
+	objc_setAssociatedObject(self, &FRAutomaticLocalizationProgressCountKey, value, OBJC_ASSOCIATION_RETAIN);
+}
+
+- (void)endInitializationForLocalization {
+	NSUInteger count = [objc_getAssociatedObject(self, &FRAutomaticLocalizationProgressCountKey) unsignedIntegerValue];
+	NSNumber *value = [NSNumber numberWithUnsignedInteger:count-1];
+	objc_setAssociatedObject(self, &FRAutomaticLocalizationProgressCountKey, value, OBJC_ASSOCIATION_RETAIN);
+}
+
+- (BOOL)isInitializingForLocalization {
+	NSUInteger count = [objc_getAssociatedObject(self, &FRAutomaticLocalizationProgressCountKey) unsignedIntegerValue];
+	return count > 0;
 }
 
 - (BOOL)automaticallyLocalizes {
@@ -416,25 +439,13 @@ FRDefineLocalization(stringValue, StringValue);
 		 options:(NSDictionary *)newOptions];
 }
 
-static BOOL FRInstantiateNib(id self, SEL _cmd, NSDictionary *externalNameTable) {
-	id nameTable = externalNameTable;
-	if (![externalNameTable objectForKey:NSNibTopLevelObjects]) {
-		nameTable = [externalNameTable mutableCopy];
-		[(NSMutableDictionary *)nameTable setObject:[NSMutableArray array] forKey:NSNibTopLevelObjects];
-	}
-
-	BOOL result = SInstantiateNib(self, _cmd, nameTable);
-
-	if (result && [self automaticallyLocalizes]) {
-		[self localizeObject:
-		 [nameTable objectForKey:NSNibTopLevelObjects]];
-	}
-
-	if (result && [self automaticallyLocalizes]) {
+- (BOOL)localizeInstantiatedNibWithOwner:(id)owner topLevelObjects:(NSArray *)topLevelObjects {
+	BOOL success = TRUE;
+	if ([self automaticallyLocalizes]) {
+		[self localizeObject:topLevelObjects];
+		
 		NSMutableSet *set = [NSMutableSet set];
-		NSArray *topLevel = [nameTable objectForKey:NSNibTopLevelObjects];
-		NSObject *owner = [externalNameTable objectForKey:NSNibOwner];
-		if (topLevel) { [set addObjectsFromArray:topLevel]; }
+		if (topLevelObjects) { [set addObjectsFromArray:topLevelObjects]; }
 		if (owner) { [set addObject:owner]; }
 		for (id object in set) {
 			if ([object respondsToSelector:@selector(awakeFromLocalization)]) {
@@ -442,7 +453,37 @@ static BOOL FRInstantiateNib(id self, SEL _cmd, NSDictionary *externalNameTable)
 			}
 		}
 	}
+	return success;
+}
+
+static BOOL FRInstantiateNib(id self, SEL _cmd, NSDictionary *externalNameTable) {
+	id nameTable = externalNameTable;
+	if (![externalNameTable objectForKey:NSNibTopLevelObjects]) {
+		nameTable = [externalNameTable mutableCopy];
+		[(NSMutableDictionary *)nameTable setObject:[NSMutableArray array] forKey:NSNibTopLevelObjects];
+	}
 	
+	BOOL shouldLocalize = [self isInitializingForLocalization] == FALSE;
+	[self beginInitializationForLocalization];
+	BOOL result = SInstantiateNib(self, _cmd, nameTable);
+	if (result && shouldLocalize) {
+		[self localizeInstantiatedNibWithOwner:[nameTable objectForKey:NSNibOwner]
+							   topLevelObjects:[nameTable objectForKey:NSNibTopLevelObjects]];
+	}
+	[self endInitializationForLocalization];
+	return result;
+}
+
+static BOOL (FRInstantiateNibWithOwner)(id self, SEL _cmd, id owner, NSArray **topLevelObjects) {
+	topLevelObjects = topLevelObjects ? topLevelObjects : &(NSArray *){ nil };
+	
+	BOOL shouldLocalize = [self isInitializingForLocalization] == FALSE;
+	[self beginInitializationForLocalization];
+	BOOL result = SInstantiateNibWithOwner(self, _cmd, owner, topLevelObjects);
+	if (result && shouldLocalize) {
+		[self localizeInstantiatedNibWithOwner:owner topLevelObjects:*topLevelObjects];
+	}
+	[self endInitializationForLocalization];
 	return result;
 }
 

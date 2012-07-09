@@ -327,7 +327,7 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 			NSFileManager *fileManager = [NSFileManager defaultManager];
 			char *tmpname = NULL;
 			asprintf(&tmpname, "%s/translation.XXXXXX", [NSTemporaryDirectory() UTF8String]);
-			mktemp(tmpname);
+			mkdtemp(tmpname);
 			NSString *temp = [[NSString stringWithUTF8String:tmpname] stringByAppendingPathComponent:
 							  [[NSBundle mainBundle] name]];
 			free(tmpname);
@@ -412,7 +412,7 @@ NSString * const FRLocalizationErrorDomain = @"FRLocalizationErrorDomain";
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)row {
 	if ([[aTableColumn identifier] isEqualToString:@"index"]) {
-		return [NSString stringWithFormat:@"%i", row + 1];
+		return [NSString stringWithFormat:@"%ti", row + 1];
 	} else {
 		return nil;
 	}

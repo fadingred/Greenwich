@@ -47,7 +47,7 @@ static const CGFloat kInactiveOpacity = 0.6;
 		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		[style setAlignment:NSCenterTextAlignment];
 		
-		NSString *string = [NSString stringWithFormat:@"%i", untranslated];
+		NSString *string = [NSString stringWithFormat:@"%tu", untranslated];
 		NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
 									font, NSFontAttributeName,
 									color, NSForegroundColorAttributeName,

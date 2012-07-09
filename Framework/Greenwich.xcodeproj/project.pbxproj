@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		8B153D1C15292EAB00098298 /* Package (Simulator) */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 8B153D1F15292EAB00098298 /* Build configuration list for PBXAggregateTarget "Package (Simulator)" */;
-			buildPhases = (
-			);
-			dependencies = (
-				8B153D2215292ECB00098298 /* PBXTargetDependency */,
-			);
-			name = "Package (Simulator)";
-			productName = "Package (Simulator)";
-		};
 		8BB93D4F1474CAA90056EC71 /* Package */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 8BB93D521474CAA90056EC71 /* Build configuration list for PBXAggregateTarget "Package" */;
@@ -26,9 +15,6 @@
 			);
 			dependencies = (
 				8BB93D551474CAC00056EC71 /* PBXTargetDependency */,
-				8B40BE8915289D7800D1A161 /* PBXTargetDependency */,
-				8B40BE7D15289C8900D1A161 /* PBXTargetDependency */,
-				8B40BEBB1528A2F400D1A161 /* PBXTargetDependency */,
 			);
 			name = Package;
 			productName = Package;
@@ -127,34 +113,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8B153D2115292ECB00098298 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8BD5E23214D1E7C80021848F;
-			remoteInfo = "Greenwich (iOS)";
-		};
-		8B40BE7C15289C8900D1A161 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8B2B99A114D347C400A40CD4;
-			remoteInfo = Translator;
-		};
-		8B40BE8815289D7800D1A161 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8BD5E23214D1E7C80021848F;
-			remoteInfo = "Greenwich (iOS)";
-		};
-		8B40BEBA1528A2F400D1A161 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8F6BF6FE14CA19CD00C25754;
-			remoteInfo = Proofer;
-		};
 		8BB93D541474CAC00056EC71 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8BAD1E54146F114700E16433 /* Project object */;
@@ -691,7 +649,7 @@
 		8BAD1E54146F114700E16433 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 			};
 			buildConfigurationList = 8BAD1E57146F114700E16433 /* Build configuration list for PBXProject "Greenwich" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -718,7 +676,6 @@
 				8BF40E241527BBCB00DEFE74 /* Greenwich (iOS Wrapper) */,
 				8B2B99A114D347C400A40CD4 /* Translator */,
 				8BB93D4F1474CAA90056EC71 /* Package */,
-				8B153D1C15292EAB00098298 /* Package (Simulator) */,
 				8F6BF6FE14CA19CD00C25754 /* Proofer */,
 			);
 		};
@@ -772,7 +729,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "localization create -s Source/Mac -r Resources/Mac";
+			shellScript = "export PATH=\"${GREENWICH_PATH}:${PATH}\"\nlocalization create -s Source/Mac -r Resources/Mac";
 			showEnvVarsInLog = 0;
 		};
 		8B11043814FB33AE004D17D7 /* Copy libarchive */ = {
@@ -817,7 +774,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "localization create -s Source/iOS -r Resources/iOS";
+			shellScript = "export PATH=\"${GREENWICH_PATH}:${PATH}\"\nlocalization create -s Source/iOS -r Resources/iOS";
 			showEnvVarsInLog = 0;
 		};
 		8BA68C2B150C0FB100712760 /* Update & Copy Localizations */ = {
@@ -832,7 +789,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "localization create -s Source/Mac -r Resources/Mac/Translator:Resources/Mac";
+			shellScript = "export PATH=\"${GREENWICH_PATH}:${PATH}\"\nlocalization create -s Source/Mac -r Resources/Mac/Translator:Resources/Mac";
 			showEnvVarsInLog = 0;
 		};
 		8BB93D561474CACB0056EC71 /* Package */ = {
@@ -938,26 +895,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8B153D2215292ECB00098298 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8BD5E23214D1E7C80021848F /* Greenwich (iOS) */;
-			targetProxy = 8B153D2115292ECB00098298 /* PBXContainerItemProxy */;
-		};
-		8B40BE7D15289C8900D1A161 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8B2B99A114D347C400A40CD4 /* Translator */;
-			targetProxy = 8B40BE7C15289C8900D1A161 /* PBXContainerItemProxy */;
-		};
-		8B40BE8915289D7800D1A161 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8BD5E23214D1E7C80021848F /* Greenwich (iOS) */;
-			targetProxy = 8B40BE8815289D7800D1A161 /* PBXContainerItemProxy */;
-		};
-		8B40BEBB1528A2F400D1A161 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8F6BF6FE14CA19CD00C25754 /* Proofer */;
-			targetProxy = 8B40BEBA1528A2F400D1A161 /* PBXContainerItemProxy */;
-		};
 		8BB93D551474CAC00056EC71 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8BAD1E6F146F11CB00E16433 /* Greenwich */;
@@ -982,20 +919,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		8B153D1D15292EAB00098298 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		8B153D1E15292EAB00098298 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		8B2B99BB14D347C500A40CD4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8BAD1EB3146F159C00E16433 /* Base.xcconfig */;
@@ -1037,7 +960,8 @@
 			baseConfigurationReference = 8BAD1EB1146F158E00E16433 /* Project.debug.xcconfig */;
 			buildSettings = {
 				FR_FRAMEWORKS_DIR = "$(PROJECT_DIR)/..";
-				PATH = "$(SRCROOT)/Scripts:$(PATH)";
+				GREENWICH_PATH = "$(SRCROOT)/Scripts:$(PATH)";
+				PATH = "$(GREENWICH_PATH):$(PATH)";
 				SYMROOT = ../build;
 			};
 			name = Debug;
@@ -1047,7 +971,8 @@
 			baseConfigurationReference = 8BAD1EB2146F158E00E16433 /* Project.release.xcconfig */;
 			buildSettings = {
 				FR_FRAMEWORKS_DIR = "$(PROJECT_DIR)/..";
-				PATH = "$(SRCROOT)/Scripts:$(PATH)";
+				GREENWICH_PATH = "$(SRCROOT)/Scripts:$(PATH)";
+				PATH = "$(GREENWICH_PATH):$(PATH)";
 				SYMROOT = ../build;
 			};
 			name = Release;
@@ -1235,14 +1160,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8B153D1F15292EAB00098298 /* Build configuration list for PBXAggregateTarget "Package (Simulator)" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8B153D1D15292EAB00098298 /* Debug */,
-				8B153D1E15292EAB00098298 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-		};
 		8B2B99BD14D347C500A40CD4 /* Build configuration list for PBXNativeTarget "Translator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
