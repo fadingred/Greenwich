@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		273A5EFC15AF6CB8008EB70D /* ExamplePad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 273A5EFB15AF6CB8008EB70D /* ExamplePad.storyboard */; };
 		8B7BAF1214D2FD5000D7B32A /* Example.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B7BAF1114D2FD5000D7B32A /* Example.storyboard */; };
 		8BAB445714D33D0500945E4E /* FRMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB445514D33D0500945E4E /* FRMainViewController.m */; };
 		8BD5E14A14D1E4F20021848F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD5E14914D1E4F20021848F /* UIKit.framework */; };
@@ -62,6 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		273A5EFB15AF6CB8008EB70D /* ExamplePad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExamplePad.storyboard; sourceTree = "<group>"; };
 		8B4FC98D150C019800179136 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		8B4FC98E150C01A000179136 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8B7BAF1114D2FD5000D7B32A /* Example.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Example.storyboard; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				8BAB445414D33D0500945E4E /* FRMainViewController.h */,
 				8BAB445514D33D0500945E4E /* FRMainViewController.m */,
 				8B7BAF1114D2FD5000D7B32A /* Example.storyboard */,
+				273A5EFB15AF6CB8008EB70D /* ExamplePad.storyboard */,
 				8BD5E19414D1E6E10021848F /* Other Sources */,
 				8BD5E19314D1E6C90021848F /* Resources */,
 				8BD5E14814D1E4F20021848F /* Frameworks */,
@@ -257,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B7BAF1214D2FD5000D7B32A /* Example.storyboard in Resources */,
+				273A5EFC15AF6CB8008EB70D /* ExamplePad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,7 +354,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -384,7 +388,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

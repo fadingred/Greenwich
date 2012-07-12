@@ -32,4 +32,9 @@
 	[self.designLabel sizeToFit];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return UIInterfaceOrientationPortrait == toInterfaceOrientation || UIUserInterfaceIdiomPad == [[UIDevice currentDevice] userInterfaceIdiom];
+}
+
 @end
