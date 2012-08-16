@@ -94,7 +94,7 @@ static NSString *DeviceNameString(void);
 	for (NSUInteger i = 0; i < [query resultCount]; i++) {
 		NSMetadataItem *theResult = [query resultAtIndex:i];
 		NSString *path = [theResult valueForAttribute:(NSString *)kMDItemPath];
-		if (![knownContainers containsObject:path]) {
+		if (path && ![knownContainers containsObject:path]) {
 			NSURL *appInfoURL = [NSURL fileURLWithPath:path];
 			NSURL *appURL = [appInfoURL URLByDeletingLastPathComponent];
 			NSDictionary *appInfo = [NSDictionary dictionaryWithContentsOfURL:appInfoURL];
