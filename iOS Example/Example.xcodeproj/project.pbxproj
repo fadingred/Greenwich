@@ -275,7 +275,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "localization create -s. -r.";
+			shellScript = "export PATH=\"${GREENWICH_PATH}:${PATH}\"\nlocalization create -s. -r.";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -306,7 +306,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GREENWICH_LOCALIZATION_SYMBOL = MyLocalizedString;
-				PATH = "$(SRCROOT)/../Framework/Scripts:$(PATH)";
+				GREENWICH_PATH = "$(SRCROOT)/../Framework/Scripts:$(PATH)";
+				PATH = "$(GREENWICH_PATH):$(PATH)";
 				SYMROOT = ../build;
 			};
 			name = Debug;
@@ -315,7 +316,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GREENWICH_LOCALIZATION_SYMBOL = MyLocalizedString;
-				PATH = "$(SRCROOT)/../Framework/Scripts:$(PATH)";
+				GREENWICH_PATH = "$(SRCROOT)/../Framework/Scripts:$(PATH)";
+				PATH = "$(GREENWICH_PATH):$(PATH)";
 				SYMROOT = ../build;
 			};
 			name = Release;
