@@ -17,6 +17,7 @@
 # 
 
 require 'fileutils'
+require 'rexml/document'
 
 class Packager < Object
 	def run
@@ -70,6 +71,10 @@ class Packager < Object
 		archive = File.join outdir, "greenwich_#{version}.tbz"
 		archive_dsym = File.join outdir, "greenwich_#{version}.dsym.tbz"
 		
+		tools.each do |tool|
+			codesign tool
+		end
+		
 		if ENV["CONFIGURATION"] == "Release"
 			puts "creating packages..."
 			Dir.chdir File.join ENV["BUILT_PRODUCTS_DIR"], ".." do
@@ -108,6 +113,47 @@ class Packager < Object
 		command = %w(tar cjf) + [output] + files
 		raise Exception.new("Archive failure") unless system *command
 	end
+	
+	def codesign(bundle, options={})
+		identity = (options[:identity] or signing_identity)
+		identifier = signing_identifier(bundle)
+		puts "code signing with #{identity}: #{bundle}"
+		command = "/usr/bin/codesign -f -s '#{identity}' -i #{identifier} '#{bundle}'"
+		result = system command
+		unless result
+			puts "warning: did not code sign #{bundle} -- see above output for the reason (this may be okay)"
+		end
+	end
+	
+	def signing_identity(options={})
+		search = []
+		search.push "Developer ID Application:"
+		identity = nil
+		for name in search
+			if `security find-certificate -c "#{name}" 2> /dev/null | grep \""labl\""` =~ /"labl"<blob>="(.*)"/
+				identity = $1
+				break
+			end
+		end
+		return identity
+	end
+	
+	def signing_identifier(bundle)
+		identifier = nil
+		path = "#{bundle}/Info.plist"
+		path = "#{bundle}/Contents/Info.plist" unless File.exists? path
+		path = "#{bundle}/Resources/Info.plist" unless File.exists? path
+		if File.exists? path
+			File.open path do |file|
+				document = REXML::Document.new(file)
+				identifier = REXML::XPath.first(document, '//plist/dict/key[text() = "CFBundleIdentifier"]').next_element.text
+			end
+		else
+			raise "Missing bundle identifier for #{bundle}"
+		end
+		return identifier
+	end
+	
 end
 
 if __FILE__ == $PROGRAM_NAME
