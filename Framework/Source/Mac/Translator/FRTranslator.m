@@ -74,7 +74,7 @@ static NSString *DeviceNameString(void);
 
 		NSURL *appSupport = [NSURL fileURLWithPath:[[NSBundle mainBundle] applicationSupportDirectory]];
 		[query setSearchScopes:[NSArray arrayWithObjects:appSupport, nil]];
-		[query setPredicate:[NSPredicate predicateWithFormat:@"%K == 'Greenwich.details'", kMDItemFSName]];
+		[query setPredicate:[NSPredicate predicateWithFormat:@"%K == 'Greenwich.details'", kMDItemDisplayName]];
 		[query startQuery];
 	}
 }
