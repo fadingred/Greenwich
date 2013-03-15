@@ -1,5 +1,5 @@
 // 
-// Copyright (c) 2012 FadingRed LLC
+// Copyright (c) 2013 FadingRed LLC
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -42,6 +42,7 @@
 			iterate_directory([bundle privateFrameworksPath]);
 			iterate_directory([bundle alternativePrivateFrameworksPath]);
 			iterate_directory([bundle builtInPlugInsPath]);
+			iterate_directory([bundle builtInBundlesPath]);
 			
 			NSString *bundleID = [bundle objectForInfoDictionaryKey:(id)kCFBundleIdentifierKey];
 			if (bundleID) {
@@ -97,6 +98,11 @@
 		path = [versionDirectory stringByAppendingPathComponent:@"Frameworks"];
 	}
 	return path;
+}
+
+- (NSString *)builtInBundlesPath {
+	NSString *directory = [[self builtInPlugInsPath] stringByDeletingLastPathComponent];
+	return [directory stringByAppendingPathComponent:@"Bundles"];
 }
 
 @end

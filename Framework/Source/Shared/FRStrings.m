@@ -1,5 +1,5 @@
 // 
-// Copyright (c) 2012 FadingRed LLC
+// Copyright (c) 2013 FadingRed LLC
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -58,7 +58,12 @@ static NSString * const kTranslationKey = @"translation";
 		if (!created) {
 			NSString *string = [[NSString alloc] initWithBytes:[data bytes]
 														length:[data length]
-													  encoding:NSUTF16StringEncoding];
+													  encoding:NSUTF8StringEncoding];
+			if (string == nil) {
+				string = [[NSString alloc] initWithBytes:[data bytes]
+												  length:[data length]
+												encoding:NSUTF16StringEncoding];
+			}
 			if (string) {
 				[self setupWithQuotedString:string];
 				format = FRStringsFormatQuoted;
@@ -79,7 +84,7 @@ static NSString * const kTranslationKey = @"translation";
 	
 	if ((self = [self init])) {
 		if (!created) {
-			NSData *data = [string dataUsingEncoding:NSUTF16StringEncoding];
+			NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
 			NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable
 																			 format:&format error:error];
 			if (plist && format != NSPropertyListOpenStepFormat) {
@@ -164,7 +169,7 @@ static NSString * const kTranslationKey = @"translation";
 	}
 	else if (format == FRStringsFormatQuoted) {
 		return [[self contentsInFormat:format] writeToFile:path atomically:YES
-												  encoding:NSUTF16StringEncoding error:error];
+												  encoding:NSUTF8StringEncoding error:error];
 	}
 	else { return FALSE; }
 }

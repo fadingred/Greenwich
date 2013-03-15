@@ -1,5 +1,5 @@
 // 
-// Copyright (c) 2012 FadingRed LLC
+// Copyright (c) 2013 FadingRed LLC
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -475,7 +475,7 @@ static BOOL FRInstantiateNib(id self, SEL _cmd, NSDictionary *externalNameTable)
 }
 
 static BOOL (FRInstantiateNibWithOwner)(id self, SEL _cmd, id owner, NSArray **topLevelObjects) {
-	topLevelObjects = topLevelObjects ? topLevelObjects : &(NSArray *){ nil };
+	topLevelObjects = topLevelObjects ? topLevelObjects : &(NSArray * __autoreleasing){ nil };
 	
 	BOOL shouldLocalize = [self isInitializingForLocalization] == FALSE;
 	[self beginInitializationForLocalization];

@@ -1,5 +1,5 @@
 // 
-// Copyright (c) 2012 FadingRed LLC
+// Copyright (c) 2013 FadingRed LLC
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -60,5 +60,11 @@
 			if there is no alternative path for this type of bundle.
  */
 - (NSString *)alternativePrivateFrameworksPath;
+
+/*!
+ \brief		Builtin bundles path
+ \details	Contains bundles for resources. Mostly used on iOS.
+ */
+- (NSString *)builtInBundlesPath;
 
 @end

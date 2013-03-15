@@ -1,5 +1,5 @@
 # 
-# Copyright (c) 2012 FadingRed LLC
+# Copyright (c) 2013 FadingRed LLC
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -101,7 +101,7 @@ class Strings(object):
       ]
     os.unlink(self.path())
     if lines:
-      result = codecs.open(self.path(), 'wb', encoding='utf-16')
+      result = codecs.open(self.path(), 'w', encoding='utf-8')
       result.writelines(lines)
       result.close()
   
@@ -128,7 +128,7 @@ class Strings(object):
     try: os.unlink(self.path())
     except OSError: pass
     if lines:
-      result = codecs.open(self.path(), 'wb', encoding='utf-16')
+      result = codecs.open(self.path(), 'w', encoding='utf-8')
       result.writelines(lines)
       result.close()
 
@@ -139,11 +139,15 @@ class Parser(object):
   
   def __init__(self, name, directory, base=False):
     try:
-      strings = codecs.open(os.path.join(directory, '%s.strings' % name), encoding='utf-16')
+      strings = codecs.open(os.path.join(directory, '%s.strings' % name), encoding='utf-8')
     except IOError:
       self.lines = []
     else:
-      self.lines = strings.readlines()
+      try: self.lines = strings.readlines()
+      except UnicodeDecodeError:
+        strings.close()
+        strings = codecs.open(os.path.join(directory, '%s.strings' % name), encoding='utf-16')
+        self.lines = strings.readlines()
       strings.close()
     
     linenumber = 0
