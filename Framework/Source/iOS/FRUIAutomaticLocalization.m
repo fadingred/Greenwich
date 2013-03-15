@@ -25,6 +25,7 @@
 
 static int FRAutomaticLocalizationBundleKey;
 static int FRAutomaticLocalizationTableKey;
+static int FRProxyOriginalClassKey;
 
 // we're making the assumption that all nibs are created on the main thread,
 // so these variables don't need to be thread local or thread safe at all.
@@ -41,6 +42,11 @@ static Class gWebViewClass = nil;
 - (void)localizePlaceholder:(id)object;
 - (void)localizePrompt:(id)object;
 - (NSString *)localizedStringFor:(NSString *)string;
+- (void)prepareForLocalizationWithNibName:(NSString *)nibName directory:(NSString *)directory bundle:(NSBundle *)bundle;
+@end
+
+@interface NSInvocation (FRArgumentAccess)
+- (id)objectForArgumentNamed:(NSString *)argumentName;
 @end
 
 // swizzling
@@ -68,26 +74,64 @@ static NSArray *FRLoadNib(id self, SEL _cmd, NSString *name, id owner, NSDiction
 
 
 // swizzling
-static UINib *(*SCreateNib)(id self, SEL _cmd, NSString *name, NSBundle *bundle);
-static UINib *(FRCreateNib)(id self, SEL _cmd, NSString *name, NSBundle *bundle);
+static void *(*SAlloc)(id self, SEL _cmd, NSZone *zone);
+static void *(FRAlloc)(id self, SEL _cmd, NSZone *zone);
 static id (*SInitNibWithCodder)(id self, SEL _cmd, NSCoder *coder);
 static id (FRInitNibWithCodder)(id self, SEL _cmd, NSCoder *coder);
 static NSArray *(*SInstantiateNib)(id self, SEL _cmd, id owner, NSDictionary *options);
 static NSArray *(FRInstantiateNib)(id self, SEL _cmd, id owner, NSDictionary *options);
+
+@interface UINibInitializationProxy : NSProxy
+@end
+
+@implementation UINibInitializationProxy
+
+- (void)forwardInvocation:(NSInvocation *)invocation {
+	object_setClass(self, objc_getAssociatedObject(self, &FRProxyOriginalClassKey)); // restore original class
+	
+	// pull out arguments based on name. we need at least nibName and bundle for localization to work
+	id nibName = [invocation objectForArgumentNamed:@"nibName"];
+	id directory = [invocation objectForArgumentNamed:@"directory"];
+	id bundle = [invocation objectForArgumentNamed:@"bundle"];
+
+	if (([NSStringFromSelector([invocation selector]) rangeOfString:@"init"].location != NSNotFound) &&
+		([nibName isKindOfClass:[NSString class]]) &&
+		([directory isKindOfClass:[NSString class]] || directory == nil) &&
+		([bundle isKindOfClass:[NSBundle class]])) {
+		[(id)self prepareForLocalizationWithNibName:nibName directory:directory bundle:bundle];
+	}
+	
+	// invoke the original method
+	[invocation setTarget:self];
+	[invocation invoke];
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+	return [objc_getAssociatedObject(self, &FRProxyOriginalClassKey) instanceMethodSignatureForSelector:aSelector];
+}
+
+@end
 
 @implementation UINib (FRNibAutomaticLocalization)
 
 + (void)load {
 	gWebViewClass = NSClassFromString(@"UIWebView");
 	
-	[self swizzleClassMethod:@selector(nibWithNibName:bundle:) with:(IMP)FRCreateNib store:(IMPPointer)&SCreateNib];
+	[self swizzleClassMethod:@selector(allocWithZone:) with:(IMP)FRAlloc store:(IMPPointer)&SAlloc];
 	[self swizzle:@selector(initWithCoder:) with:(IMP)FRInitNibWithCodder store:(IMPPointer)&SInitNibWithCodder];
 	[self swizzle:@selector(instantiateWithOwner:options:)
 			 with:(IMP)FRInstantiateNib store:(IMPPointer)&SInstantiateNib];
 }
 
-static UINib *FRCreateNib(id self, SEL _cmd, NSString *name, NSBundle *bundle) {
-	UINib *result = SCreateNib(self, _cmd, name, bundle);
+static void *FRAlloc(id self, SEL _cmd, NSZone *zone) {
+	void *result = SAlloc(self, _cmd, zone);
+	objc_setAssociatedObject((__bridge id)result, &FRProxyOriginalClassKey, self, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	object_setClass((__bridge id)result, [UINibInitializationProxy class]);
+	return result;
+}
+
+- (void)prepareForLocalizationWithNibName:(NSString *)name directory:(NSString *)directory bundle:(NSBundle *)bundle {
+	if (directory) { name = [directory stringByAppendingPathComponent:name]; }
 	
 	BOOL localize = [bundle pathForResource:name ofType:@"strings"] != nil;
 
@@ -108,11 +152,9 @@ static UINib *FRCreateNib(id self, SEL _cmd, NSString *name, NSBundle *bundle) {
 	}
 	
 	if (localize) {
-		objc_setAssociatedObject(result, &FRAutomaticLocalizationBundleKey, bundle, OBJC_ASSOCIATION_RETAIN);
-		objc_setAssociatedObject(result, &FRAutomaticLocalizationTableKey, name, OBJC_ASSOCIATION_COPY);
+		objc_setAssociatedObject(self, &FRAutomaticLocalizationBundleKey, bundle, OBJC_ASSOCIATION_RETAIN);
+		objc_setAssociatedObject(self, &FRAutomaticLocalizationTableKey, name, OBJC_ASSOCIATION_COPY);
 	}
-	
-	return result;
 }
 
 static id FRInitNibWithCodder(id self, SEL _cmd, NSCoder *coder) {
@@ -403,6 +445,42 @@ static NSArray *FRInstantiateNib(id self, SEL _cmd, id owner, NSDictionary *opti
 		gInitializingLocalizationBundleKey = currentBundleKey;
 	}
 	return topLevelObjects;
+}
+
+@end
+
+@implementation NSInvocation (FRArgumentAccess)
+
+- (id)objectForArgumentNamed:(NSString *)argumentName {
+	NSString *selector = NSStringFromSelector([self selector]);
+	NSString *argumentString = [NSString stringWithFormat:@"%@:", argumentName];
+	NSRange nibNameRange = [selector rangeOfString:argumentString options:NSCaseInsensitiveSearch];
+	NSRange argumentRange = NSMakeRange(0, 0);
+	NSUInteger argument = 2; // start with first non-implicit argument
+	NSUInteger argumentCount = [[self methodSignature] numberOfArguments];
+	BOOL argumentFound = FALSE;
+	if (nibNameRange.location) {
+		for (argument = argument; argument < argumentCount; argument++) {
+			NSRange searchRange = NSMakeRange(0, 0);
+			searchRange.location = argumentRange.location + argumentRange.length;
+			searchRange.length = [selector length] - searchRange.location;
+			if (searchRange.location < [selector length]) {
+				argumentRange = [selector rangeOfString:@":" options:0 range:searchRange];
+				if (argumentRange.location + argumentRange.length ==
+					nibNameRange.location + nibNameRange.length) { argumentFound = TRUE; break; }
+			}
+		}
+	}
+	
+	void *result = NULL;
+	if (argumentFound) {
+		const char *type = [[self methodSignature] getArgumentTypeAtIndex:argument];
+		if (strcmp(type, @encode(id)) == 0) {
+			[self getArgument:&result atIndex:argument];
+		}
+		
+	}
+	return (__bridge id)result;
 }
 
 @end
