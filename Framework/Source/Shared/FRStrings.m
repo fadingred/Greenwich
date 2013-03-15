@@ -195,7 +195,9 @@ static NSString * const kTranslationKey = @"translation";
 				for (NSString *comment in comments) {
 					[result appendFormat:@"/* %@ */\n", comment];
 				}
-				[result appendFormat:@"\"%@\" = \"%@\";\n\n", string, translation];
+				NSString *escapedString = [string stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+				NSString *escapedTranslation = [translation stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+				[result appendFormat:@"\"%@\" = \"%@\";\n\n", escapedString, escapedTranslation];
 			}
 		}
 		return result;
