@@ -1,6 +1,7 @@
 # Greenwich
 
 Greenwich is a framework for easily allowing users to translate Cocoa applications.
+[Download now!](http://fadingred.github.com/greenwich/files/greenwich.tbz)
 
 ## Overview
 
