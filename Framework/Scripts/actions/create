@@ -111,7 +111,6 @@ def create_strings(config):
     find_results = subprocess.check_output(find_args).split("\0")
     genstrings_args = [ 'genstrings', '-s', LOCALIZE_SYMBOL, '-o', os.path.dirname(localizable.path()) ] + find_results
     subprocess.check_output(genstrings_args)
-    sys.stdout.write('=== Processing file: %s\n' % (localizable.path(),))
     file = codecs.open(localizable.path(), encoding='utf-16')
     data = file.read()
     file.close()
