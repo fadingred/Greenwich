@@ -261,6 +261,10 @@ static id FRInitNibWithCodder(id self, SEL _cmd, NSCoder *coder) {
 				// localize subviews
 				[self localizeObject:[localizeSubviews allObjects]];
 			}
+			else if ([object isKindOfClass:[UIBarButtonItem class]]) {
+				[self localizeTitle:object];
+				[self localizeObject:[object customView]];
+			}
 			else if ([object isKindOfClass:[UIBarItem class]]) {
 				[self localizeTitle:object];
 			}

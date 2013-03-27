@@ -95,7 +95,7 @@ def create_strings(config):
     if os.path.exists(source):
       sources.append(source)
       for file in os.listdir(source):
-        if file.endswith('.m'):
+        if file.endswith('.m') or file.endswith('.h'):
           mod = os.path.getmtime(os.path.join(source, file))
           if not latest or mod > latest: latest = mod
   
@@ -107,7 +107,7 @@ def create_strings(config):
     sys.stdout.write('Generating %s strings for source files\n' % (config.lang,))
     if not os.path.exists(resources): os.mkdir(resources)
     localizable.ensure_dir()
-    find_args = [ 'find' ] + sources + [ '-name', '*.m', '-print0', ]
+    find_args = [ 'find' ] + sources + [ '-name', '*.m', '-or', '-name', '*.h', '-print0', ]
     find_results = subprocess.check_output(find_args).split("\0")
     genstrings_args = [ 'genstrings', '-s', LOCALIZE_SYMBOL, '-o', os.path.dirname(localizable.path()) ] + find_results
     subprocess.check_output(genstrings_args)
